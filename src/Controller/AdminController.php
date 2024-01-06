@@ -59,9 +59,9 @@ class AdminController extends AppController {
 				'authError' => 'Please log in to view your account.',
 				'authenticate' => array (
 						'Form' => array (
-								'userModel' => 'Admin',
+								'userModel' => 'Userdata',
 								'fields' => [ 
-										'username' => 'username',
+										'username' => 'email',
 										'password' => 'password' 
 								] 
 						) 
