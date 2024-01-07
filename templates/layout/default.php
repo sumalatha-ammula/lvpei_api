@@ -112,12 +112,12 @@
 		            </li>
 		            <li class="nav-item">
 					<?php
-					echo $this->Html->link ( '<i class="nav-icon fas fa-user"></i><p>Surveys</p>', [ 
+					echo $this->Html->link ( '<i class="nav-icon fas fa-user"></i><p>Master Main</p>', [ 
 							'controller' => "admin",
-							"action" => "surveys" 
+							"action" => "mastermain" 
 					], [ 
 							'escape' => false,
-							'class' => 'nav-link ' . (($action == 'surveys') ? 'active' : '') 
+							'class' => 'nav-link ' . (($action == 'mastermain') ? 'active' : '') 
 					] );
 					?>
 		            </li>

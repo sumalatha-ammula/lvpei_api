@@ -38,6 +38,7 @@ class AdminController extends AppController {
 	public function initialize(): void {
 		parent::initialize ();
 		$this->loadModel ( 'Admin' );
+		$this->loadModel( 'MasterMain' );
 		
 		$this->loadComponent ( 'Auth', array (
 				'loginAction' => array (
@@ -211,5 +212,12 @@ class AdminController extends AppController {
 	    $surveydata = $this->SurveyReport->find ( 'all' )
 		->contain(['SurveyQuestions', 'SurveyReportData']);
 		debug($surveydata->toArray());die;
+	}
+
+	public function mastermain(){
+		$masterdata = $this->MasterMain->find ( 'all' );
+		$master = $this->paginate ($masterdata);
+		$this->set ( "master", $master);
+
 	}
 }

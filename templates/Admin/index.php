@@ -1,288 +1,140 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<?= $this->Html->css(['owl.carousel.min', 'bootstrap.min','style','select2.min']); ?> <!-- Include CSS files -->
+    <?= $this->Html->css('font/style.css'); ?>
+    <?= $this->Html->css('bootstrap/select2-bootstrap4.min.css'); ?>
+    <?= $this->Html->script(['jquery-3.3.1.min', 'popper.min','bootstrap.min','main','lc_switch','select2.full.min']); ?>
 
-    <link rel="stylesheet" href="fonts/icomoon/style.css">
+   <!-- Google Font: Source Sans Pro -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+  <!-- Font Awesome -->
+  <!-- <link rel="stylesheet" href="../../plugins/fontawesome-free/css/all.min.css"> -->
+  <!-- icheck bootstrap -->
+  <!-- <link rel="stylesheet" href="../../plugins/icheck-bootstrap/icheck-bootstrap.min.css"> -->
+  <!-- Theme style -->
+  <!-- <link rel="stylesheet" href="../../dist/css/adminlte.min.css"> -->
 
-    <link rel="stylesheet" href="css/owl.carousel.min.css">
 
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="css/bootstrap.min.css">
-    
-    <!-- Style -->
-    <link rel="stylesheet" href="css/style.css">
+  <script src="../../plugins/jquery/jquery.min.js"></script>
+<!-- Bootstrap 4 -->
+<script src="../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<!-- AdminLTE App -->
+<script src="../../dist/js/adminlte.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
 
-    <title>Login #8</title>
-    <style>
-body {
-  font-family: "Roboto", sans-serif;
-  background-color: #f8fafb; }
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css">
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script>
+  var baseURL = "<?php echo $this->Url->build('/', array('fullBase'=>true)); ?>";
+  </script>
+<div class="login-box"  style="
+    justify-content: center;
+    display: flex;
+    /* align-items: center; */
+">
+	<!-- /.login-logo -->
+	<div class="card" style="
+    width: 50%;
+    top: 30px;
+    display: flex;
+    /* justify-content: center; */
+    align-items: center;
+    /* height: 100vh; */
+">
+		<div class="card-body login-card-body">
+			<div class="Login-logo">
+        <!--img-->
+			<br /> <b>RAVIAPP</b>
+			</div>
+			<p class="login-box-msg">Sign in to start your session</p>
 
-p {
-  color: #b3b3b3;
-  font-weight: 300; }
+      <?php
+						echo $this->Flash->render ();
+						echo $this->Form->create ( null, array (
+								'url' => array (
+										'controller' => 'Admin',
+										'action' => 'index' 
+								),
+								'enctype' => 'multipart/form-data',
+								'id' => 'login' 
+						) );
+						?>
+				<div class="input-group mb-3 form-group">
+				
+					<input type="email" name="email"  class="form-control" Placeholder="Email"/>
+				
+				
+				<div class="input-group-append">
+					<div class="input-group-text">
+						<span class="fas fa-envelope"></span>
+					</div>
+				</div>
+			</div>
+			
+			<div class="input-group mb-3  form-group">
+				<input type="password" name="password" class="form-control" placeholder="Password">
+				<div class="input-group-append">
+					<div class="input-group-text">
+						<span class="fas fa-lock"></span>
+					</div>
+				</div>
+			</div>
+			
+			<div class="row">
+				<div class="col-8">
+					<div class="icheck-primary">
+						<input type="checkbox" id="remember"> <label for="remember"> Remember Me </label>
+					</div>
+				</div>
+				<!-- /.col -->
+				<div class="col-4">
+					<button type="submit" class="btn btn-primary btn-block" style="
+    width: 100px;">Sign In</button>
+				</div>
+				<!-- /.col -->
+				<!-- /.col -->
+			</div>
+					<?php
+					echo $this->Form->end ();
+					?>
+<!-- /.social-auth-links -->
+			<!-- <p class="mb-1">
+      <?php
+						echo $this->Html->link ( "I forgot my password", [ 
+								'controller' => 'Login',
+								"action" => "index" 
+						] );
+						?>
+      </p> -->
+			<!-- /.col -->
+		</div>
+		<!-- /.login-card-body -->
+	</div>
+</div>
+<script>
 
-h1, h2, h3, h4, h5, h6,
-.h1, .h2, .h3, .h4, .h5, .h6 {
-  font-family: "Roboto", sans-serif; }
+var validator = $('#login').validate({
+    rules: {
+    	email: { required: true, email: true,  minlength: 5},
+    	password: {required: true, minlength: 5},
+      },
+    messages: {
+    	email: { required: "Please enter login email"},
+    	password: { required: "Please enter login password"},
+    	
+    },
+    errorElement: 'span',
+    errorPlacement: function (error, element) {
+      error.addClass('invalid-feedback');
+      element.closest('.form-group').append(error);
+    },
+    highlight: function (element, errorClass, validClass) {
+      $(element).addClass('is-invalid');
+    },
+    unhighlight: function (element, errorClass, validClass) {
+      $(element).removeClass('is-invalid');
+    }
+  });
 
-a {
-  -webkit-transition: .3s all ease;
-  -o-transition: .3s all ease;
-  transition: .3s all ease; }
-  a:hover {
-    text-decoration: none !important; }
-
-.content {
-  padding: 7rem 0; }
-
-h2 {
-  font-size: 20px; }
-
-@media (max-width: 991.98px) {
-  .content .bg {
-    height: 500px; } }
-
-.content .contents, .content .bg {
-  width: 50%; }
-  @media (max-width: 1199.98px) {
-    .content .contents, .content .bg {
-      width: 100%; } }
-  .content .contents .form-group, .content .bg .form-group {
-    position: relative; }
-    .content .contents .form-group label, .content .bg .form-group label {
-      position: absolute;
-      top: 50%;
-      -webkit-transform: translateY(-50%);
-      -ms-transform: translateY(-50%);
-      transform: translateY(-50%);
-      -webkit-transition: .3s all ease;
-      -o-transition: .3s all ease;
-      transition: .3s all ease; }
-    .content .contents .form-group input, .content .bg .form-group input {
-      background: transparent;
-      border-bottom: 1px solid #ccc; }
-    .content .contents .form-group.first, .content .bg .form-group.first {
-      border-top-left-radius: 7px;
-      border-top-right-radius: 7px; }
-    .content .contents .form-group.last, .content .bg .form-group.last {
-      border-bottom-left-radius: 7px;
-      border-bottom-right-radius: 7px; }
-    .content .contents .form-group label, .content .bg .form-group label {
-      font-size: 12px;
-      display: block;
-      margin-bottom: 0;
-      color: #b3b3b3; }
-    .content .contents .form-group.focus, .content .bg .form-group.focus {
-      background: #fff; }
-    .content .contents .form-group.field--not-empty label, .content .bg .form-group.field--not-empty label {
-      margin-top: -25px; }
-  .content .contents .form-control, .content .bg .form-control {
-    border: none;
-    padding: 0;
-    font-size: 20px;
-    border-radius: 0; }
-    .content .contents .form-control:active, .content .contents .form-control:focus, .content .bg .form-control:active, .content .bg .form-control:focus {
-      outline: none;
-      -webkit-box-shadow: none;
-      box-shadow: none; }
-
-.content .bg {
-  background-size: cover;
-  background-position: center; }
-
-.content a {
-  color: #888;
-  text-decoration: underline; }
-
-.content .btn {
-  height: 54px;
-  padding-left: 30px;
-  padding-right: 30px; }
-
-.content .forgot-pass {
-  position: relative;
-  top: 2px;
-  font-size: 14px; }
-
-.social-login a {
-  text-decoration: none;
-  position: relative;
-  text-align: center;
-  color: #fff;
-  margin-bottom: 10px;
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  display: inline-block; }
-  .social-login a span {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    -webkit-transform: translate(-50%, -50%);
-    -ms-transform: translate(-50%, -50%);
-    transform: translate(-50%, -50%); }
-  .social-login a:hover {
-    color: #fff; }
-  .social-login a.facebook {
-    background: #3b5998; }
-    .social-login a.facebook:hover {
-      background: #344e86; }
-  .social-login a.twitter {
-    background: #1da1f2; }
-    .social-login a.twitter:hover {
-      background: #0d95e8; }
-  .social-login a.google {
-    background: #ea4335; }
-    .social-login a.google:hover {
-      background: #e82e1e; }
-
-.control {
-  display: block;
-  position: relative;
-  padding-left: 30px;
-  margin-bottom: 15px;
-  cursor: pointer;
-  font-size: 14px; }
-  .control .caption {
-    position: relative;
-    top: .2rem;
-    color: #888; }
-
-.control input {
-  position: absolute;
-  z-index: -1;
-  opacity: 0; }
-
-.control__indicator {
-  position: absolute;
-  top: 2px;
-  left: 0;
-  height: 20px;
-  width: 20px;
-  background: #e6e6e6;
-  border-radius: 4px; }
-
-.control--radio .control__indicator {
-  border-radius: 50%; }
-
-.control:hover input ~ .control__indicator,
-.control input:focus ~ .control__indicator {
-  background: #ccc; }
-
-.control input:checked ~ .control__indicator {
-  background: #38d39f; }
-
-.control:hover input:not([disabled]):checked ~ .control__indicator,
-.control input:checked:focus ~ .control__indicator {
-  background: #4dd8a9; }
-
-.control input:disabled ~ .control__indicator {
-  background: #e6e6e6;
-  opacity: 0.9;
-  pointer-events: none; }
-
-.control__indicator:after {
-  font-family: 'icomoon';
-  content: '\e5ca';
-  position: absolute;
-  display: none;
-  font-size: 16px;
-  -webkit-transition: .3s all ease;
-  -o-transition: .3s all ease;
-  transition: .3s all ease; }
-
-.control input:checked ~ .control__indicator:after {
-  display: block;
-  color: #fff; }
-
-.control--checkbox .control__indicator:after {
-  top: 50%;
-  left: 50%;
-  margin-top: -1px;
-  -webkit-transform: translate(-50%, -50%);
-  -ms-transform: translate(-50%, -50%);
-  transform: translate(-50%, -50%); }
-
-.control--checkbox input:disabled ~ .control__indicator:after {
-  border-color: #7b7b7b; }
-
-.control--checkbox input:disabled:checked ~ .control__indicator {
-  background-color: #7e0cf5;
-  opacity: .2; }
-
-        </style>
-  </head>
-  <body>
-  
-
-  
-  <div class="content">
-    <div class="container">
-      <div class="row">
-        <div class="col-md-6 order-md-2">
-          <img src="images/undraw_file_sync_ot38.svg" alt="Image" class="img-fluid">
-        </div>
-        <div class="col-md-6 contents">
-          <div class="row justify-content-center">
-            <div class="col-md-8">
-              <div class="mb-4">
-              <h3>Sign In to <strong>Colorlib</strong></h3>
-              <p class="mb-4">Lorem ipsum dolor sit amet elit. Sapiente sit aut eos consectetur adipisicing.</p>
-            </div>
-            <form action="#" method="post">
-              <div class="form-group first">
-                <label for="username">Username</label>
-                <input type="text" class="form-control" id="username">
-
-              </div>
-              <div class="form-group last mb-4">
-                <label for="password">Password</label>
-                <input type="password" class="form-control" id="password">
-                
-              </div>
-              
-              <div class="d-flex mb-5 align-items-center">
-                <label class="control control--checkbox mb-0"><span class="caption">Remember me</span>
-                  <input type="checkbox" checked="checked"/>
-                  <div class="control__indicator"></div>
-                </label>
-                <span class="ml-auto"><a href="#" class="forgot-pass">Forgot Password</a></span> 
-              </div>
-
-              <input type="submit" value="Log In" class="btn text-white btn-block btn-primary">
-
-              <span class="d-block text-left my-4 text-muted"> or sign in with</span>
-              
-              <div class="social-login">
-                <a href="#" class="facebook">
-                  <span class="icon-facebook mr-3"></span> 
-                </a>
-                <a href="#" class="twitter">
-                  <span class="icon-twitter mr-3"></span> 
-                </a>
-                <a href="#" class="google">
-                  <span class="icon-google mr-3"></span> 
-                </a>
-              </div>
-            </form>
-            </div>
-          </div>
-          
-        </div>
-        
-      </div>
-    </div>
-  </div>
-
-  
-    <script src="js/jquery-3.3.1.min.js"></script>
-    <script src="js/popper.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
-    <script src="js/main.js"></script>
-  </body>
-</html>
+</script>
