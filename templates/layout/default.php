@@ -11,6 +11,13 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <?= $this->Html->css(['summernote-lite.min', 'adminlte.min','umespace']); ?>
   <?php echo $this->Html->script(['jquery.min', 'bootstrap.bundle.min','jquery.validate.min', 'additional-methods.min','summernote-lite.min', 'adminlte']); ?>
+
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<?= $this->Html->css(['owl.carousel.min', 'bootstrap.min','select2.min']); ?> <!-- Include CSS files -->
+    <?= $this->Html->css('font/style.css'); ?>
+    <?= $this->Html->css('bootstrap/select2-bootstrap4.min.css'); ?>
+    <?= $this->Html->script(['jquery-3.3.1.min', 'popper.min','bootstrap.min','main','lc_switch','select2.full.min']); ?>
+
   <?= $this->fetch('meta') ?>
   <?= $this->fetch('css') ?>
   <?= $this->fetch('script') ?>

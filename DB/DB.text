@@ -31,7 +31,13 @@ CREATE TABLE `raviapp`.`master_main`
 PRIMARY KEY (`id`)) ENGINE = InnoDB;
 
 
-
+CREATE TABLE `raviapp`.`feild_execution` 
+(`id` BIGINT(255) NOT NULL AUTO_INCREMENT , 
+`name` VARCHAR(200) NOT NULL , 
+`email` VARCHAR(33) NOT NULL , 
+`password` VARCHAR(200) NOT NULL , 
+`username` VARCHAR(200) NOT NULL , 
+PRIMARY KEY (`id`)) ENGINE = InnoDB;
 
 
 
