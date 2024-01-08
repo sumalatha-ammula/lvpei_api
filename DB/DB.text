@@ -22,23 +22,56 @@ ALTER TABLE `userdata`
 COMMIT;
 
 
-CREATE TABLE `raviapp`.`master_main` 
-(`id` BIGINT(33) NOT NULL AUTO_INCREMENT , 
-`name` VARCHAR(200) NOT NULL , 
-`created_on` TIMESTAMP NOT NULL , 
-`status` TINYINT(33) NOT NULL , 
-`created_by` BIGINT(33) NOT NULL , 
-PRIMARY KEY (`id`)) ENGINE = InnoDB;
+CREATE TABLE `master_main` (
+  `id` bigint(33) NOT NULL,
+  `name` varchar(200) NOT NULL,
+  `created_on` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `status` tinyint(33) NOT NULL,
+  `created_by` bigint(33) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+ALTER TABLE `master_main`
+  ADD PRIMARY KEY (`id`);
+
+ALTER TABLE `master_main`
+  MODIFY `id` bigint(33) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+COMMIT;
 
 
-CREATE TABLE `raviapp`.`feild_execution` 
-(`id` BIGINT(255) NOT NULL AUTO_INCREMENT , 
-`name` VARCHAR(200) NOT NULL , 
-`email` VARCHAR(33) NOT NULL , 
-`password` VARCHAR(200) NOT NULL , 
-`username` VARCHAR(200) NOT NULL , 
-PRIMARY KEY (`id`)) ENGINE = InnoDB;
+CREATE TABLE `feild_execution` (
+  `id` bigint(255) NOT NULL,
+  `name` varchar(200) NOT NULL,
+  `email` varchar(33) NOT NULL,
+  `password` varchar(200) NOT NULL,
+  `username` varchar(200) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 
+ALTER TABLE `feild_execution`
+  ADD PRIMARY KEY (`id`);
+
+  ALTER TABLE `feild_execution`
+  MODIFY `id` bigint(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+COMMIT;
+
+CREATE TABLE `master_options` (
+  `id` bigint(255) NOT NULL,
+  `master_main_id` bigint(200) NOT NULL,
+  `option_value` varchar(255) NOT NULL,
+  `sort` bigint(33) NOT NULL,
+  `created_on` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `created_by` int(33) NOT NULL,
+  `status` tinyint(5) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+
+ALTER TABLE `master_options`
+  ADD PRIMARY KEY (`id`);
+
+
+
+ALTER TABLE `master_options`
+  MODIFY `id` bigint(255) NOT NULL AUTO_INCREMENT;
+COMMIT;
 
 

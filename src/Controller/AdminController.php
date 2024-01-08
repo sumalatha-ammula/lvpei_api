@@ -70,8 +70,10 @@ class AdminController extends AppController {
 				'unauthorizedRedirect' => true 
 		) );
 		$this->admindata = $this->Auth->user ();
+		$this->userdt = $this->Auth->user ();
 		$actionname = $this->request->getParam ( 'action' );
 		$this->set ( "action", $actionname );
+		$this->set ( "user", $this->userdt );
 	}
 	public function logout() {
 		return $this->redirect ( $this->Auth->logout () );
@@ -220,4 +222,28 @@ class AdminController extends AppController {
 		$this->set ( "master", $master);
 
 	}
+
+	public function addmastermain(){
+		$data = $this->request->getData();
+		if (!empty($data['Name'])) {
+            $admasterT = TableRegistry::get('MasterMain');
+            $admasterUpdData = $this->MasterMain->newEmptyEntity();
+            $admasterUpdData->name = $data['Name'];
+            $admasterUpdData->createdby = (int)$this->userdt;
+            $admasterUpdData->created_on = date("Y-m-d");
+            $admasterUpdData->status = 1;
+			$admasterT->save($admasterUpdData);
+            $this->Flash->success(__('The Master_main data has been saved.'));
+        } else {
+            $this->Flash->error(__('The data could not be saved. Please, try again.'));
+        }
+		return $this->redirect(["controller" => "Admin", 'action' => 'mastermain']);
+	}
+
+    public function masteroptions(){
+		$data = $this->request->getData();
+		debug($data);
+		die;
+	}
+
 }
