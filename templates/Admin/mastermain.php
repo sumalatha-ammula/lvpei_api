@@ -2,6 +2,10 @@
 .ra_input{
     margin-bottom: 20px;
 }
+.ra_inputW{
+	width: 40% !important;
+	display: inline-block !important;
+}
 </style>
 <div class="col-12">
 	<div class="card">
@@ -99,9 +103,9 @@
 				</div>
 			</div>
 			<div class="modal-footer">
-				<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-				<button type="button" data-option="save-close" class="btn btn-primary savequestion">Save & Close</button>
-				<button type="button" data-option="save-next" class="btn btn-primary savequestion">Save & Next Question</button>
+				<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+				<button type="button" data-option="save-close" class="btn btn-dark savequestion">Save & Close</button>
+				<!-- <button type="button" data-option="save-next" class="btn btn-primary savequestion">Save & Next Question</button> -->
 			</div>
 		</div>
 	</div>
@@ -151,7 +155,7 @@
 </div>
 <script>
 	var selectedQuestion = 0;
-var csrfToken = $('meta[name="csrfToken"]').attr('content');
+// var csrfToken = $('meta[name="csrfToken"]').attr('content');
 $(".addsurveyquestions").on("click", function(e){
 	e.preventDefault();
 	resetpopup(0);
@@ -197,14 +201,17 @@ $(".viewsurveyquestions").on("click", function(e){
 	// 	//var csrfToken = $('meta[name="_csrfToken"]').val()
 	 	var qcount = $("#noans").val();
 	 	var options = new Array();
+		var option_sort = new Array();
 		
 		 for(var i=0; i<qcount; i++){
 			var opvalue = $("#soptions-"+i).val();
+			var opvalue_sort = $("#soptionssort-"+i).val();
 			if(opvalue == ""){
 		 		err = 1;
 		 		errmsg = "Options can't be empty";
 				}
 			options[i]=opvalue;
+			option_sort[i]=opvalue_sort;
 		}
 		
 		if(qcount == "" || qcount <= 1 ){
@@ -231,8 +238,9 @@ $(".viewsurveyquestions").on("click", function(e){
              data: {
             //    questions:$("#question").val(),
             //    q_type:$("#q_type").val(),
-               survey_id:selectedQuestion,
-               answers:options
+			master_main_id:selectedQuestion,
+            option_value:options,
+			sort:option_sort,
              },
              success: function( data ) {
                  	 console.log( data );
@@ -258,7 +266,7 @@ $(".viewsurveyquestions").on("click", function(e){
 		if($(this).val() > 0){
 			var temp="<h5>Options</h5>";
 			for(var i=0; i<c; i++){
-				temp = temp + "<div class='form-group'style='padding-top: 10px;'><input type='text' class='form-control' id='soptions-"+i+"' /></div>";
+				temp = temp + "<div class='form-group'style='padding-top: 10px;'><input type='text' class='form-control ra_inputW' id='soptions-"+i+"' /> - <input type='text' class='form-control ra_inputW' id='soptionssort-"+i+"' /></div>";
 			}
 			
 			$(".surveyoptions").html(temp);

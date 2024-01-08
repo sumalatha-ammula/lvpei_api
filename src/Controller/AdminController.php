@@ -39,6 +39,8 @@ class AdminController extends AppController {
 		parent::initialize ();
 		$this->loadModel ( 'Admin' );
 		$this->loadModel( 'MasterMain' );
+		$this->loadModel( 'MasterOptions');
+		$this->loadModel("FeildExecutive");
 		
 		$this->loadComponent ( 'Auth', array (
 				'loginAction' => array (
@@ -215,6 +217,32 @@ class AdminController extends AppController {
 		->contain(['SurveyQuestions', 'SurveyReportData']);
 		debug($surveydata->toArray());die;
 	}
+// newdata
+    public function feildexecutive() {
+		$feilddata = $this->FeildExecutive->find('all');
+		$feildexecutiveData = $this->paginate($feilddata);
+		$this->set ("feildexecutiveData", $feildexecutiveData);
+       }
+
+    public function createfeildexecutive(){
+            
+            if($this->request->is('post')){
+                $data = $this->request->getdata();
+				// debug($data);
+                $addrT_Data = TableRegistry::get('FeildExecutive');
+                $adUpdr_Data= $this->FeildExecutive->newEmptyEntity();
+                $adUpdr_Data->name =  $data['Mobilenumber'];
+                $adUpdr_Data->email = $data['email'];
+                $adUpdr_Data->password =  $data['password'];
+                $adUpdr_Data->username = $data['username'];
+                $addrT_Data->save($adUpdr_Data); 
+                $result = 'The register Data has been saved.';
+				return $this->redirect ( [
+					'action' => 'feildexecutive'
+			]);
+            }
+		return null;
+        }
 
 	public function mastermain(){
 		$masterdata = $this->MasterMain->find ( 'all' );
@@ -241,9 +269,42 @@ class AdminController extends AppController {
 	}
 
     public function masteroptions(){
+		$result = [];
 		$data = $this->request->getData();
-		debug($data);
-		die;
+		// debug($data);
+		// die;
+		if(!empty($data['master_main_id'])){
+			// echo "hello";
+			$masterOp_Data = $data["option_value"];
+			$mastersort_Data = $data["sort"];
+			// debug($masterOp_Data);
+			foreach ($masterOp_Data as $index => $masterOp) {
+				// Check if the index exists in the second array
+				if (isset($mastersort_Data[$index])) {
+					$mastersort = $mastersort_Data[$index];
+			
+					$admasterOpUpdData = $this->MasterOptions->newEmptyEntity();
+					$admasterOpUpdData->created_by = (int)$this->userdt;
+					$admasterOpUpdData->status = 1;
+					$admasterOpUpdData->created_on = date("Y-m-d");
+					$admasterOpUpdData->master_main_id = $data['master_main_id'];
+					$admasterOpUpdData->option_value = $masterOp;
+					$admasterOpUpdData->sort = $mastersort;
+			
+					// Save the record
+					$this->MasterOptions->save($admasterOpUpdData);
+				
+					$result= "The Master_option data has been saved.";
+				} else {
+				
+					$result='The data could not be saved. Please, try again.';
+				}
+			}
+			
+		
+			$result = $data;
+		}
+		$this->set("result", $result);
 	}
 
 }
