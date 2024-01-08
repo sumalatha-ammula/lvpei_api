@@ -5,7 +5,7 @@ CREATE TABLE `userdata` (
   `name` varchar(100) NOT NULL,
   `created_by` bigint(32) NOT NULL,
   `created_on` datetime NOT NULL DEFAULT current_timestamp(),
-  `status` tinyint(1) NOT NULL DEFAULT 1,
+  `status` tinyint(1) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 
