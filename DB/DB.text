@@ -38,21 +38,24 @@ ALTER TABLE `master_main`
 COMMIT;
 
 
-CREATE TABLE `feild_execution` (
+CREATE TABLE `feild_executive` (
   `id` bigint(255) NOT NULL,
-  `name` varchar(200) NOT NULL,
+  `username` varchar(200) NOT NULL,
   `email` varchar(33) NOT NULL,
   `password` varchar(200) NOT NULL,
-  `username` varchar(200) NOT NULL
+  `Mobilenumber` int(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 
-ALTER TABLE `feild_execution`
+ALTER TABLE `feild_executive`
   ADD PRIMARY KEY (`id`);
 
-  ALTER TABLE `feild_execution`
-  MODIFY `id` bigint(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  ALTER TABLE `feild_executive`
+  MODIFY `id` bigint(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 COMMIT;
+
+ALTER TABLE `feild_executive` CHANGE `Mobilenumber` `Mobilenumber` VARCHAR(10) NULL DEFAULT NULL;
+
 
 CREATE TABLE `master_options` (
   `id` bigint(255) NOT NULL,

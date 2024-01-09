@@ -37,32 +37,18 @@
     
             
             // $this->loadComponent("Media");
-            $this->loadModel("FeildExecution");
+            $this->loadModel("FeildExecutive");
         }
 
-        // public function login(){
-            
-        //     if($this->request->is('post')){
-        //         $data = $this->request->getdata();
-        //         $addrT_Data = TableRegistry::get('FeildExecution');
-        //         $adUpdr_Data= $this->FeildExecution->newEmptyEntity();
-        //         $adUpdr_Data->name =  $data['name'];
-        //         $adUpdr_Data->email = $data['email'];
-        //         $hasher = new DefaultPasswordHasher();
-        //         $adUpdr_Data->password =  $hasher->hash($data['password']);
-        //         $adUpdr_Data->username = $data['username'];
-        //         $addrT_Data->save($adUpdr_Data); 
-        //         $result = 'The register Data has been saved.';
-        //     }
-        //     $this->set("result", $result);
-        // }
+        
         public function login(){
-            
+            $result=[];
+            $result['error'] = 1;
             if($this->request->is('post')){
                 $data = $this->request->getdata();
                 // debug($data);
                 
-                $feilddata = $this->FeildExecution->find('all')
+                $feilddata = $this->FeildExecutive->find('all')
                 ->where([
                     'password' => $data['password'], 'username' => $data['username']
             ])
@@ -71,8 +57,12 @@
                 if (count($feilddata) == 0) {
                     $result = 'The User Login Not Done.';
 
+
+
                 }else{
-                    $result = 'The User Login Done.';
+                    $result = [
+                        'error' => 0,'status' => 200
+                    ];
                 }
                  
             }

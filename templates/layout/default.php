@@ -108,12 +108,12 @@
 					</a></li>
 					<li class="nav-item">
 					<?php
-					echo $this->Html->link ( '<i class="nav-icon fas fa-user"></i><p>Agents</p>', [ 
+					echo $this->Html->link ( '<i class="nav-icon fas fa-user"></i><p>Feildex Ecutive</p>', [ 
 							'controller' => "admin",
-							"action" => "agents" 
+							"action" => "feildexecutive" 
 					], [ 
 							'escape' => false,
-							'class' => 'nav-link ' . (($action == 'agents') ? 'active' : '') 
+							'class' => 'nav-link ' . (($action == 'feildexecutive') ? 'active' : '') 
 					] );
 					?>
 		            </li>
