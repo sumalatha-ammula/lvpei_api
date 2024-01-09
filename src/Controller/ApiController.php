@@ -34,14 +34,14 @@
         $this->loadComponent('RequestHandler');
         $this->viewBuilder()->setLayout('ajax');
         $this->viewBuilder()->settemplate("response");
-    
             
             // $this->loadComponent("Media");
             $this->loadModel("FeildExecutive");
             $this->loadModel("Survey");
-        }
-
-        
+            $this->loadModel("SurveyQuestions");
+            $this->loadModel("MasterMain");
+            $this->loadModel("Partcipants");
+        }        
         public function login(){
             $result=[];
             $result['error'] = 1;
@@ -58,8 +58,7 @@
                     $result = [
                         'error' => 0,'status' => 200
                     ];
-                }
-                 
+                                }                 
             }
             $this->set("result", $result);
         }
@@ -67,6 +66,41 @@
         public function survey() {  
             $result =[];         
             $result = $this->Survey->find ( 'all' )->toArray();              
-        ($this->set ("result",   $result)); 
+        $this->set ("result",   $result); 
 }
+
+public function surveyquestions(){
+    $result =[];
+   $result = $this->SurveyQuestions->find('all')
+   ->contain(['MasterMain','MasterMain.MasterOptions'])->toArray();
+   $this->set ("result",   $result); 
+}
+
+public function patientdetails(){
+    $data = $this->request->getData();
+    debug($data);
+   $patientdata = TableRegistry::get('Partcipants');
+   $patientdetails = $this->Partcipants->newEmptyEntity();
+   $patientdetails->name =$data["name"];
+   $patientdetails->created_on = date("Y-m-d");
+   $patientdetails->age =$data["age"];
+   $patientdetails->mobile =$data["mobile"];
+   $patientdetails->adharnumber =$data["adharnumber"];
+   $patientdetails->occupation =$data["occupation"];
+   $patientdetails->gender =$data["gender"];
+   $patientdetails->status =$data["status"];
+   $patientdetails->monthlyincome =$data["monthlyincome"];
+   $patientdata->save($patientdetails);
+
+
+
+
+
+
+
+
+
+
+}
+
     }

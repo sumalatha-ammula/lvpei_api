@@ -69,11 +69,6 @@ class UserdataTable extends Table
             ->notEmptyString('name');
 
         $validator
-            ->scalar('role')
-            ->maxLength('role', 20)
-            ->allowEmptyString('role');
-
-        $validator
             ->requirePresence('created_by', 'create')
             ->notEmptyString('created_by');
 
@@ -82,29 +77,8 @@ class UserdataTable extends Table
             ->notEmptyDateTime('created_on');
 
         $validator
-            ->dateTime('last_login')
-            ->allowEmptyDateTime('last_login');
-
-        $validator
-            ->scalar('token_key')
-            ->allowEmptyString('token_key');
-
-        $validator
-            ->scalar('device_info')
-            ->allowEmptyString('device_info');
-
-        $validator
-            ->scalar('location_info')
-            ->allowEmptyString('location_info');
-
-        $validator
             ->boolean('status')
             ->notEmptyString('status');
-
-        $validator
-            ->scalar('company_id')
-            ->requirePresence('company_id', 'create')
-            ->notEmptyString('company_id');
 
         return $validator;
     }

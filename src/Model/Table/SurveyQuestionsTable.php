@@ -52,6 +52,11 @@ class SurveyQuestionsTable extends Table
             'className' => 'SurveyQuestions',
             'foreignKey' => 'parent_id',
         ]);
+        $this->belongsTo('MasterMain',[
+            // 'className' => 'SurveyQuestions',
+            'foreignkey' => 'master_main_id',
+            
+         ]);
     }
 
     /**
@@ -63,8 +68,8 @@ class SurveyQuestionsTable extends Table
     public function validationDefault(Validator $validator): Validator
     {
         $validator
-            ->requirePresence('s_id', 'create')
-            ->notEmptyString('s_id');
+            ->requirePresence('survey_id', 'create')
+            ->notEmptyString('survey_id');
 
         $validator
             ->scalar('section')
@@ -80,11 +85,13 @@ class SurveyQuestionsTable extends Table
 
         $validator
             ->scalar('option_type')
+            ->maxLength('option_type', 250)
+            ->requirePresence('option_type', 'create')
             ->notEmptyString('option_type');
 
         $validator
-            ->requirePresence('m_id', 'create')
-            ->notEmptyString('m_id');
+            ->requirePresence('master_main_id', 'create')
+            ->notEmptyString('master_main_id');
 
         $validator
             ->allowEmptyString('parent_id');
