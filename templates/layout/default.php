@@ -97,7 +97,7 @@
 	<!-- Main Sidebar Container -->
 	<aside class="main-sidebar sidebar-dark-primary elevation-4">
 		<!-- Brand Logo -->
-		<a href="#" class="brand-link"> <span class="brand-text font-weight-light">Political Laboratory</span>
+		<a href="#" class="brand-link"> <span class="brand-text font-weight-light">RAVIAPP</span>
 		</a>
 		<div class="sidebar">
 			<nav class="mt-2">
@@ -132,10 +132,10 @@
 					<?php
 					echo $this->Html->link ( '<i class="nav-icon fas fa-user"></i><p>Survey Data</p>', [ 
 							'controller' => "admin",
-							"action" => "surveydata" 
+							"action" => "rvappsurveydata" 
 					], [ 
 							'escape' => false,
-							'class' => 'nav-link ' . (($action == 'surveydata') ? 'active' : '') 
+							'class' => 'nav-link ' . (($action == 'rvappsurveydata') ? 'active' : '') 
 					] );
 					?>
 		            </li>
