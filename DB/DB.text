@@ -74,4 +74,81 @@ ALTER TABLE `master_options`
   MODIFY `id` bigint(255) NOT NULL AUTO_INCREMENT;
 COMMIT;
 
+CREATE TABLE `survey` (
+  `id` bigint(33) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `country` varchar(255) NOT NULL,
+  `village` varchar(255) NOT NULL,
+  `created_on` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `created_by` varchar(255) NOT NULL,
+  `status` tinyint(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+INSERT INTO `survey` (`id`, `name`, `country`, `village`, `created_on`, `created_by`, `status`) VALUES
+(1, 'Ravi', 'India', 'Hyderabad', '2024-01-08 12:56:10', '1', 1),
+(2, 'Ravi', 'India', 'Bengaluru', '2024-01-08 13:17:35', '', 1);
+ALTER TABLE `survey`
+  ADD PRIMARY KEY (`id`);
+
+  ALTER TABLE `survey`
+  MODIFY `id` bigint(33) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+COMMIT;
+
+
+CREATE TABLE `survey_data` (
+  `id` bigint(255) NOT NULL,
+  `s_id` bigint(255) NOT NULL,
+  `sq_id` bigint(255) NOT NULL,
+  `fe_id` bigint(255) NOT NULL,
+  `datetime` timestamp NOT NULL DEFAULT current_timestamp(),
+  `geo_location` varchar(255) NOT NULL,
+  `option_data` varchar(255) NOT NULL,
+  `sync_time` timestamp NOT NULL DEFAULT current_timestamp(),
+  `patient_id` int(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+ALTER TABLE `survey_data`
+  ADD PRIMARY KEY (`id`);
+  
+  ALTER TABLE `survey_data`
+  MODIFY `id` bigint(255) NOT NULL AUTO_INCREMENT;
+COMMIT;
+
+CREATE TABLE `survey_questions` (
+  `id` bigint(255) NOT NULL,
+  `s_id` bigint(255) NOT NULL,
+  `section` varchar(255) NOT NULL,
+  `question` varchar(255) NOT NULL,
+  `option_type` text NOT NULL DEFAULT 'text',
+  `m_id` bigint(255) NOT NULL,
+  `parent_id` bigint(255) DEFAULT NULL,
+  `show_if` varchar(255) DEFAULT NULL,
+  `created_on` timestamp NOT NULL DEFAULT current_timestamp(),
+  `created_by` int(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+ALTER TABLE `survey_questions`
+  ADD PRIMARY KEY (`id`);
+
+  ALTER TABLE `survey_questions`
+  MODIFY `id` bigint(255) NOT NULL AUTO_INCREMENT;
+COMMIT;
+
+
+CREATE TABLE `partcipants` (
+  `id` bigint(255) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `fe_id` bigint(255) NOT NULL,
+  `s_id` bigint(255) NOT NULL,
+  `is_survey` varchar(255) NOT NULL,
+  `created_on` timestamp NOT NULL DEFAULT current_timestamp(),
+  `created_by` int(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+
+ALTER TABLE `partcipants`
+  ADD PRIMARY KEY (`id`);
+
+  ALTER TABLE `partcipants`
+  MODIFY `id` bigint(255) NOT NULL AUTO_INCREMENT;
+COMMIT;
