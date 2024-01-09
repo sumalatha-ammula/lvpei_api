@@ -40,6 +40,16 @@ class MasterMainTable extends Table
         $this->setTable('master_main');
         $this->setDisplayField('name');
         $this->setPrimaryKey('id');
+
+        $this->belongsTo('SurveyQuestions',[
+            'foreignkey' => 'id',
+            'joinType' => 'INNER',
+         ]);
+         
+        $this->hasMany('MasterOptions',[
+            'foreignkey' => 'id',
+            'joinType' => 'INNER',
+         ]);
     }
 
     /**

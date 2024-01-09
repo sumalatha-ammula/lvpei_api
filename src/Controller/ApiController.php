@@ -34,38 +34,73 @@
         $this->loadComponent('RequestHandler');
         $this->viewBuilder()->setLayout('ajax');
         $this->viewBuilder()->settemplate("response");
-    
             
             // $this->loadComponent("Media");
             $this->loadModel("FeildExecutive");
-        }
-
-        
+            $this->loadModel("Survey");
+            $this->loadModel("SurveyQuestions");
+            $this->loadModel("MasterMain");
+            $this->loadModel("Partcipants");
+        }        
         public function login(){
             $result=[];
             $result['error'] = 1;
             if($this->request->is('post')){
-                $data = $this->request->getdata();
-                // debug($data);
-                
+                $data = $this->request->getdata();                 
                 $feilddata = $this->FeildExecutive->find('all')
                 ->where([
                     'password' => $data['password'], 'username' => $data['username']
             ])
                 ->toArray();
-                // debug($feilddata);
                 if (count($feilddata) == 0) {
                     $result = 'The User Login Not Done.';
-
-
-
                 }else{
                     $result = [
                         'error' => 0,'status' => 200
                     ];
-                }
-                 
+                                }                 
             }
             $this->set("result", $result);
         }
+
+        public function survey() {  
+            $result =[];         
+            $result = $this->Survey->find ( 'all' )->toArray();              
+        $this->set ("result",   $result); 
+}
+
+public function surveyquestions(){
+    $result =[];
+   $result = $this->SurveyQuestions->find('all')
+   ->contain(['MasterMain','MasterMain.MasterOptions'])->toArray();
+   $this->set ("result",   $result); 
+}
+
+public function patientdetails(){
+    $data = $this->request->getData();
+    debug($data);
+   $patientdata = TableRegistry::get('Partcipants');
+   $patientdetails = $this->Partcipants->newEmptyEntity();
+   $patientdetails->name =$data["name"];
+   $patientdetails->created_on = date("Y-m-d");
+   $patientdetails->age =$data["age"];
+   $patientdetails->mobile =$data["mobile"];
+   $patientdetails->adharnumber =$data["adharnumber"];
+   $patientdetails->occupation =$data["occupation"];
+   $patientdetails->gender =$data["gender"];
+   $patientdetails->status =$data["status"];
+   $patientdetails->monthlyincome =$data["monthlyincome"];
+   $patientdata->save($patientdetails);
+
+
+
+
+
+
+
+
+
+
+}
+
     }

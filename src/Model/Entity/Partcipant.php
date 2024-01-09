@@ -6,17 +6,24 @@ namespace App\Model\Entity;
 use Cake\ORM\Entity;
 
 /**
- * Userdata Entity
+ * Partcipant Entity
  *
  * @property int $id
- * @property string $email
- * @property string $password
  * @property string $name
- * @property int $created_by
+ * @property int $fe_id
+ * @property int $survey_id
+ * @property string $is_survey
  * @property \Cake\I18n\FrozenTime $created_on
- * @property bool $status
+ * @property int $created_by
+ * @property string $age
+ * @property string $mobile
+ * @property string $adharnumber
+ * @property string $occupation
+ * @property string $gender
+ * @property string $status
+ * @property string $monthlyincome
  */
-class Userdata extends Entity
+class Partcipant extends Entity
 {
     /**
      * Fields that can be mass assigned using newEntity() or patchEntity().
@@ -28,20 +35,18 @@ class Userdata extends Entity
      * @var array<string, bool>
      */
     protected $_accessible = [
-        'email' => true,
-        'password' => true,
         'name' => true,
-        'created_by' => true,
+        'fe_id' => true,
+        'survey_id' => true,
+        'is_survey' => true,
         'created_on' => true,
+        'created_by' => true,
+        'age' => true,
+        'mobile' => true,
+        'adharnumber' => true,
+        'occupation' => true,
+        'gender' => true,
         'status' => true,
-    ];
-
-    /**
-     * Fields that are excluded from JSON versions of the entity.
-     *
-     * @var array<string>
-     */
-    protected $_hidden = [
-        'password',
+        'monthlyincome' => true,
     ];
 }
