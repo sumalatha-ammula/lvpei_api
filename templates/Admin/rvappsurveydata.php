@@ -52,7 +52,7 @@
                          'id' => 'noans',
                          'class' => 'select2 noans', // Add any additional classes as needed
                           ]);
-                          echo $this->Form->control('Answer Type', [
+                          echo $this->Form->control('Option Type', [
                             'type' => 'select',
                             // 'multiple' => 'checkbox',
                             'options' => $AnswerType,
