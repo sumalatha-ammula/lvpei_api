@@ -38,6 +38,7 @@
             
             // $this->loadComponent("Media");
             $this->loadModel("FeildExecutive");
+            $this->loadModel("Survey");
         }
 
         
@@ -45,20 +46,14 @@
             $result=[];
             $result['error'] = 1;
             if($this->request->is('post')){
-                $data = $this->request->getdata();
-                // debug($data);
-                
+                $data = $this->request->getdata();                 
                 $feilddata = $this->FeildExecutive->find('all')
                 ->where([
                     'password' => $data['password'], 'username' => $data['username']
             ])
                 ->toArray();
-                // debug($feilddata);
                 if (count($feilddata) == 0) {
                     $result = 'The User Login Not Done.';
-
-
-
                 }else{
                     $result = [
                         'error' => 0,'status' => 200
@@ -68,4 +63,10 @@
             }
             $this->set("result", $result);
         }
+
+        public function survey() {  
+            $result =[];         
+            $result = $this->Survey->find ( 'all' )->toArray();              
+        ($this->set ("result",   $result)); 
+}
     }
