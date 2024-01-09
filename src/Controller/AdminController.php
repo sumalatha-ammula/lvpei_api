@@ -41,6 +41,8 @@ class AdminController extends AppController {
 		$this->loadModel( 'MasterMain' );
 		$this->loadModel( 'MasterOptions');
 		$this->loadModel("FeildExecutive");
+		$this->loadModel("Survey");
+		$this->loadModel("SurveyQuestions");
 		
 		$this->loadComponent ( 'Auth', array (
 				'loginAction' => array (
@@ -220,6 +222,82 @@ class AdminController extends AppController {
 		debug($surveydata->toArray());die;
 	}
 // newdata
+
+    public function rvappsurveydata(){
+		$surveydata = $this->Survey->find ( 'all' );
+		$surveys = $this->paginate ( $surveydata);
+		
+        $masterOptionData = $this->MasterMain->find(
+            'list',
+            [
+                'keyField' => 'name',
+                'valueField' => 'name',
+			
+            ])
+            ->toArray();
+			// debug($masterOptionData);die;
+			$this->set(compact('masterOptionData'));
+			$this->set ( "surveys", $surveys);
+
+	}
+    
+	public function createsurveyrvapp(){
+		if($this->request->is('post')){
+			$data = $this->request->getdata();
+			// debug($data);
+			if (!empty($data['Name'])) {
+				$adsurveyT = TableRegistry::get('Survey');
+				$adsurveyQuUpdData = $this->Survey->newEmptyEntity();
+				$adsurveyQuUpdData->name = $data['Name'];
+				$adsurveyQuUpdData->country = $data['Selected_Countrys'];
+				$adsurveyQuUpdData->village = $data['Village_Name'];
+				$adsurveyQuUpdData->createdby = (int)$this->userdt;
+				$adsurveyQuUpdData->created_on = date("Y-m-d");
+				$adsurveyQuUpdData->status = 1;
+				$adsurveyT->save($adsurveyQuUpdData);
+				$this->Flash->success(__('The Master_main data has been saved.'));
+			}else {
+				$this->Flash->error(__('The data could not be saved. Please, try again.'));
+			}
+			return $this->redirect(["controller" => "Admin", 'action' => 'rvappsurveydata']);
+
+		}
+		
+	}
+    
+    public function addqutionsurveyrvapp(){
+		if($this->request->is('post')){
+			$data = $this->request->getdata();
+			// debug($data);
+			$surveydata = $data['Survey_Question'];
+			$masterId= $this->MasterMain->find ( 'all' )
+			->select(['id'])
+			->where(['name'=>$surveydata[0]])
+			->toArray();
+			// debug($masterId[0]->id);
+			// die;
+			if (!empty($data['Survey_Question'])) {
+				$adsurveyQuT = TableRegistry::get('SurveyQuestions');
+				$adsurveyQuUpdData = $this->SurveyQuestions->newEmptyEntity();
+				$adsurveyQuUpdData->section = $data['Section'];
+				$adsurveyQuUpdData->question = $data['Survey_Question'][0];
+				$adsurveyQuUpdData->option_type = $data['Answer_Type'];
+				$adsurveyQuUpdData->master_main_id= $masterId[0]->id;
+				$adsurveyQuUpdData->survey_id = $data['id'];
+				$adsurveyQuUpdData->createdby = (int)$this->userdt;
+				$adsurveyQuUpdData->created_on = date("Y-m-d");
+				// $adsurveyQuUpdData->status = 1;
+                // debug($adsurveyQuUpdData);
+				$adsurveyQuT->save($adsurveyQuUpdData);
+				$this->Flash->success(__('The Survey Question data has been saved.'));
+			}else {
+				$this->Flash->error(__('The data could not be saved. Please, try again.'));
+			}
+			return $this->redirect(["controller" => "Admin", 'action' => 'rvappsurveydata']);
+
+		}
+	}
+
     public function feildexecutive() {
 		$feilddata = $this->FeildExecutive->find('all');
 		$feildexecutiveData = $this->paginate($feilddata);
@@ -257,12 +335,12 @@ class AdminController extends AppController {
 		$data = $this->request->getData();
 		if (!empty($data['Name'])) {
             $admasterT = TableRegistry::get('MasterMain');
-            $admasterUpdData = $this->MasterMain->newEmptyEntity();
-            $admasterUpdData->name = $data['Name'];
-            $admasterUpdData->createdby = (int)$this->userdt;
-            $admasterUpdData->created_on = date("Y-m-d");
-            $admasterUpdData->status = 1;
-			$admasterT->save($admasterUpdData);
+            $adsurveyQuUpdData = $this->MasterMain->newEmptyEntity();
+            $adsurveyQuUpdData->name = $data['Name'];
+            $adsurveyQuUpdData->createdby = (int)$this->userdt;
+            $adsurveyQuUpdData->created_on = date("Y-m-d");
+            $adsurveyQuUpdData->status = 1;
+			$admasterT->save($adsurveyQuUpdData);
             $this->Flash->success(__('The Master_main data has been saved.'));
         } else {
             $this->Flash->error(__('The data could not be saved. Please, try again.'));
@@ -273,8 +351,7 @@ class AdminController extends AppController {
     public function masteroptions(){
 		$result = [];
 		$data = $this->request->getData();
-		// debug($data);
-		// die;
+		
 		if(!empty($data['master_main_id'])){
 			// echo "hello";
 			$masterOp_Data = $data["option_value"];
