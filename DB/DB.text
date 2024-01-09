@@ -10,8 +10,8 @@ CREATE TABLE `userdata` (
 
 
 
-INSERT INTO `userdata` (`id`, `email`, `password`, `name`, `created_on`, `status`,) VALUES
-                       (1, 'appadmin@raviapp.com', 'ravi@123', 'App Admin',  '2023-09-22 12:49:50', 1,),
+INSERT INTO `userdata` (`id`, `email`, `password`, `name`, `created_on`, `status`) VALUES
+                       (1, 'appadmin@raviapp.com', 'ravi@123', 'App Admin',  '2023-09-22 12:49:50', 1),
 
 ALTER TABLE `userdata`
   ADD PRIMARY KEY (`id`),

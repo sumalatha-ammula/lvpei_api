@@ -12,15 +12,9 @@ use Cake\ORM\Entity;
  * @property string $email
  * @property string $password
  * @property string $name
- * @property string|null $role
  * @property int $created_by
  * @property \Cake\I18n\FrozenTime $created_on
- * @property \Cake\I18n\FrozenTime|null $last_login
- * @property string|null $token_key
- * @property string|null $device_info
- * @property string|null $location_info
  * @property bool $status
- * @property string $company_id
  */
 class Userdata extends Entity
 {
@@ -37,15 +31,9 @@ class Userdata extends Entity
         'email' => true,
         'password' => true,
         'name' => true,
-        'role' => true,
         'created_by' => true,
         'created_on' => true,
-        'last_login' => true,
-        'token_key' => true,
-        'device_info' => true,
-        'location_info' => true,
         'status' => true,
-        'company_id' => true,
     ];
 
     /**

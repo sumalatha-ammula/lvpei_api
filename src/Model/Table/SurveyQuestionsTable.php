@@ -1,0 +1,122 @@
+<?php
+declare(strict_types=1);
+
+namespace App\Model\Table;
+
+use Cake\ORM\Query;
+use Cake\ORM\RulesChecker;
+use Cake\ORM\Table;
+use Cake\Validation\Validator;
+
+/**
+ * SurveyQuestions Model
+ *
+ * @property \App\Model\Table\SurveyQuestionsTable&\Cake\ORM\Association\BelongsTo $ParentSurveyQuestions
+ * @property \App\Model\Table\SurveyQuestionsTable&\Cake\ORM\Association\HasMany $ChildSurveyQuestions
+ *
+ * @method \App\Model\Entity\SurveyQuestion newEmptyEntity()
+ * @method \App\Model\Entity\SurveyQuestion newEntity(array $data, array $options = [])
+ * @method \App\Model\Entity\SurveyQuestion[] newEntities(array $data, array $options = [])
+ * @method \App\Model\Entity\SurveyQuestion get($primaryKey, $options = [])
+ * @method \App\Model\Entity\SurveyQuestion findOrCreate($search, ?callable $callback = null, $options = [])
+ * @method \App\Model\Entity\SurveyQuestion patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
+ * @method \App\Model\Entity\SurveyQuestion[] patchEntities(iterable $entities, array $data, array $options = [])
+ * @method \App\Model\Entity\SurveyQuestion|false save(\Cake\Datasource\EntityInterface $entity, $options = [])
+ * @method \App\Model\Entity\SurveyQuestion saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
+ * @method \App\Model\Entity\SurveyQuestion[]|\Cake\Datasource\ResultSetInterface|false saveMany(iterable $entities, $options = [])
+ * @method \App\Model\Entity\SurveyQuestion[]|\Cake\Datasource\ResultSetInterface saveManyOrFail(iterable $entities, $options = [])
+ * @method \App\Model\Entity\SurveyQuestion[]|\Cake\Datasource\ResultSetInterface|false deleteMany(iterable $entities, $options = [])
+ * @method \App\Model\Entity\SurveyQuestion[]|\Cake\Datasource\ResultSetInterface deleteManyOrFail(iterable $entities, $options = [])
+ */
+class SurveyQuestionsTable extends Table
+{
+    /**
+     * Initialize method
+     *
+     * @param array $config The configuration for the Table.
+     * @return void
+     */
+    public function initialize(array $config): void
+    {
+        parent::initialize($config);
+
+        $this->setTable('survey_questions');
+        $this->setDisplayField('section');
+        $this->setPrimaryKey('id');
+
+        $this->belongsTo('ParentSurveyQuestions', [
+            'className' => 'SurveyQuestions',
+            'foreignKey' => 'parent_id',
+        ]);
+        $this->hasMany('ChildSurveyQuestions', [
+            'className' => 'SurveyQuestions',
+            'foreignKey' => 'parent_id',
+        ]);
+    }
+
+    /**
+     * Default validation rules.
+     *
+     * @param \Cake\Validation\Validator $validator Validator instance.
+     * @return \Cake\Validation\Validator
+     */
+    public function validationDefault(Validator $validator): Validator
+    {
+        $validator
+            ->requirePresence('s_id', 'create')
+            ->notEmptyString('s_id');
+
+        $validator
+            ->scalar('section')
+            ->maxLength('section', 255)
+            ->requirePresence('section', 'create')
+            ->notEmptyString('section');
+
+        $validator
+            ->scalar('question')
+            ->maxLength('question', 255)
+            ->requirePresence('question', 'create')
+            ->notEmptyString('question');
+
+        $validator
+            ->scalar('option_type')
+            ->notEmptyString('option_type');
+
+        $validator
+            ->requirePresence('m_id', 'create')
+            ->notEmptyString('m_id');
+
+        $validator
+            ->allowEmptyString('parent_id');
+
+        $validator
+            ->scalar('show_if')
+            ->maxLength('show_if', 255)
+            ->allowEmptyString('show_if');
+
+        $validator
+            ->dateTime('created_on')
+            ->notEmptyDateTime('created_on');
+
+        $validator
+            ->integer('created_by')
+            ->requirePresence('created_by', 'create')
+            ->notEmptyString('created_by');
+
+        return $validator;
+    }
+
+    /**
+     * Returns a rules checker object that will be used for validating
+     * application integrity.
+     *
+     * @param \Cake\ORM\RulesChecker $rules The rules object to be modified.
+     * @return \Cake\ORM\RulesChecker
+     */
+    public function buildRules(RulesChecker $rules): RulesChecker
+    {
+        $rules->add($rules->existsIn('parent_id', 'ParentSurveyQuestions'), ['errorField' => 'parent_id']);
+
+        return $rules;
+    }
+}
