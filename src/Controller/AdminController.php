@@ -281,7 +281,7 @@ class AdminController extends AppController {
 				$adsurveyQuUpdData = $this->SurveyQuestions->newEmptyEntity();
 				$adsurveyQuUpdData->section = $data['Section'];
 				$adsurveyQuUpdData->question = $data['Survey_Question'][0];
-				$adsurveyQuUpdData->option_type = $data['Answer_Type'];
+				$adsurveyQuUpdData->option_type = $data['Option_Type'];
 				$adsurveyQuUpdData->master_main_id= $masterId[0]->id;
 				$adsurveyQuUpdData->survey_id = $data['id'];
 				$adsurveyQuUpdData->createdby = (int)$this->userdt;
