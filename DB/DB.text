@@ -119,16 +119,17 @@ COMMIT;
 
 CREATE TABLE `survey_questions` (
   `id` bigint(255) NOT NULL,
-  `s_id` bigint(255) NOT NULL,
+  `survey_id` bigint(255) NOT NULL,
   `section` varchar(255) NOT NULL,
   `question` varchar(255) NOT NULL,
-  `option_type` text NOT NULL DEFAULT 'text',
-  `m_id` bigint(255) NOT NULL,
+  `option_type` varchar(250) NOT NULL,
+  `master_main_id` bigint(255) NOT NULL,
   `parent_id` bigint(255) DEFAULT NULL,
   `show_if` varchar(255) DEFAULT NULL,
   `created_on` timestamp NOT NULL DEFAULT current_timestamp(),
   `created_by` int(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
 
 ALTER TABLE `survey_questions`
   ADD PRIMARY KEY (`id`);
@@ -138,20 +139,29 @@ ALTER TABLE `survey_questions`
 COMMIT;
 
 
+
 CREATE TABLE `partcipants` (
   `id` bigint(255) NOT NULL,
   `name` varchar(255) NOT NULL,
-  `fe_id` bigint(255) NOT NULL,
-  `s_id` bigint(255) NOT NULL,
-  `is_survey` varchar(255) NOT NULL,
+  `feild_executive_id` bigint(32) DEFAULT NULL,
+  `survey_id` bigint(255) DEFAULT NULL,
+  `is_survey` varchar(255) DEFAULT NULL,
   `created_on` timestamp NOT NULL DEFAULT current_timestamp(),
-  `created_by` int(255) NOT NULL
+  `created_by` int(255) NOT NULL,
+  `age` varchar(32) NOT NULL,
+  `mobile` varchar(32) NOT NULL,
+  `adharnumber` varchar(255) NOT NULL,
+  `occupation` varchar(255) NOT NULL,
+  `gender` varchar(20) NOT NULL,
+  `status` varchar(200) NOT NULL,
+  `monthlyincome` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 
-ALTER TABLE `partcipants`
-  ADD PRIMARY KEY (`id`);
+INSERT INTO `partcipants` (`id`, `name`, `feild_executive_id`, `survey_id`, `is_survey`, `created_on`, `created_by`, `age`, `mobile`, `adharnumber`, `occupation`, `gender`, `status`, `monthlyincome`) VALUES
+(1, 'Damodghar', NULL, NULL, NULL, '2024-01-09 00:00:00', 0, '30', '678637987', '123456789', 'Umemployed', 'Male', 'Not Available For two Weeks', '200000');
 
-  ALTER TABLE `partcipants`
-  MODIFY `id` bigint(255) NOT NULL AUTO_INCREMENT;
+
+ALTER TABLE `partcipants`
+  MODIFY `id` bigint(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 COMMIT;
