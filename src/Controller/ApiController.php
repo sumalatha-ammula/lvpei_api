@@ -42,6 +42,11 @@
             $this->loadModel("MasterMain");
             $this->loadModel("Partcipants");
         }        
+        private function generatetoken() {
+            $token = bin2hex(random_bytes(16));
+            return $token;
+         }
+
         public function login(){
             $result=[];
             $result['error'] = 1;
@@ -51,18 +56,28 @@
                 ->where([
                     'password' => $data['password'], 'username' => $data['username']
             ])
-                ->toArray();
+                ->toArray();                
                 if (count($feilddata) == 0) {
                     $result = 'The User Login Not Done.';
-                }else{
-                    $result = [
-                        'error' => 0,'status' => 200
+                    $result=[
+                        'error'=>1
                     ];
-                                }                 
+                }else{
+                $lt = TableRegistry::get('FeildExecutive');
+                $ld = $lt->get($feilddata[0]->id);
+                $ld->token = $this->generatetoken();
+                $ld->deviceid = isset($data['deviceid']) ? $data['deviceid'] : '';
+                $ld->deviceinfo = isset($data['deviceinfo']) ? $data['deviceinfo'] : '';
+                $feilddata[0]->token = $ld->token;
+                $lt->save($ld);
+                $result = [
+                    'error' => 0,'member' => $feilddata[0],'status' => 200
+                ];
+
+                }                 
             }
             $this->set("result", $result);
         }
-
         public function survey() {  
             $result =[];         
             $result = $this->Survey->find ( 'all' )->toArray();              
@@ -77,30 +92,37 @@ public function surveyquestions(){
 }
 
 public function patientdetails(){
-    $data = $this->request->getData();
-    debug($data);
-   $patientdata = TableRegistry::get('Partcipants');
-   $patientdetails = $this->Partcipants->newEmptyEntity();
-   $patientdetails->name =$data["name"];
-   $patientdetails->created_on = date("Y-m-d");
-   $patientdetails->age =$data["age"];
-   $patientdetails->mobile =$data["mobile"];
-   $patientdetails->adharnumber =$data["adharnumber"];
-   $patientdetails->occupation =$data["occupation"];
-   $patientdetails->gender =$data["gender"];
-   $patientdetails->status =$data["status"];
-   $patientdetails->monthlyincome =$data["monthlyincome"];
-   $patientdata->save($patientdetails);
-
-
-
-
-
-
-
-
-
-
+    if($this->request->is('post')){
+        $data = $this->request->getData();
+        debug($data);
+        // die;
+       $patientdata = TableRegistry::get('Partcipants');
+       $patientdetails = $this->Partcipants->newEmptyEntity();
+       $patientdetails->name =$data["name"];
+       $patientdetails->created_on = date("Y-m-d");
+       $patientdetails->age =$data["age"];
+       $patientdetails->mobile =$data["mobile"];
+       $patientdetails->adharnumber =$data["adharnumber"];
+       $patientdetails->occupation =$data["occupation"];
+       $patientdetails->education =$data["education"];
+       $patientdetails->gender =$data["gender"];
+       $patientdetails->status =$data["status"];
+       $patientdetails->monthlyincome =$data["monthlyincome"];
+       $patientdetails->dateofbirth = $data["dateofbirth"];
+       $patientdetails->country = $data["country"];
+       $patientdetails->state = $data["state"];
+       $patientdetails->district = $data["district"];
+       $patientdetails->area = $data["area"];
+       $patientdetails->areawardno = $data["areawardno"];
+       $patientdetails->pincode = $data["pincode"];
+       $patientdata->save($patientdetails);
+    }
+   
+}
+public function participantList(){
+    $result =[];         
+    $result = $this->Partcipants->find ( 'all' )->toArray();                
+    $this->set ("result",   $result);  
 }
 
     }
