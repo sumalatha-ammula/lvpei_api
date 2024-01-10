@@ -164,4 +164,38 @@ ALTER TABLE `partcipants`
 COMMIT;
 
 
+CREATE TABLE `partcipants` (
+  `id` bigint(255) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `feild_executive_id` bigint(32) DEFAULT NULL,
+  `survey_id` bigint(255) DEFAULT NULL,
+  `is_survey` varchar(255) DEFAULT NULL,
+  `created_on` timestamp NOT NULL DEFAULT current_timestamp(),
+  `created_by` int(255) NOT NULL,
+  `age` varchar(32) NOT NULL,
+  `mobile` varchar(12) NOT NULL,
+  `adharnumber` varchar(255) NOT NULL,
+  `occupation` varchar(255) NOT NULL,
+  `gender` varchar(20) NOT NULL,
+  `status` int(11) NOT NULL,
+  `monthlyincome` bigint(22) NOT NULL,
+  `dateofbirth` date DEFAULT NULL,
+  `country` varchar(30) NOT NULL,
+  `state` varchar(33) NOT NULL,
+  `district` varchar(33) NOT NULL,
+  `area` varchar(33) NOT NULL,
+  `areawardno` varchar(33) DEFAULT NULL,
+  `pincode` int(11) NOT NULL,
+  `education` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+
+ALTER TABLE `partcipants`
+  ADD PRIMARY KEY (`id`);
+
+
+  ALTER TABLE `partcipants`
+  MODIFY `id` bigint(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+COMMIT;
+
 
