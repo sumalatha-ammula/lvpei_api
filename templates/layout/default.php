@@ -108,7 +108,7 @@
 					</a></li>
 					<li class="nav-item">
 					<?php
-					echo $this->Html->link ( '<i class="nav-icon fas fa-user"></i><p>Feildex Ecutive</p>', [ 
+					echo $this->Html->link ( '<i class="nav-icon fas fa-user"></i><p>Feild Executive</p>', [ 
 							'controller' => "admin",
 							"action" => "feildexecutive" 
 					], [ 
@@ -130,7 +130,7 @@
 		            </li>
 		            <li class="nav-item">
 					<?php
-					echo $this->Html->link ( '<i class="nav-icon fas fa-user"></i><p>Survey Data</p>', [ 
+					echo $this->Html->link ( '<i class="nav-icon fas fa-user"></i><p>Survey</p>', [ 
 							'controller' => "admin",
 							"action" => "rvappsurveydata" 
 					], [ 

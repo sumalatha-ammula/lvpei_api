@@ -5,7 +5,7 @@
 		<div class="card-header">
 			<div class="card-tools">
                 	    <?php
-                    echo $this->Html->link("Add Agent", [
+                    echo $this->Html->link("Add Executive", [
                         'controller' => "Admin",
                         'action' => 'createfeildexecutive'
                     ], [
@@ -19,12 +19,11 @@
 			<table class="table table-hover text-nowrap">
 				<thead>
 					<tr>
-						<th><?= $this->Paginator->sort('id') ?></th>
-                        <th><?= $this->Paginator->sort('username') ?></th>
-                        <th><?= $this->Paginator->sort('password') ?></th>
-						<th><?= $this->Paginator->sort('email') ?></th>
-                        
-						<th>Actions</th>
+						<th>ID</th>
+                        <th>User Name</th>
+                        <th>Password</th>
+						<th>Email</th>
+						
 				
 				</thead>
 				<tbody>
@@ -35,7 +34,7 @@
 						<td><?= h($agent->password) ?></td>
 						<td><?= h($agent->email) ?></td>
 						
-						<td class="actions"></td>
+						
 					</tr>
                         <?php endforeach; ?>
                     </tbody>

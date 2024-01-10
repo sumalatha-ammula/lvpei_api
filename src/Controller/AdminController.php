@@ -84,14 +84,14 @@ class AdminController extends AppController {
 	}
 	public function index() {
 		$this->viewBuilder ()->disableAutoLayout ();
-		/*
-		 * $pwd = "PoliticalLab2022";
-		 * $hasher = new DefaultPasswordHasher ();
-		 * $hashedpwd = $hasher->hash ( $pwd );
-		 * echo $hashedpwd;
-		 *
-		 * die;
-		 */
+		
+		//   $pwd = "Raviapp@123";
+		//   $hasher = new DefaultPasswordHasher ();
+		//   $hashedpwd = $hasher->hash ( $pwd );
+		//   echo $hashedpwd;
+		 
+		//   die;
+		 
 		if ($this->request->is ( 'post' )) {
 			$user = $this->Auth->identify ();
 			// debug($user);
@@ -226,19 +226,7 @@ class AdminController extends AppController {
     public function rvappsurveydata(){
 		$surveydata = $this->Survey->find ( 'all' );
 		$surveys = $this->paginate ( $surveydata);
-		
-        $masterOptionData = $this->MasterMain->find(
-            'list',
-            [
-                'keyField' => 'name',
-                'valueField' => 'name',
-			
-            ])
-            ->toArray();
-			// debug($masterOptionData);die;
-			$this->set(compact('masterOptionData'));
-			$this->set ( "surveys", $surveys);
-
+		$this->set ( "surveys", $surveys);
 	}
     
 	public function createsurveyrvapp(){
@@ -249,7 +237,7 @@ class AdminController extends AppController {
 				$adsurveyT = TableRegistry::get('Survey');
 				$adsurveyQuUpdData = $this->Survey->newEmptyEntity();
 				$adsurveyQuUpdData->name = $data['Name'];
-				$adsurveyQuUpdData->country = $data['Selected_Countrys'];
+				$adsurveyQuUpdData->country = $data['Selected_Country'];
 				$adsurveyQuUpdData->village = $data['Village_Name'];
 				$adsurveyQuUpdData->createdby = (int)$this->userdt;
 				$adsurveyQuUpdData->created_on = date("Y-m-d");
@@ -268,26 +256,24 @@ class AdminController extends AppController {
     public function addqutionsurveyrvapp(){
 		if($this->request->is('post')){
 			$data = $this->request->getdata();
-			// debug($data);
-			$surveydata = $data['Survey_Question'];
-			$masterId= $this->MasterMain->find ( 'all' )
-			->select(['id'])
-			->where(['name'=>$surveydata[0]])
-			->toArray();
-			// debug($masterId[0]->id);
-			// die;
-			if (!empty($data['Survey_Question'])) {
+			
+			if($data['Option_Type'] != 'Dropdown'){
+				$masterID= 0;
+
+			}else{
+				$masterID = $data['Select_Survey_Question'];
+			}
+			
+			if (!empty($data['Qution'])) {
 				$adsurveyQuT = TableRegistry::get('SurveyQuestions');
 				$adsurveyQuUpdData = $this->SurveyQuestions->newEmptyEntity();
 				$adsurveyQuUpdData->section = $data['Section'];
-				$adsurveyQuUpdData->question = $data['Survey_Question'][0];
+				$adsurveyQuUpdData->question = $data['Qution'];
 				$adsurveyQuUpdData->option_type = $data['Option_Type'];
-				$adsurveyQuUpdData->master_main_id= $masterId[0]->id;
+				$adsurveyQuUpdData->master_main_id= $masterID;
 				$adsurveyQuUpdData->survey_id = $data['id'];
 				$adsurveyQuUpdData->createdby = (int)$this->userdt;
 				$adsurveyQuUpdData->created_on = date("Y-m-d");
-				// $adsurveyQuUpdData->status = 1;
-                // debug($adsurveyQuUpdData);
 				$adsurveyQuT->save($adsurveyQuUpdData);
 				$this->Flash->success(__('The Survey Question data has been saved.'));
 			}else {
@@ -298,6 +284,26 @@ class AdminController extends AppController {
 		}
 	}
 
+	public function addsurveyqution($id = null){
+		
+		// debug($id);
+		// echo "hello";
+		$surveyquestiondata = $this->SurveyQuestions->find ( 'all' )
+		->where(['survey_id' => $id]);
+		$surveys = $this->paginate ( $surveyquestiondata);
+		$masterOptionData = $this->MasterMain->find(
+            'list',
+            [
+                'keyField' => 'id',
+                'valueField' => 'name',
+			
+            ])
+            ->toArray();
+			// debug($masterOptionData);die;
+			$this->set(compact('masterOptionData'));
+			$this->set ( "surveys", $surveys);
+			$this->set('id', $id);
+	}
     public function feildexecutive() {
 		$feilddata = $this->FeildExecutive->find('all');
 		$feildexecutiveData = $this->paginate($feilddata);
@@ -311,7 +317,7 @@ class AdminController extends AppController {
 				// debug($data);
                 $addrT_Data = TableRegistry::get('FeildExecutive');
                 $adUpdr_Data= $this->FeildExecutive->newEmptyEntity();
-                $adUpdr_Data->name =  $data['Mobilenumber'];
+                // $adUpdr_Data->name =  $data['Mobilenumber'];
                 $adUpdr_Data->email = $data['email'];
                 $adUpdr_Data->password =  $data['password'];
                 $adUpdr_Data->username = $data['username'];

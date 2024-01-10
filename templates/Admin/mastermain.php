@@ -103,8 +103,8 @@
 				</div>
 			</div>
 			<div class="modal-footer">
+				<button type="button" data-option="save-close" class="btn btn-dark savequestion bg-gradient-primary  btncompany">Save & Close</button>
 				<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-				<button type="button" data-option="save-close" class="btn btn-dark savequestion">Save & Close</button>
 				<!-- <button type="button" data-option="save-next" class="btn btn-primary savequestion">Save & Next Question</button> -->
 			</div>
 		</div>
@@ -118,7 +118,7 @@
             <div style="width: 800px;" class="modal-content">
                 <div class="modal-header bg-blue">
                     <h5 class="modal-title">
-                        Company <span id="memberaddrequests_id"></span>
+					Add Master Main <span id="memberaddrequests_id"></span>
                     </h5>
                     <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
@@ -140,7 +140,8 @@
                     ]);
 
                     ?>
-                    <?= $this->Form->button(__('Submit'), ['class' => "btn btn-dark"]) ?>
+                    <?= $this->Form->button(__('Submit'), ['class' => "btn btn-primary bg-gradient-primary  btncompany"]) ?>
+					
                     <a class="btn btn-danger" data-dismiss="modal">Cancel</a>
                     <?= $this->Form->end() ?>
                 </div>

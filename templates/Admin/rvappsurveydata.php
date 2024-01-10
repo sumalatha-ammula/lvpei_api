@@ -15,68 +15,7 @@
 </style>
 
 
-<div class="modal fade" id="surveyquestionsModel" tabindex="-1" role="dialog" aria-labelledby="surveyquestionsModel" aria-hidden="true">
-	<div class="modal-dialog modal-dialog-scrollable" role="document">
-		<div class="modal-content">
-			<div class="modal-header">
-				<h5 class="modal-title" id="exampleModalLabel">Survey Question</h5>
-				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-					<span aria-hidden="true">&times;</span>
-				</button>
-			</div>
-			<div class="modal-body">
-				<div class="card-body">
-					<div class="form-group">
-						<!-- <label for="inputName">Question</label> <input type="text" name="questions" id="question" class="form-control"> -->
-                        <?php
-                        $AnswerType=[
-                            'Radio'=>'Radio',
-                            'Text Box'=>'Text Box',
-                            ];
-                         echo $this->Form->create(null, array(
-                            'url' => array(
-                                'controller' => 'Admin', 'action' => 'addqutionsurveyrvapp'
-                            ),
-                        ));
-                        echo $this->Form->control('Section', [
-                            'type' => "text",
-                            //   'readonly' => true,
-                            'id' => 'edit_section',
-                            'class' => "form-control ra_input",
-                        ]);
 
-                         echo $this->Form->control('Survey Question', [
-                         'type' => 'select',
-                         'multiple' => true,
-                         'options' => $masterOptionData,
-                         'id' => 'noans',
-                         'class' => 'select2 noans', // Add any additional classes as needed
-                          ]);
-                          echo $this->Form->control('Option Type', [
-                            'type' => 'select',
-                            // 'multiple' => 'checkbox',
-                            'options' => $AnswerType,
-                            'id' => 'branch_id',
-                            'class' => 'form-control people', // Add any additional classes as needed
-                        ]);
-                        ?>
-                    </div>
-					<!-- <div class="form-group">
-						<label for="inputStatus">Answer Type</label> <select class="form-control" id="q_type"><option value="radio">Radio</option>
-							<option value="check">Text Box</option></select>
-					</div> -->
-                    <input type="hidden" name="id" id="master_main_id">
-                   
-					<div class="surveyoptions" id="surveyoptions"></div>
-				</div>
-                <?= $this->Form->button(__('Submit'), ['class' => "btn btn-dark"]) ?>
-                    <a class="btn btn-danger" data-dismiss="modal">Cancel</a>
-                    <?= $this->Form->end() ?>
-			</div>
-
-		</div>
-	</div>
-</div>
 <div class="col-12">
 	<div class="card">
 		<div class="card-header">
@@ -89,11 +28,11 @@
 			<table class="table table-hover">
 				<thead>
 					<tr>
-						<th style="max-width: 250px"><?= $this->Paginator->sort('name') ?></th>
-                        <th style="max-width: 250px"><?= $this->Paginator->sort('country') ?></th>
-                        <th style="max-width: 250px"><?= $this->Paginator->sort('village') ?></th>
-                        <th style="max-width: 250px"><?= $this->Paginator->sort('status') ?></th>
-                        <th style="max-width: 250px"><?= $this->Paginator->sort('created_on') ?></th>
+						<th>Name</th>
+                        <th>Country</th>
+                        <th>Village</th>
+                        <th>Status</th>
+                        <th>Created On</th>
 						<th>Actions</th>
 				
 				</thead>
@@ -110,14 +49,14 @@
 						<td><?= h($survey->village) ?></td>
 						<td><?= h($survey->status) ?></td>
 						<td><?= h($survey->created_on); ?></td>
-						<td class="actions"><a href="#"><i class="far fa-edit"></i></a> | <a href="#" data-question="<?php echo $survey->id;?>" class="addsurveyquestions"><i class="fas fa-poll-h"></i></a> |
-						 <?php
+						<!-- <td class="actions"><a href="#"><i class="far fa-edit"></i></a> | <a href="Admin/addsurveyqution" data-question="<?php echo $survey->id;?>" class="addsurveyquestions"><i class="fas fa-poll-h"></i></a>  -->
+						<td> <?php
                                 echo $this->Html->link("", [
                                     'controller' => "Admin",
-                                    'action' => 'surveysreport',
+                                    'action' => 'addsurveyqution',
                                     $survey->id
                                 ], [
-                                    'class' => 'fas fa-eye'
+                                    'class' => 'fas fa-poll-h'
                                 ]);
                                 ?> 
 						</td>
@@ -149,7 +88,7 @@
             <div style="width: 800px;" class="modal-content">
                 <div class="modal-header bg-blue">
                     <h5 class="modal-title">
-                        Company <span id="memberaddrequests_id"></span>
+                        Add Survey <span id="memberaddrequests_id"></span>
                     </h5>
                     <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
@@ -173,12 +112,12 @@
                         'id' => 'edit_companyname',
                         'class' => "form-control ra_input",
                     ]);
-                    echo $this->Form->control('Selected Countrys', [
+                    echo $this->Form->control('Selected Country', [
                         'type' => 'select',
                         // 'multiple' => 'checkbox',
                         'options' => $surveyd,
                         'id' => 'branch_id',
-                        'class' => 'form-control people', // Add any additional classes as needed
+                        'class' => 'form-control people ra_input', // Add any additional classes as needed
                     ]);
 
                     echo $this->Form->control('Village Name', [
@@ -189,7 +128,7 @@
                     ]);
 
                     ?>
-                    <?= $this->Form->button(__('Submit'), ['class' => "btn btn-dark"]) ?>
+                    <?= $this->Form->button(__('Submit'), ['class' => "btn btn-primary bg-gradient-primary  btncompany"]) ?>
                     <a class="btn btn-danger" data-dismiss="modal">Cancel</a>
                     <?= $this->Form->end() ?>
                 </div>

@@ -8,7 +8,7 @@
 		<div class="col-md-6">
 			<div class="card card-primary">
 				<div class="card-header">
-					<h3 class="card-title">Create Agent</h3>
+					<h3 class="card-title">Add Executive</h3>
 					
 				</div>
 				  <?php
@@ -44,7 +44,7 @@
 					<!-- <div class="form-group">
 						<label for="inputClientCompany">Re-Enter Password</label> <input type="password" name="reenterpassword" id="inputClientCompany" class="form-control">
 					</div> -->
-					<input type="submit" value="Create new Agent" class="btn btn-success"> <a href="javascript:history.back()" class="btn btn-secondary">Cancel</a>
+					<input type="submit" value="Add new Executive" class="btn btn-success  bg-gradient-primary  btncompany""> <a href="javascript:history.back()" class="btn btn-secondary">Cancel</a>
 				</div>
 				<?php echo $this->Form->end ();?>
 			</div>
