@@ -22,6 +22,24 @@ ALTER TABLE `userdata`
 COMMIT;
 
 
+CREATE TABLE `feild_executive` (
+  `id` bigint(255) NOT NULL,
+  `username` varchar(200) NOT NULL,
+  `email` varchar(33) NOT NULL,
+  `password` varchar(200) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+INSERT INTO `feild_executive` (`id`, `username`, `email`, `password`) VALUES
+(1, 'ajayram', 'adhi_varaham12@gmail.com', '123qwe'),
+
+ALTER TABLE `feild_executive`
+  ADD PRIMARY KEY (`id`);
+
+  ALTER TABLE `feild_executive`
+  MODIFY `id` bigint(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  COMMIT;
+
+
 CREATE TABLE `master_main` (
   `id` bigint(33) NOT NULL,
   `name` varchar(200) NOT NULL,
@@ -30,31 +48,15 @@ CREATE TABLE `master_main` (
   `created_by` bigint(33) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+INSERT INTO `master_main` (`id`, `name`, `created_on`, `status`, `created_by`) VALUES
+(1, 'Education Level', '2024-01-09 00:00:00', 1, 0),
+
 ALTER TABLE `master_main`
   ADD PRIMARY KEY (`id`);
 
 ALTER TABLE `master_main`
-  MODIFY `id` bigint(33) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` bigint(33) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 COMMIT;
-
-
-CREATE TABLE `feild_executive` (
-  `id` bigint(255) NOT NULL,
-  `username` varchar(200) NOT NULL,
-  `email` varchar(33) NOT NULL,
-  `password` varchar(200) NOT NULL,
-  `Mobilenumber` int(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
-
-ALTER TABLE `feild_executive`
-  ADD PRIMARY KEY (`id`);
-
-  ALTER TABLE `feild_executive`
-  MODIFY `id` bigint(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
-COMMIT;
-
-ALTER TABLE `feild_executive` CHANGE `Mobilenumber` `Mobilenumber` VARCHAR(10) NULL DEFAULT NULL;
 
 
 CREATE TABLE `master_options` (
@@ -67,6 +69,14 @@ CREATE TABLE `master_options` (
   `status` tinyint(5) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+INSERT INTO `master_options` (`id`, `master_main_id`, `option_value`, `sort`, `created_on`, `created_by`, `status`) VALUES
+(1, 1, 'No education', 1, '2024-01-09 00:00:00', 1, 1),
+(2, 1, 'Primary school(class 1-5)', 2, '2024-01-09 00:00:00', 1, 1),
+(3, 1, 'High school (class 6-10)', 3, '2024-01-09 00:00:00', 1, 1),
+(4, 1, 'Intermediate (class 11-12)', 4, '2024-01-09 00:00:00', 1, 1),
+(5, 1, 'College (undergraduate)', 5, '2024-01-09 00:00:00', 1, 1),
+(6, 1, 'Advanced studies(PG etc)', 6, '2024-01-09 00:00:00', 1, 1),
+(7, 1, 'Others,', 7, '2024-01-09 00:00:00', 1, 1),
 
 ALTER TABLE `master_options`
   ADD PRIMARY KEY (`id`);
@@ -74,8 +84,10 @@ ALTER TABLE `master_options`
 
 
 ALTER TABLE `master_options`
-  MODIFY `id` bigint(255) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 COMMIT;
+
+
 
 CREATE TABLE `survey` (
   `id` bigint(33) NOT NULL,
@@ -88,34 +100,19 @@ CREATE TABLE `survey` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 INSERT INTO `survey` (`id`, `name`, `country`, `village`, `created_on`, `created_by`, `status`) VALUES
-(1, 'Ravi', 'India', 'Hyderabad', '2024-01-08 12:56:10', '1', 1),
-(2, 'Ravi', 'India', 'Bengaluru', '2024-01-08 13:17:35', '', 1);
+(1, 'Ram', 'India', 'HYD', '2024-01-10 00:00:00', '', 1);
+
 ALTER TABLE `survey`
   ADD PRIMARY KEY (`id`);
 
-  ALTER TABLE `survey`
-  MODIFY `id` bigint(33) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+ ALTER TABLE `survey`
+  MODIFY `id` bigint(33) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 COMMIT;
 
 
-CREATE TABLE `survey_data` (
-  `id` bigint(255) NOT NULL,
-  `s_id` bigint(255) NOT NULL,
-  `sq_id` bigint(255) NOT NULL,
-  `fe_id` bigint(255) NOT NULL,
-  `datetime` timestamp NOT NULL DEFAULT current_timestamp(),
-  `geo_location` varchar(255) NOT NULL,
-  `option_data` varchar(255) NOT NULL,
-  `sync_time` timestamp NOT NULL DEFAULT current_timestamp(),
-  `patient_id` int(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
-ALTER TABLE `survey_data`
-  ADD PRIMARY KEY (`id`);
-  
-  ALTER TABLE `survey_data`
-  MODIFY `id` bigint(255) NOT NULL AUTO_INCREMENT;
-COMMIT;
+
+
 
 CREATE TABLE `survey_questions` (
   `id` bigint(255) NOT NULL,
@@ -128,13 +125,13 @@ CREATE TABLE `survey_questions` (
   `show_if` varchar(255) DEFAULT NULL,
   `created_on` timestamp NOT NULL DEFAULT current_timestamp(),
   `created_by` int(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci
 
 
 ALTER TABLE `survey_questions`
   ADD PRIMARY KEY (`id`);
 
-  ALTER TABLE `survey_questions`
+ ALTER TABLE `survey_questions`
   MODIFY `id` bigint(255) NOT NULL AUTO_INCREMENT;
 COMMIT;
 
@@ -165,3 +162,6 @@ INSERT INTO `partcipants` (`id`, `name`, `feild_executive_id`, `survey_id`, `is_
 ALTER TABLE `partcipants`
   MODIFY `id` bigint(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 COMMIT;
+
+
+
