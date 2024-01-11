@@ -229,6 +229,10 @@ class AdminController extends AppController {
 		$this->set ( "surveys", $surveys);
 	}
     
+	public function surveyparticipants(){
+		
+	}
+
 	public function createsurveyrvapp(){
 		if($this->request->is('post')){
 			$data = $this->request->getdata();
