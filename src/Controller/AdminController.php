@@ -229,6 +229,10 @@ class AdminController extends AppController {
 		$this->set ( "surveys", $surveys);
 	}
     
+	public function surveyparticipants(){
+		
+	}
+
 	public function createsurveyrvapp(){
 		if($this->request->is('post')){
 			$data = $this->request->getdata();
@@ -239,9 +243,9 @@ class AdminController extends AppController {
 				$adsurveyQuUpdData->name = $data['Name'];
 				$adsurveyQuUpdData->country = $data['Selected_Country'];
 				$adsurveyQuUpdData->village = $data['Village_Name'];
-				$adsurveyQuUpdData->createdby = (int)$this->userdt;
-				$adsurveyQuUpdData->created_on = date("Y-m-d");
-				$adsurveyQuUpdData->status = 1;
+				$adsurveyQuUpdData->created_by = (int)$this->userdt;
+				//$adsurveyQuUpdData->created_on = date("Y-m-d");
+				//$adsurveyQuUpdData->status = 1;
 				$adsurveyT->save($adsurveyQuUpdData);
 				$this->Flash->success(__('The Master_main data has been saved.'));
 			}else {
@@ -272,7 +276,7 @@ class AdminController extends AppController {
 				$adsurveyQuUpdData->option_type = $data['Option_Type'];
 				$adsurveyQuUpdData->master_main_id= $masterID;
 				$adsurveyQuUpdData->survey_id = $data['id'];
-				$adsurveyQuUpdData->createdby = (int)$this->userdt;
+				$adsurveyQuUpdData->created_by = (int)$this->userdt['id'];
 				$adsurveyQuUpdData->created_on = date("Y-m-d");
 				$adsurveyQuT->save($adsurveyQuUpdData);
 				$this->Flash->success(__('The Survey Question data has been saved.'));
@@ -304,7 +308,7 @@ class AdminController extends AppController {
 			$this->set ( "surveys", $surveys);
 			$this->set('id', $id);
 	}
-    public function feildexecutive() {
+    public function fieldexecutive() {
 		$feilddata = $this->FeildExecutive->find('all');
 		$feildexecutiveData = $this->paginate($feilddata);
 		$this->set ("feildexecutiveData", $feildexecutiveData);
@@ -339,13 +343,14 @@ class AdminController extends AppController {
 
 	public function addmastermain(){
 		$data = $this->request->getData();
+		
 		if (!empty($data['Name'])) {
             $admasterT = TableRegistry::get('MasterMain');
             $adsurveyQuUpdData = $this->MasterMain->newEmptyEntity();
             $adsurveyQuUpdData->name = $data['Name'];
-            $adsurveyQuUpdData->createdby = (int)$this->userdt;
-            $adsurveyQuUpdData->created_on = date("Y-m-d");
-            $adsurveyQuUpdData->status = 1;
+            $adsurveyQuUpdData->created_by = (int)$this->userdt['id'];
+            //$adsurveyQuUpdData->created_on = date("Y-m-d");
+            //$adsurveyQuUpdData->status = 1;
 			$admasterT->save($adsurveyQuUpdData);
             $this->Flash->success(__('The Master_main data has been saved.'));
         } else {

@@ -108,9 +108,9 @@
 					</a></li>
 					<li class="nav-item">
 					<?php
-					echo $this->Html->link ( '<i class="nav-icon fas fa-user"></i><p>Feild Executive</p>', [ 
+					echo $this->Html->link ( '<i class="nav-icon fas fa-user"></i><p>Field Executive</p>', [ 
 							'controller' => "admin",
-							"action" => "feildexecutive" 
+							"action" => "fieldexecutive" 
 					], [ 
 							'escape' => false,
 							'class' => 'nav-link ' . (($action == 'feildexecutive') ? 'active' : '') 

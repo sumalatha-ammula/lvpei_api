@@ -58,6 +58,14 @@
                                 ], [
                                     'class' => 'fas fa-poll-h'
                                 ]);
+                                ?> | <?php
+                                echo $this->Html->link("", [
+                                    'controller' => "Admin",
+                                    'action' => 'surveyparticipants',
+                                    $survey->id
+                                ], [
+                                    'class' => 'fas fa-users'
+                                ]);
                                 ?> 
 						</td>
 					</tr>
