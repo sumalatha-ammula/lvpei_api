@@ -36,7 +36,7 @@
         $this->viewBuilder()->settemplate("response");
             
             // $this->loadComponent("Media");
-            $this->loadModel("FeildExecutive");
+            $this->loadModel("FieldExecutive");
             $this->loadModel("Survey");
             $this->loadModel("SurveyQuestions");
             $this->loadModel("MasterMain");
@@ -52,26 +52,26 @@
             $result['error'] = 1;
             if($this->request->is('post')){
                 $data = $this->request->getdata();                 
-                $feilddata = $this->FeildExecutive->find('all')
+                $fielddata = $this->FieldExecutive->find('all')
                 ->where([
                     'password' => $data['password'], 'username' => $data['username']
             ])
                 ->toArray();                
-                if (count($feilddata) == 0) {
+                if (count($fielddata) == 0) {
                     $result = 'The User Login Not Done.';
                     $result=[
                         'error'=>1
                     ];
                 }else{
-                $lt = TableRegistry::get('FeildExecutive');
-                $ld = $lt->get($feilddata[0]->id);
+                $lt = TableRegistry::get('FieldExecutive');
+                $ld = $lt->get($fielddata[0]->id);
                 $ld->token = $this->generatetoken();
                 $ld->deviceid = isset($data['deviceid']) ? $data['deviceid'] : '';
                 $ld->deviceinfo = isset($data['deviceinfo']) ? $data['deviceinfo'] : '';
-                $feilddata[0]->token = $ld->token;
+                $fielddata[0]->token = $ld->token;
                 $lt->save($ld);
                 $result = [
-                    'error' => 0,'member' => $feilddata[0],'status' => 200
+                    'error' => 0,'member' => $fielddata[0],'status' => 200
                 ];
 
                 }                 
@@ -85,16 +85,29 @@
 }
 
 public function surveyquestions(){
-    $result =[];
-   $result = $this->SurveyQuestions->find('all')
-   ->contain(['MasterMain','MasterMain.MasterOptions'])->toArray();
-   $this->set ("result",   $result); 
+    $sqs =[];
+    $sqs = $this->SurveyQuestions->find('all')
+    // ->select(['SurveyQuestions.section'])
+   ->contain(['MasterMain','MasterMain.MasterOptions'])->
+   group(['SurveyQuestions.section','SurveyQuestions.id'])->toArray();
+   $final=[];
+   foreach($sqs as $question){
+    $tmpArray = [
+        'master_main_name' => @$question['master_main']['name'], 
+        'options' =>@$question['master_main']['master_options'],
+        'section'=>@$question['section'] ,
+        'question'=>@$question['question'] ,
+    ];    
+    $final[$question['section']][] = $tmpArray;
+
+
+   }
+   $this->set ("result",   array_values($final)); 
 }
 
 public function patientdetails(){
     if($this->request->is('post')){
-        $data = $this->request->getData();
-        debug($data);
+        $data = $this->request->getData();        
         // die;
        $patientdata = TableRegistry::get('Partcipants');
        $patientdetails = $this->Partcipants->newEmptyEntity();
@@ -108,6 +121,7 @@ public function patientdetails(){
        $patientdetails->education =$data["education"];
        $patientdetails->gender =$data["gender"];
        $patientdetails->status =$data["status"];
+       $patientdetails->is_survey = $data["is_survey"];
        $patientdetails->monthlyincome =$data["monthlyincome"];
        $patientdetails->dateofbirth = $data["dateofbirth"];
        $patientdetails->country = $data["country"];
@@ -120,14 +134,45 @@ public function patientdetails(){
     }
    
 }
-public function participantList(){
- 
+     public function participantList(){ 
     $data = $this->request->getData();       
     $result =[];         
     $result = $this->Partcipants->find ( 'all' )
-    ->where(['survey_id' => $data['id']])->toArray();
-    
+    ->where(['survey_id' => $data['id']])->toArray();    
     $this->set ("result",   $result);  
+    }
+    public function sectiondata(){
+        $result = [];
+        $result = $this->SurveyQuestions->find ( 'all' )->group(['section']);
+     
+        // ->contain(['MasterMain','MasterMain.MasterOptions'])
+        // ->where(['section'=>'Section A- Demographic Information'])
+        // ->toArray(); 
+    
+        // $sectiondataB = $this->SurveyQuestions->find ( 'all' )
+        // ->contain(['MasterMain','MasterMain.MasterOptions'])
+        // ->where(['section'=>'Section B- Clinical Examination'])
+        // ->toArray();
+    
+        // $sectiondataC = $this->SurveyQuestions->find ( 'all' )
+        // ->contain(['MasterMain','MasterMain.MasterOptions'])
+        // ->where(['section'=>'Section C - Spectacle Information'])
+        // ->toArray();
+    
+        // $sectiondataD = $this->SurveyQuestions->find ( 'all' )
+        // ->contain(['MasterMain','MasterMain.MasterOptions'])
+        // ->where(['section'=>'Section D - Surgery Information and Systemic conditions'])
+        // ->toArray();
+    
+        // $result = [
+        //     'sectiondataA'=>$sectiondataA,
+        //     'sectiondataB'=>$sectiondataB,
+        //     'sectiondataC'=>$sectiondataC,
+        //     'sectiondataD'=>$sectiondataD,
+    
+        // ];
+        // debug($result);
+        $this->set ("result",$result);
     }
 }
 
