@@ -1,0 +1,4 @@
+ALTER TABLE `master_main` CHANGE `status` `status` TINYINT(1) NOT NULL DEFAULT '1';
+ALTER TABLE `survey` CHANGE `status` `status` TINYINT(1) NOT NULL DEFAULT '1';
+ALTER TABLE `survey_questions` CHANGE `created_by` `created_by` INT(32) NOT NULL;
+

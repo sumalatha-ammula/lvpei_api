@@ -45,7 +45,7 @@
                             'id' => 'edit_section',
                             'class' => "form-control ra_input",
                         ]);
-                        echo $this->Form->control('Qution', [
+                        echo $this->Form->control('Question', [
                             'type' => "text",
                             //   'readonly' => true,
                             'id' => 'edit_section',
