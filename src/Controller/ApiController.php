@@ -99,6 +99,7 @@ public function patientdetails(){
        $patientdata = TableRegistry::get('Partcipants');
        $patientdetails = $this->Partcipants->newEmptyEntity();
        $patientdetails->name =$data["name"];
+       $patientdetails->survey_id =$data["survey_id"];
        $patientdetails->created_on = date("Y-m-d");
        $patientdetails->age =$data["age"];
        $patientdetails->mobile =$data["mobile"];
@@ -120,9 +121,14 @@ public function patientdetails(){
    
 }
 public function participantList(){
+ 
+    $data = $this->request->getData();       
     $result =[];         
-    $result = $this->Partcipants->find ( 'all' )->toArray();                
+    $result = $this->Partcipants->find ( 'all' )
+    ->where(['survey_id' => $data['id']])->toArray();
+    
     $this->set ("result",   $result);  
+    }
 }
 
-    }
+   
