@@ -98,7 +98,7 @@
 	<aside class="main-sidebar sidebar-dark-primary elevation-4">
 		<!-- Brand Logo -->
 		<a class="navbar-brand " href="<?= $this->Url->build(['controller' => 'Dashboard', 'action' => 'index']) ?>">
-      <?= $this->Html->image('LV Prasad Eye.png', ['alt' => 'Image', 'class' => '', /* 'width' => '130', */ 'height' => '45' ]); ?>
+      <?= $this->Html->image('LV Prasad Eye.png', ['alt' => 'Image', 'class' => 'ml-3', /* 'width' => '130', */ 'height' => '45' ]); ?>
 
       </a>
 		<!-- <a href="#" class="brand-link"> <span class="brand-text font-weight-light">RAVIAPP</span>
