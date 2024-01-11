@@ -68,7 +68,16 @@
                        
                     </tbody>
 			</table>
-			
+			<div class="paginator">
+					<ul class="pagination">
+                        <?= $this->Paginator->first('<< ' . __('first')) ?>
+                        <?= $this->Paginator->prev('< ' . __('previous')) ?>
+                        <?= $this->Paginator->numbers() ?>
+                        <?= $this->Paginator->next(__('next') . ' >') ?>
+                        <?= $this->Paginator->last(__('last') . ' >>') ?>
+                    </ul>
+					<p><?= $this->Paginator->counter(__('Page {{page}} of {{pages}}, showing {{current}} record(s) out of {{count}} total')) ?></p>
+				</div>
 		</div>
 		<!-- /.card-body -->
 	</div>
@@ -211,7 +220,7 @@ $(".viewsurveyquestions").on("click", function(e){
 		
 		if(qcount == "" || qcount <= 1 ){
 			err = 1;
-			errmsg = "Should have atleast one option"; 
+			errmsg = "Should have atleast two option"; 
 			}
 		if($("#question").val() == ""){
 			err = 1;
