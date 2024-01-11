@@ -40,6 +40,10 @@ class MasterOptionsTable extends Table
         $this->setTable('master_options');
         $this->setDisplayField('option_value');
         $this->setPrimaryKey('id');
+
+        $this->hasOne('SurveyQuestions', [
+            'foreignKey' => 'master_main_id',
+        ]);
     }
 
     /**

@@ -52,23 +52,20 @@ class PartcipantsTable extends Table
     {
         $validator
             ->scalar('name')
-            ->maxLength('name', 255)
+            ->maxLength('name', 250)
             ->requirePresence('name', 'create')
             ->notEmptyString('name');
 
         $validator
-            ->requirePresence('fe_id', 'create')
-            ->notEmptyString('fe_id');
+            ->allowEmptyString('field_executive_id');
 
         $validator
-            ->requirePresence('survey_id', 'create')
-            ->notEmptyString('survey_id');
+            ->allowEmptyString('survey_id');
 
         $validator
             ->scalar('is_survey')
             ->maxLength('is_survey', 255)
-            ->requirePresence('is_survey', 'create')
-            ->notEmptyString('is_survey');
+            ->allowEmptyString('is_survey');
 
         $validator
             ->dateTime('created_on')
@@ -87,19 +84,19 @@ class PartcipantsTable extends Table
 
         $validator
             ->scalar('mobile')
-            ->maxLength('mobile', 32)
+            ->maxLength('mobile', 12)
             ->requirePresence('mobile', 'create')
             ->notEmptyString('mobile');
 
         $validator
             ->scalar('adharnumber')
-            ->maxLength('adharnumber', 255)
+            ->maxLength('adharnumber', 200)
             ->requirePresence('adharnumber', 'create')
             ->notEmptyString('adharnumber');
 
         $validator
             ->scalar('occupation')
-            ->maxLength('occupation', 255)
+            ->maxLength('occupation', 200)
             ->requirePresence('occupation', 'create')
             ->notEmptyString('occupation');
 
@@ -116,10 +113,52 @@ class PartcipantsTable extends Table
             ->notEmptyString('status');
 
         $validator
-            ->scalar('monthlyincome')
-            ->maxLength('monthlyincome', 255)
             ->requirePresence('monthlyincome', 'create')
             ->notEmptyString('monthlyincome');
+
+        $validator
+            ->date('dateofbirth')
+            ->allowEmptyDate('dateofbirth');
+
+        $validator
+            ->scalar('country')
+            ->maxLength('country', 30)
+            ->requirePresence('country', 'create')
+            ->notEmptyString('country');
+
+        $validator
+            ->scalar('state')
+            ->maxLength('state', 33)
+            ->requirePresence('state', 'create')
+            ->notEmptyString('state');
+
+        $validator
+            ->scalar('district')
+            ->maxLength('district', 33)
+            ->requirePresence('district', 'create')
+            ->notEmptyString('district');
+
+        $validator
+            ->scalar('area')
+            ->maxLength('area', 33)
+            ->requirePresence('area', 'create')
+            ->notEmptyString('area');
+
+        $validator
+            ->scalar('areawardno')
+            ->maxLength('areawardno', 33)
+            ->allowEmptyString('areawardno');
+
+        $validator
+            ->integer('pincode')
+            ->requirePresence('pincode', 'create')
+            ->notEmptyString('pincode');
+
+        $validator
+            ->scalar('education')
+            ->maxLength('education', 100)
+            ->requirePresence('education', 'create')
+            ->notEmptyString('education');
 
         return $validator;
     }

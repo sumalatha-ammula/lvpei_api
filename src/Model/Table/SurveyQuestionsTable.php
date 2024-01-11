@@ -57,6 +57,10 @@ class SurveyQuestionsTable extends Table
             'foreignkey' => 'master_main_id',
             
          ]);
+         $this->belongsTo('MasterOptions', [
+            'foreignKey' => 'master_main_id',
+            'joinType' => 'INNER',
+]);
     }
 
     /**

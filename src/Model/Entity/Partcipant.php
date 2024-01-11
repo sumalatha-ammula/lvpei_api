@@ -10,9 +10,9 @@ use Cake\ORM\Entity;
  *
  * @property int $id
  * @property string $name
- * @property int $fe_id
- * @property int $survey_id
- * @property string $is_survey
+ * @property int|null $field_executive_id
+ * @property int|null $survey_id
+ * @property string|null $is_survey
  * @property \Cake\I18n\FrozenTime $created_on
  * @property int $created_by
  * @property string $age
@@ -21,7 +21,15 @@ use Cake\ORM\Entity;
  * @property string $occupation
  * @property string $gender
  * @property string $status
- * @property string $monthlyincome
+ * @property int $monthlyincome
+ * @property \Cake\I18n\FrozenDate|null $dateofbirth
+ * @property string $country
+ * @property string $state
+ * @property string $district
+ * @property string $area
+ * @property string|null $areawardno
+ * @property int $pincode
+ * @property string $education
  */
 class Partcipant extends Entity
 {
@@ -36,7 +44,7 @@ class Partcipant extends Entity
      */
     protected $_accessible = [
         'name' => true,
-        'fe_id' => true,
+        'field_executive_id' => true,
         'survey_id' => true,
         'is_survey' => true,
         'created_on' => true,
@@ -48,5 +56,13 @@ class Partcipant extends Entity
         'gender' => true,
         'status' => true,
         'monthlyincome' => true,
+        'dateofbirth' => true,
+        'country' => true,
+        'state' => true,
+        'district' => true,
+        'area' => true,
+        'areawardno' => true,
+        'pincode' => true,
+        'education' => true,
     ];
 }
