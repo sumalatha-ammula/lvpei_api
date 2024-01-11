@@ -40,7 +40,7 @@ class AdminController extends AppController {
 		$this->loadModel ( 'Admin' );
 		$this->loadModel( 'MasterMain' );
 		$this->loadModel( 'MasterOptions');
-		$this->loadModel("FeildExecutive");
+		$this->loadModel("FieldExecutive");
 		$this->loadModel("Survey");
 		$this->loadModel("SurveyQuestions");
 		
@@ -243,7 +243,7 @@ class AdminController extends AppController {
 				$adsurveyQuUpdData->name = $data['Name'];
 				$adsurveyQuUpdData->country = $data['Selected_Country'];
 				$adsurveyQuUpdData->village = $data['Village_Name'];
-				$adsurveyQuUpdData->created_by = (int)$this->userdt;
+				$adsurveyQuUpdData->created_by = $this->userdt['id'];
 				//$adsurveyQuUpdData->created_on = date("Y-m-d");
 				//$adsurveyQuUpdData->status = 1;
 				$adsurveyT->save($adsurveyQuUpdData);
@@ -268,15 +268,15 @@ class AdminController extends AppController {
 				$masterID = $data['Select_Survey_Question'];
 			}
 			
-			if (!empty($data['Qution'])) {
+			if (!empty($data['Question'])) {
 				$adsurveyQuT = TableRegistry::get('SurveyQuestions');
 				$adsurveyQuUpdData = $this->SurveyQuestions->newEmptyEntity();
 				$adsurveyQuUpdData->section = $data['Section'];
-				$adsurveyQuUpdData->question = $data['Qution'];
+				$adsurveyQuUpdData->question = $data['Question'];
 				$adsurveyQuUpdData->option_type = $data['Option_Type'];
 				$adsurveyQuUpdData->master_main_id= $masterID;
 				$adsurveyQuUpdData->survey_id = $data['id'];
-				$adsurveyQuUpdData->created_by = (int)$this->userdt['id'];
+				$adsurveyQuUpdData->created_by = $this->userdt['id'];
 				$adsurveyQuUpdData->created_on = date("Y-m-d");
 				$adsurveyQuT->save($adsurveyQuUpdData);
 				$this->Flash->success(__('The Survey Question data has been saved.'));
@@ -309,7 +309,7 @@ class AdminController extends AppController {
 			$this->set('id', $id);
 	}
     public function fieldexecutive() {
-		$feilddata = $this->FeildExecutive->find('all');
+		$feilddata = $this->FieldExecutive->find('all');
 		$feildexecutiveData = $this->paginate($feilddata);
 		$this->set ("feildexecutiveData", $feildexecutiveData);
        }
@@ -319,8 +319,8 @@ class AdminController extends AppController {
             if($this->request->is('post')){
                 $data = $this->request->getdata();
 				// debug($data);
-                $addrT_Data = TableRegistry::get('FeildExecutive');
-                $adUpdr_Data= $this->FeildExecutive->newEmptyEntity();
+                $addrT_Data = TableRegistry::get('FieldExecutive');
+                $adUpdr_Data= $this->FieldExecutive->newEmptyEntity();
                 // $adUpdr_Data->name =  $data['Mobilenumber'];
                 $adUpdr_Data->email = $data['email'];
                 $adUpdr_Data->password =  $data['password'];
@@ -328,7 +328,7 @@ class AdminController extends AppController {
                 $addrT_Data->save($adUpdr_Data); 
                 $result = 'The register Data has been saved.';
 				return $this->redirect ( [
-					'action' => 'feildexecutive'
+					'action' => 'fieldexecutive'
 			]);
             }
 		return null;
@@ -348,9 +348,9 @@ class AdminController extends AppController {
             $admasterT = TableRegistry::get('MasterMain');
             $adsurveyQuUpdData = $this->MasterMain->newEmptyEntity();
             $adsurveyQuUpdData->name = $data['Name'];
-            $adsurveyQuUpdData->created_by = (int)$this->userdt['id'];
+            $adsurveyQuUpdData->created_by = $this->userdt['id'];
             //$adsurveyQuUpdData->created_on = date("Y-m-d");
-            //$adsurveyQuUpdData->status = 1;
+            $adsurveyQuUpdData->status = 1;
 			$admasterT->save($adsurveyQuUpdData);
             $this->Flash->success(__('The Master_main data has been saved.'));
         } else {
@@ -374,7 +374,7 @@ class AdminController extends AppController {
 					$mastersort = $mastersort_Data[$index];
 			
 					$admasterOpUpdData = $this->MasterOptions->newEmptyEntity();
-					$admasterOpUpdData->created_by = (int)$this->userdt;
+					$admasterOpUpdData->created_by = $this->userdt['id'];
 					$admasterOpUpdData->status = 1;
 					$admasterOpUpdData->created_on = date("Y-m-d");
 					$admasterOpUpdData->master_main_id = $data['master_main_id'];

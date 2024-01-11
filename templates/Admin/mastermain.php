@@ -89,13 +89,7 @@
 			</div>
 			<div class="modal-body">
 				<div class="card-body">
-					<!-- <div class="form-group">
-						<label for="inputName">Question</label> <input type="text" name="questions" id="question" class="form-control">
-					</div> -->
-					<!-- <div class="form-group">
-						<label for="inputStatus">Answer Type</label> <select class="form-control" id="q_type"><option value="radio">Radio</option>
-							<option value="check">Check Box</option></select>
-					</div> -->
+					
 					<div class="form-group" style="padding-top: 10px;">
 						<label for="inputStatus">Option_Value</label> <input type="number" id="noans" class="noans  form-control">
 					</div>

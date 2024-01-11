@@ -21,23 +21,23 @@ ALTER TABLE `userdata`
   MODIFY `id` bigint(32) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 COMMIT;
 
-
-CREATE TABLE `feild_executive` (
+CREATE TABLE `field_executive` (
   `id` bigint(255) NOT NULL,
   `username` varchar(200) NOT NULL,
   `email` varchar(33) NOT NULL,
   `password` varchar(200) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
-INSERT INTO `feild_executive` (`id`, `username`, `email`, `password`) VALUES
-(1, 'ajayram', 'adhi_varaham12@gmail.com', '123qwe'),
+INSERT INTO `field_executive` (`id`, `username`, `email`, `password`) VALUES
+(1, 'ajay ram', 'adhi_varaham12@gmail.com', '123qwe'),
+(2, 'rvadmin', 'apprv12@gmail.com', '123qw');
 
-ALTER TABLE `feild_executive`
+ALTER TABLE `field_executive`
   ADD PRIMARY KEY (`id`);
 
-  ALTER TABLE `feild_executive`
+ALTER TABLE `field_executive`
   MODIFY `id` bigint(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
-  COMMIT;
+COMMIT;
 
 
 CREATE TABLE `master_main` (

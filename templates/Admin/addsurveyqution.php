@@ -34,35 +34,35 @@
                             'Dropdown'=>'Dropdown',
                             'Text Box'=>'Text Box',
                             ];
-                         echo $this->Form->create(null, array(
+                            echo $this->Form->create(null, array(
                             'url' => array(
                                 'controller' => 'Admin', 'action' => 'addqutionsurveyrvapp'
                             ),
-                        ));
-                        echo $this->Form->control('Section', [
+                            ));
+                            echo $this->Form->control('Section', [
                             'type' => "text",
                             //   'readonly' => true,
                             'id' => 'edit_section',
                             'class' => "form-control ra_input",
-                        ]);
-                        echo $this->Form->control('Question', [
+                            ]);
+                            echo $this->Form->control('Question', [
                             'type' => "text",
                             //   'readonly' => true,
                             'id' => 'edit_section',
                             'class' => "form-control ra_input",
-                        ]);
+                            ]);
                        
-                          echo $this->Form->control('Option Type', [
+                            echo $this->Form->control('Option Type', [
                             'type' => 'select',
                             'options' => $AnswerType,
                             'id' => 'answer_type',
                             'class' => 'form-control people', // Add any additional classes as needed
-                        ]);
+                            ]);
                              ?>
-                       </div>
-                       <div id="dropdown_field" style="display: none;">
-                       <?php
-                          echo $this->Form->control('Select Survey Question', [
+                            </div>
+                            <div id="dropdown_field" style="display: none;">
+                            <?php
+                            echo $this->Form->control('Select Survey Question', [
                               'type' => 'select',
                               'options' =>  $masterOptionData, 
                               'class' => 'form-control people',
@@ -73,10 +73,10 @@
                                 <div id="text_field" style="display: none;">
                                 <?php
                                  // Code for text field here
-                                 echo $this->Form->control('Text Field', [
-                                    'type' => 'text',
-                                    'class' => 'form-control people',
-                                   ]);
+                                //  echo $this->Form->control('Text Field', [
+                                //     'type' => 'text',
+                                //     'class' => 'form-control people',
+                                //    ]);
                                    ?>
                                  </div>
                                <?php echo $this->Form->control('id', [
@@ -87,12 +87,12 @@
                                ]); ?>
                    
 					         <div class="surveyoptions" id="surveyoptions"></div>
-				           </div>
-                           <div class="rv_app_space" style="margin-left: 20px;">
-                           <?= $this->Form->button(__('Submit'), ['class' => "btn  bg-gradient-primary  btncompany"]) ?>
-                           <a class="btn btn-danger" data-dismiss="modal">Cancel</a>
-                           </div>
-                           <?= $this->Form->end() ?>
+				             </div>
+                             <div class="rv_app_space" style="margin-left: 20px;">
+                             <?= $this->Form->button(__('Submit'), ['class' => "btn  bg-gradient-primary  btncompany"]) ?>
+                             <a class="btn btn-danger" data-dismiss="modal">Cancel</a>
+                             </div>
+                             <?= $this->Form->end() ?>
 
 			          </div>
 		            </div>
@@ -115,8 +115,6 @@
                         <th>Option Type</th>
                         <th>Master Main ID</th>
                         <th>Created On</th>
-					
-				
 				</thead>
 				<tbody>
                         <?php foreach ($surveys as $survey): ?>
