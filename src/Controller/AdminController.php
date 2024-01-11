@@ -336,7 +336,7 @@ class AdminController extends AppController {
 
 	public function mastermain(){
 		$masterdata = $this->MasterMain->find ( 'all' );
-		$master = $this->paginate ($masterdata);
+		$master = $this->paginate($masterdata);
 		$this->set ( "master", $master);
 
 	}
