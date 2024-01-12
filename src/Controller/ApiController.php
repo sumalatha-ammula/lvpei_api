@@ -97,6 +97,7 @@ public function surveyquestions(){
         'options' =>@$question['master_main']['master_options'],
         'section'=>@$question['section'] ,
         'question'=>@$question['question'] ,
+        'question_id'=>@$question['id']
     ];    
     $final[$question['section']][] = $tmpArray;
 
