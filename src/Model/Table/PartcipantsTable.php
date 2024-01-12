@@ -84,7 +84,7 @@ class PartcipantsTable extends Table
 
         $validator
             ->scalar('mobile')
-            ->maxLength('mobile', 12)
+            ->maxLength('mobile', 20)
             ->requirePresence('mobile', 'create')
             ->notEmptyString('mobile');
 

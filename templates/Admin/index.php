@@ -1,4 +1,5 @@
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<title>LV Prasad Eye Hospital - Ravi</title>
 <?= $this->Html->css(['owl.carousel.min', 'bootstrap.min','style','select2.min']); ?> <!-- Include CSS files -->
     <?= $this->Html->css('font/style.css'); ?>
     <?= $this->Html->css('bootstrap/select2-bootstrap4.min.css'); ?>

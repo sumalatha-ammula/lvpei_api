@@ -97,13 +97,22 @@ public function surveyquestions(){
         'options' =>@$question['master_main']['master_options'],
         'section'=>@$question['section'] ,
         'question'=>@$question['question'] ,
-        'question_id'=>@$question['id']
+        'question_id'=> $question['id'],
+        'survey_id' => $question['survey_id']
     ];    
     $final[$question['section']][] = $tmpArray;
 
 
    }
    $this->set ("result",   array_values($final)); 
+}
+
+public function savesurveydata(){
+    if($this->request->is('post')){
+        $data = $this->request->getdata();  
+        debug($data);
+    }
+    $this->set ("result",   []); 
 }
 
 public function patientdetails(){
@@ -131,6 +140,8 @@ public function patientdetails(){
        $patientdetails->area = $data["area"];
        $patientdetails->areawardno = $data["areawardno"];
        $patientdetails->pincode = $data["pincode"];
+
+       $patientdetails->created_by = 1;
        $patientdata->save($patientdetails);
     }
    
