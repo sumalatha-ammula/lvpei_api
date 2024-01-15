@@ -85,23 +85,31 @@
 }
 
 public function surveyquestions(){
-    $sqs =[];
-    $sqs = $this->SurveyQuestions->find('all')
-    // ->select(['SurveyQuestions.section'])
-   ->contain(['MasterMain','MasterMain.MasterOptions'])->
-   group(['SurveyQuestions.section','SurveyQuestions.id'])->toArray();
-   $final=[];
-   foreach($sqs as $question){
-    $tmpArray = [
-        'master_main_name' => @$question['master_main']['name'], 
-        'options' =>@$question['master_main']['master_options'],
-        'section'=>@$question['section'] ,
-        'question'=>@$question['question'] ,
-        'question_id'=> $question['id'],
-        'survey_id' => $question['survey_id']
-    ];    
-    $final[$question['section']][] = $tmpArray;
+    if($this->request->is('post')){
+        $data = $this->request->getdata();        
+        $sqs =[];
+        $sqs = $this->SurveyQuestions->find('all')
+        // ->select(['SurveyQuestions.section'])
+       ->contain(['MasterMain','MasterMain.MasterOptions','survey'])->
+       group(['SurveyQuestions.section','SurveyQuestions.id'])->
+       where(['SurveyQuestions.survey_id'=> $data['id']])->toArray();
+       $final=[];
+       foreach($sqs as $question){
+        // print_r($question);die;
+        $tmpArray = [
+            'master_main_name' => @$question['master_main']['name'], 
+            'options' =>@$question['master_main']['master_options'],
+            'section'=>@$question['section'] ,
+            'question'=>@$question['question'] ,
+            'question_id'=> $question['id'],
+            'survey_id' => $question['survey_id'],
+            'survey'=>$question['survey']
+        ];    
+        $final[$question['section']][] = $tmpArray;
+    
+    }
 
+    
 
    }
    $this->set ("result",   array_values($final)); 
@@ -118,7 +126,6 @@ public function savesurveydata(){
 public function patientdetails(){
     if($this->request->is('post')){
         $data = $this->request->getData();        
-        // die;
        $patientdata = TableRegistry::get('Partcipants');
        $patientdetails = $this->Partcipants->newEmptyEntity();
        $patientdetails->name =$data["name"];
@@ -140,13 +147,13 @@ public function patientdetails(){
        $patientdetails->area = $data["area"];
        $patientdetails->areawardno = $data["areawardno"];
        $patientdetails->pincode = $data["pincode"];
-
        $patientdetails->created_by = 1;
        $patientdata->save($patientdetails);
     }
    
 }
-     public function participantList(){ 
+     
+    public function participantList(){ 
     $data = $this->request->getData();       
     $result =[];         
     $result = $this->Partcipants->find ( 'all' )
@@ -155,35 +162,7 @@ public function patientdetails(){
     }
     public function sectiondata(){
         $result = [];
-        $result = $this->SurveyQuestions->find ( 'all' )->group(['section']);
-     
-        // ->contain(['MasterMain','MasterMain.MasterOptions'])
-        // ->where(['section'=>'Section A- Demographic Information'])
-        // ->toArray(); 
-    
-        // $sectiondataB = $this->SurveyQuestions->find ( 'all' )
-        // ->contain(['MasterMain','MasterMain.MasterOptions'])
-        // ->where(['section'=>'Section B- Clinical Examination'])
-        // ->toArray();
-    
-        // $sectiondataC = $this->SurveyQuestions->find ( 'all' )
-        // ->contain(['MasterMain','MasterMain.MasterOptions'])
-        // ->where(['section'=>'Section C - Spectacle Information'])
-        // ->toArray();
-    
-        // $sectiondataD = $this->SurveyQuestions->find ( 'all' )
-        // ->contain(['MasterMain','MasterMain.MasterOptions'])
-        // ->where(['section'=>'Section D - Surgery Information and Systemic conditions'])
-        // ->toArray();
-    
-        // $result = [
-        //     'sectiondataA'=>$sectiondataA,
-        //     'sectiondataB'=>$sectiondataB,
-        //     'sectiondataC'=>$sectiondataC,
-        //     'sectiondataD'=>$sectiondataD,
-    
-        // ];
-        // debug($result);
+        $result = $this->SurveyQuestions->find ( 'all' )->group(['section']);        
         $this->set ("result",$result);
     }
 }
