@@ -108,8 +108,8 @@ class SurveyDataTable extends Table
      */
     public function buildRules(RulesChecker $rules): RulesChecker
     {
-        $rules->add($rules->existsIn('survey_questions_id', 'SurveyQuestions'), ['errorField' => 'survey_questions_id']);
-        $rules->add($rules->existsIn('partcipants_id', 'Partcipants'), ['errorField' => 'partcipants_id']);
+        //$rules->add($rules->existsIn('survey_questions_id', 'SurveyQuestions'), ['errorField' => 'survey_questions_id']);
+        //$rules->add($rules->existsIn('partcipants_id', 'Partcipants'), ['errorField' => 'partcipants_id']);
 
         return $rules;
     }

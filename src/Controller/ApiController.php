@@ -41,6 +41,7 @@
             $this->loadModel("SurveyQuestions");
             $this->loadModel("MasterMain");
             $this->loadModel("Partcipants");
+            $this->loadModel("SurveyData");
         }        
         private function generatetoken() {
             $token = bin2hex(random_bytes(16));
@@ -117,8 +118,26 @@ public function surveyquestions(){
 
 public function savesurveydata(){
     if($this->request->is('post')){
-        $data = $this->request->getdata();  
-        debug($data);
+        $data = $this->request->getdata(); 
+        $data = json_decode($data['fdata']);
+        foreach($data as $d){
+            
+            $surveydata = $this->SurveyData->newEmptyEntity();
+            $surveydetails = [];
+            $surveydetails['survey_id'] = $d->survey_id;
+            $surveydetails['survey_questions_id'] = $d->question_id;
+            $surveydetails['field_executive_id'] = $d->executive_id;
+            $surveydetails['geo_location'] = '23.23,34,8';
+            $surveydetails['question'] = $d->question;
+            $surveydetails['option_data'] = $d->answer;
+            $surveydetails['partcipants_id'] = $d->participant_id;
+            $sdata = $this->SurveyData->patchEntity($surveydata, $surveydetails);
+            $this->SurveyData->save($sdata);
+            
+
+        }
+        
+       // debug($data);
     }
     $this->set ("result",   []); 
 }
