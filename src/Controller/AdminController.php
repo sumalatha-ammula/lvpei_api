@@ -228,7 +228,16 @@ class AdminController extends AppController {
     public function rvappsurveydata(){
 		$surveydata = $this->Survey->find ( 'all' );
 		$surveys = $this->paginate ( $surveydata);
+		$fieldexecutive = $this->FieldExecutive->find(
+            'list',
+            [
+                'keyField' => 'id',
+                'valueField' => 'username'
+            ]
+        )
+            ->toArray();
 		$this->set ( "surveys", $surveys);
+		$this->set ( "fieldexecutive", $fieldexecutive);
 	}
     
 	public function surveyparticipants($id = null){
@@ -256,6 +265,7 @@ class AdminController extends AppController {
 				$adsurveyT = TableRegistry::get('Survey');
 				$adsurveyQuUpdData = $this->Survey->newEmptyEntity();
 				$adsurveyQuUpdData->name = $data['Name'];
+				$adsurveyQuUpdData->field_executive_id = $data['Field_Executive'];
 				$adsurveyQuUpdData->country = $data['Selected_Country'];
 				$adsurveyQuUpdData->village = $data['Village_Name'];
 				$adsurveyQuUpdData->created_by = $this->userdt['id'];
