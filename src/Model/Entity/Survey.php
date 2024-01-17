@@ -34,5 +34,6 @@ class Survey extends Entity
         'created_on' => true,
         'created_by' => true,
         'status' => true,
+        'field_executive_id'=> true,
     ];
 }
