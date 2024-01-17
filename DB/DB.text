@@ -197,4 +197,4 @@ ALTER TABLE `survey_data`
   MODIFY `id` bigint(255) NOT NULL AUTO_INCREMENT;
 COMMIT;
 
-
+ALTER TABLE `survey` ADD `field_executive_id` BIGINT(32) NOT NULL AFTER `status`;
