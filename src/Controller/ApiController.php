@@ -78,10 +78,20 @@
             }
             $this->set("result", $result);
         }
-        public function survey() {  
-            $result =[];         
-            $result = $this->Survey->find ( 'all' )->toArray();              
-        $this->set ("result",   $result); 
+        public function survey() { 
+            if($this->request->is('post')){
+                $data = $this->request->getdata(); 
+                $result =[];         
+                $result = $this->Survey->find ( 'all' )
+                ->contain(['Partcipants'])
+                ->where(['Survey.field_executive_id'=>$data['id']])
+                ->toArray();              
+            $this->set ("result",   $result); 
+            
+            }
+
+
+           
 }
 
 public function surveyquestions(){
