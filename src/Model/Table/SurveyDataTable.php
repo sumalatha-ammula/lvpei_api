@@ -52,6 +52,16 @@ class SurveyDataTable extends Table
             'foreignKey' => 'partcipants_id',
             'joinType' => 'INNER',
         ]);
+
+        $this->belongsTo('Survey', [
+            'foreignKey' => 'survey_id',
+            'joinType' => 'INNER',
+        ]);
+
+        $this->belongsTo('FieldExecutive', [
+            'foreignKey' => 'field_executive_id',
+            'joinType' => 'INNER',
+        ]);
     }
 
     /**

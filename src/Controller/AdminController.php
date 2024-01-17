@@ -43,6 +43,8 @@ class AdminController extends AppController {
 		$this->loadModel("FieldExecutive");
 		$this->loadModel("Survey");
 		$this->loadModel("SurveyQuestions");
+		$this->loadModel("Partcipants");
+		$this->loadModel("SurveyData");
 		
 		$this->loadComponent ( 'Auth', array (
 				'loginAction' => array (
@@ -229,8 +231,21 @@ class AdminController extends AppController {
 		$this->set ( "surveys", $surveys);
 	}
     
-	public function surveyparticipants(){
+	public function surveyparticipants($id = null){
+		$surveydata = $this->Partcipants->find ( 'all' )
+		->where(['survey_id'=>$id]);
+		$surveys = $this->paginate ( $surveydata);
+		$this->set ( "surveys", $surveys);
 		
+	}
+
+	public function surveyparticipantsdata($id = null){
+		$surveydata = $this->SurveyData->find ( 'all' )
+		->contain(["Survey","SurveyQuestions", "FieldExecutive","Partcipants" ])
+		->where(['partcipants_id'=>$id]);
+		$surveys = $this->paginate ( $surveydata);
+		// debug($surveys);
+		$this->set ( "surveys", $surveys);
 	}
 
 	public function createsurveyrvapp(){
