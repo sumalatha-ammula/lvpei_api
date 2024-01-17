@@ -40,6 +40,10 @@ class FieldExecutiveTable extends Table
         $this->setTable('field_executive');
         $this->setDisplayField('username');
         $this->setPrimaryKey('id');
+
+        $this->belongsTo('surveyData', [
+            'foreignKey' => 'field_executive_id',
+            ]);
     }
 
     /**

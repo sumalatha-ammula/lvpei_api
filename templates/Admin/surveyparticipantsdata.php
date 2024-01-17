@@ -20,7 +20,7 @@
 	<div class="card">
 		<div class="card-header">
 			<div class="card-tools">
-                <h3>Participant List</h3>
+                <h3>Survey Data </h3>
             <!-- <a href="#" class="btn btn-block bg-gradient-primary  btncompany" id="company">Create Survey</a>      -->
                 	</div>
 		</div>
@@ -30,11 +30,12 @@
 				<thead>
 					<tr>
 						<th>Name</th>
-                        <th>Age</th>
-                        <th>Gender</th>
-                        <th>Profession</th>
+                        <th>Survey</th>
+                        <th>Section</th>
+                        <th>Question</th>
+                        <th>Option Data</th>
                         <th>Mobile</th>
-						<th>Actions</th>
+						<th>Field Executive</th>
 				
 				</thead>
 				<tbody>
@@ -42,14 +43,16 @@
                         <tr>
 						<td>
 						<?php
-						echo "<b>" . h ( $survey->name ) . "</b>";
+						echo "<b>" . h ( $survey->partcipant->name ) . "</b>";
 																									?>
 						
 						</td>
-						<td><?= h($survey->age) ?></td>
-						<td><?= h($survey->gender) ?></td>
-						<td><?= h($survey->occupation) ?></td>
-						<td><?= h($survey->mobile); ?></td>
+						<td><?= h($survey->survey->name) ?></td>
+                        <td><?= h($survey->survey_question->section) ?></td>
+						<td><?= h($survey->survey_question->question) ?></td>
+						<td><?= h($survey->option_data) ?></td>
+						<td><?= h($survey->partcipant->mobile); ?></td>
+                        <td><?= h($survey->field_executive->username); ?></td>
 						<!-- <td class="actions"><a href="#"><i class="far fa-edit"></i></a> | <a href="Admin/addsurveyqution" data-question="<?php echo $survey->id;?>" class="addsurveyquestions"><i class="fas fa-poll-h"></i></a>  -->
 						<td> <?php
                                 // echo $this->Html->link("", [
@@ -59,14 +62,14 @@
                                 // ], [
                                 //     'class' => 'fas fa-poll-h'
                                 // ]);
-                                ?> <?php
-                                echo $this->Html->link("", [
-                                    'controller' => "Admin",
-                                    'action' => 'surveyparticipantsdata',
-                                    $survey->id
-                                ], [
-                                    'class' => 'fas fa-users'
-                                ]);
+                                ?>  <?php
+                                // echo $this->Html->link("", [
+                                //     'controller' => "Admin",
+                                //     'action' => 'surveyparticipantsdata',
+                                //     // $survey->id
+                                // ], [
+                                //     'class' => 'fas fa-users'
+                                // ]);
                                 ?> 
 						</td>
 					</tr>
