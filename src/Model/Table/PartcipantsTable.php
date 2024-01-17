@@ -40,6 +40,12 @@ class PartcipantsTable extends Table
         $this->setTable('partcipants');
         $this->setDisplayField('name');
         $this->setPrimaryKey('id');
+
+        
+        $this->belongsTo('Survey', [
+            'foreignKey' => 'survey_id',
+            'joinType' => 'INNER',
+]);
     }
 
     /**

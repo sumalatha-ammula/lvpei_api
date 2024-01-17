@@ -188,6 +188,7 @@ public function patientdetails(){
             'error' => 1,
         ];
     }
+    $this->set('result',$result);
    
 }
      
