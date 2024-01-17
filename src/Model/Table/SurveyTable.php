@@ -40,6 +40,11 @@ class SurveyTable extends Table
         $this->setTable('survey');
         $this->setDisplayField('name');
         $this->setPrimaryKey('id');
+
+        $this->hasMany('Partcipants', [
+            'foreignKey' => 'survey_id',
+            'joinType' => 'INNER',
+        ]);
     }
 
     /**
