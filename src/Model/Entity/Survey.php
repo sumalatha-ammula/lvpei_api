@@ -13,8 +13,9 @@ use Cake\ORM\Entity;
  * @property string $country
  * @property string $village
  * @property \Cake\I18n\FrozenTime $created_on
- * @property string $created_by
+ * @property int $created_by
  * @property int $status
+ * @property int|null $field_executive_id
  */
 class Survey extends Entity
 {
@@ -34,6 +35,6 @@ class Survey extends Entity
         'created_on' => true,
         'created_by' => true,
         'status' => true,
-        'field_executive_id'=> true,
+        'field_executive_id' => true,
     ];
 }

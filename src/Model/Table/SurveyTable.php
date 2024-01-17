@@ -40,6 +40,16 @@ class SurveyTable extends Table
         $this->setTable('survey');
         $this->setDisplayField('name');
         $this->setPrimaryKey('id');
+
+        $this->hasMany('Partcipants', [
+            'foreignKey' => 'survey_id',
+        ]);
+        $this->hasMany('SurveyData', [
+            'foreignKey' => 'survey_id',
+        ]);
+        $this->hasMany('SurveyQuestions', [
+            'foreignKey' => 'survey_id',
+        ]);
     }
 
     /**
@@ -52,19 +62,19 @@ class SurveyTable extends Table
     {
         $validator
             ->scalar('name')
-            ->maxLength('name', 255)
+            ->maxLength('name', 200)
             ->requirePresence('name', 'create')
             ->notEmptyString('name');
 
         $validator
             ->scalar('country')
-            ->maxLength('country', 255)
+            ->maxLength('country', 200)
             ->requirePresence('country', 'create')
             ->notEmptyString('country');
 
         $validator
             ->scalar('village')
-            ->maxLength('village', 255)
+            ->maxLength('village', 200)
             ->requirePresence('village', 'create')
             ->notEmptyString('village');
 
@@ -73,8 +83,6 @@ class SurveyTable extends Table
             ->notEmptyDateTime('created_on');
 
         $validator
-            ->scalar('created_by')
-            ->maxLength('created_by', 255)
             ->requirePresence('created_by', 'create')
             ->notEmptyString('created_by');
 
@@ -83,8 +91,7 @@ class SurveyTable extends Table
             ->notEmptyString('status');
 
         $validator
-            ->requirePresence('field_executive_id', 'create')
-            ->notEmptyString('field_executive_id');
+            ->allowEmptyString('field_executive_id');
 
         return $validator;
     }
