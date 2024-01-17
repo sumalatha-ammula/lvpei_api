@@ -40,14 +40,6 @@ class SurveyTable extends Table
         $this->setTable('survey');
         $this->setDisplayField('name');
         $this->setPrimaryKey('id');
-
-        $this->hasOne('SurveyQuestions', [
-            'foreignKey' => 'survey_id',
-        ]);
-
-        $this->belongsTo('surveyData', [
-            'foreignKey' => 'survey_id',
-            ]);
     }
 
     /**
