@@ -203,7 +203,7 @@ public function patientdetails(){
 
           
        $result = [
-        'error' => 0,'status' => 200, 'id'=>$lastRecordId, 'name'=>$data["name"], 'mobile'=>$data["mobile"]
+        'error' => 0,'status' => 200
     ];
 
     }else{
