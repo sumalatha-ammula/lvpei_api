@@ -131,12 +131,18 @@ public function surveyquestions(){
    $this->set ("result",   array_values($final)); 
 }
 
-public function surveyparticipantsdatarvapp($id = null){
-    $result = $this->SurveyData->find ( 'all' )
-    ->contain(["Survey","SurveyQuestions", "FieldExecutive","Partcipants" ])
-    ->where(['partcipants_id'=>$id]);
-    // debug($surveys);
-    $this->set ("result", $result); 
+public function surveyparticipantsdatarvapp(){
+    if($this->request->is('post')){
+        $data = $this->request->getdata();
+        $result = $this->SurveyData->find ( 'all' )
+        ->contain(["Survey","SurveyQuestions", "FieldExecutive","Partcipants" ])
+        ->where(['partcipants_id'=>$data['id']]);
+        // debug($surveys);
+        $this->set ("result", $result);  
+    
+    
+    }
+   
 }
 
 public function savesurveydata(){
