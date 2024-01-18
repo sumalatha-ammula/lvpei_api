@@ -201,9 +201,8 @@ public function patientdetails(){
        $lastParticipant = $this->Partcipants->find('all')->last();
        $lastRecordId = $lastParticipant->id;
 
-          
        $result = [
-        'error' => 0,'status' => 200
+        'error' => 0,'status' => 200, 'id'=>$lastRecordId, 'name'=>$data["name"], 'mobile'=>$data["mobile"]
     ];
 
     }else{
