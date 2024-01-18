@@ -80,29 +80,22 @@
             $this->set("result", $result);
         }
         public function survey() { 
-            $result=[];
-            $result['error'] = 1;
             if($this->request->is('post')){
-                $data = $this->request->getdata();  
-          
-                $Surveydat = $this->Survey->find ( 'all' )
+                $data = $this->request->getdata(); 
+                $result =[];         
+                $result = $this->Survey->find ( 'all' )
                 ->contain(['Partcipants'])
                 ->where(['Survey.field_executive_id'=>$data['id']])
-                ->toArray();   
-                $Partcipantcount = $this->Survey->find ( 'all' )
-                ->contain(['Partcipants'])
-                ->where(['Survey.field_executive_id'=>$data['id']])->count(); 
-                $result = [
-                    'error' => 0,'status' => 200, 'Surveydata'=> $Surveydat, 'Partcipantcount'=>$Partcipantcount
-                ];          
+                ->toArray();              
+            $this->set ("result",   $result); 
             
             }
-            $this->set ("result",   $result);           
-            }
+
+
+           
+}
 
 public function surveyquestions(){
-    $result=[];
-    $result['error'] = 1;
     if($this->request->is('post')){
         $data = $this->request->getdata();        
         $sqs =[];
@@ -127,21 +120,13 @@ public function surveyquestions(){
     
     }
 
+    
+
    }
    $this->set ("result",   array_values($final)); 
 }
 
-public function surveyparticipantsdatarvapp($id = null){
-    $result = $this->SurveyData->find ( 'all' )
-    ->contain(["Survey","SurveyQuestions", "FieldExecutive","Partcipants" ])
-    ->where(['partcipants_id'=>$id]);
-    // debug($surveys);
-    $this->set ("result", $result); 
-}
-
 public function savesurveydata(){
-    $result=[];
-    $result['error'] = 1;
     if($this->request->is('post')){
         $data = $this->request->getdata(); 
         $data = json_decode($data['fdata']);
@@ -158,18 +143,13 @@ public function savesurveydata(){
             $surveydetails['partcipants_id'] = $d->participant_id;
             $sdata = $this->SurveyData->patchEntity($surveydata, $surveydetails);
             $this->SurveyData->save($sdata);
-            $result = [
-                'error' => 0,'status' => 200
-            ]; 
+            
+
         }
         
        // debug($data);
-    }else{
-        $result = [
-            'error' => 1,
-        ];
     }
-    $this->set ("result", $result); 
+    $this->set ("result",   []); 
 }
 
 public function patientdetails(){
@@ -208,30 +188,20 @@ public function patientdetails(){
             'error' => 1,
         ];
     }
-    $this->set ("result",   $result);
+    $this->set('result',$result);
+   
 }
      
     public function participantList(){ 
-        $result = [];
-        $result = ['error' => 1,];
-        $data = $this->request->getData();   
-        // $data['id']=3;       
-        $result = $this->Partcipants->find ( 'all' )
-         ->where(['survey_id' => $data['id']])->toArray();   
-        //  $result = [
-        //     'error' => 0, 'Partcipants' => $results, 'status' => 200
-        // ];
-        $this->set ("result",   $result);  
+    $data = $this->request->getData();       
+    $result =[];         
+    $result = $this->Partcipants->find ( 'all' )
+    ->where(['survey_id' => $data['id']])->toArray();    
+    $this->set ("result",   $result);  
     }
-
-
     public function sectiondata(){
         $result = [];
-        $result = ['error' => 1,];
-        $result = $this->SurveyQuestions->find ( 'all' )->group(['section']); 
-        // $result = [
-        //     'error' => 0, 'Surveyquestion' => $results,'status' => 200
-        // ];       
+        $result = $this->SurveyQuestions->find ( 'all' )->group(['section']);        
         $this->set ("result",$result);
     }
 }

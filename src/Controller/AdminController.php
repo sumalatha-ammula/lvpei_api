@@ -228,16 +228,16 @@ class AdminController extends AppController {
     public function rvappsurveydata(){
 		$surveydata = $this->Survey->find ( 'all' );
 		$surveys = $this->paginate ( $surveydata);
-		$fieldexecutive = $this->FieldExecutive->find(
-            'list',
-            [
-                'keyField' => 'id',
-                'valueField' => 'username'
-            ]
-        )
-            ->toArray();
+		// $fieldexecutive = $this->FieldExecutive->find(
+        //     'list',
+        //     [
+        //         'keyField' => 'id',
+        //         'valueField' => 'username'
+        //     ]
+        // )
+        //     ->toArray();
 		$this->set ( "surveys", $surveys);
-		$this->set ( "fieldexecutive", $fieldexecutive);
+		// $this->set ( "fieldexecutive", $fieldexecutive);
 	}
     
 	public function surveyparticipants($id = null){
@@ -245,13 +245,14 @@ class AdminController extends AppController {
 		->where(['survey_id'=>$id]);
 		$surveys = $this->paginate ( $surveydata);
 		$this->set ( "surveys", $surveys);
+		$this->set('id', $id);
 		
 	}
 
-	public function surveyparticipantsdata($id = null){
+	public function surveyparticipantsdata($id1 = null, $id2=null){
 		$surveydata = $this->SurveyData->find ( 'all' )
 		->contain(["Survey","SurveyQuestions", "FieldExecutive","Partcipants" ])
-		->where(['partcipants_id'=>$id]);
+		->where(['SurveyData.partcipants_id'=>$id1,'SurveyData.survey_id'=>$id2 ]);
 		$surveys = $this->paginate ( $surveydata);
 		// debug($surveys);
 		$this->set ( "surveys", $surveys);
@@ -265,7 +266,7 @@ class AdminController extends AppController {
 				$adsurveyT = TableRegistry::get('Survey');
 				$adsurveyQuUpdData = $this->Survey->newEmptyEntity();
 				$adsurveyQuUpdData->name = $data['Name'];
-				$adsurveyQuUpdData->field_executive_id = $data['Field_Executive'];
+				// $adsurveyQuUpdData->field_executive_id = $data['Field_Executive'];
 				$adsurveyQuUpdData->country = $data['Selected_Country'];
 				$adsurveyQuUpdData->village = $data['Village_Name'];
 				$adsurveyQuUpdData->created_by = $this->userdt['id'];
