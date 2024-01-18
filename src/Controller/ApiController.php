@@ -87,13 +87,11 @@
           
                 $Surveydat = $this->Survey->find ( 'all' )
                 ->contain(['Partcipants'])
-                ->where(['Survey.field_executive_id'=>$data['id']])
+               
                 ->toArray();   
-                $Partcipantcount = $this->Survey->find ( 'all' )
-                ->contain(['Partcipants'])
-                ->where(['Survey.field_executive_id'=>$data['id']])->count(); 
+                
                 $result = [
-                    'error' => 0,'status' => 200, 'Surveydata'=> $Surveydat, 'Partcipantcount'=>$Partcipantcount
+                    'error' => 0,'status' => 200, 'Surveydata'=> $Surveydat
                 ];          
             
             }
@@ -131,10 +129,11 @@ public function surveyquestions(){
    $this->set ("result",   array_values($final)); 
 }
 
-public function surveyparticipantsdatarvapp($id = null){
+public function surveyparticipantsdatarvapp(){
+    $data = $this->request->getData();
     $result = $this->SurveyData->find ( 'all' )
     ->contain(["Survey","SurveyQuestions", "FieldExecutive","Partcipants" ])
-    ->where(['partcipants_id'=>$id]);
+    ->where(['SurveyData.partcipants_id'=>$data['id'], 'SurveyData.survey_id' => $data['sid']]);
     // debug($surveys);
     $this->set ("result", $result); 
 }
