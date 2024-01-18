@@ -6,6 +6,13 @@
 	width: 40% !important;
 	display: inline-block !important;
 }
+a.fas.fa-poll-h {
+    color: #007bff;
+}
+
+a.fas.fa-users {
+    color: #007bff;
+}
 </style>
 <div class="col-12">
 	<div class="card">

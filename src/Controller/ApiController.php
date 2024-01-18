@@ -174,7 +174,7 @@ public function savesurveydata(){
 public function patientdetails(){
     $result = [];
     if($this->request->is('post')){ 
-        $data = $this->request->getData();        
+        $data = $this->request->getData();     
        $patientdata = TableRegistry::get('Partcipants');
        $patientdetails = $this->Partcipants->newEmptyEntity();
        $patientdetails->name =$data["name"];
@@ -198,8 +198,12 @@ public function patientdetails(){
        $patientdetails->pincode = $data["pincode"];
        $patientdetails->created_by = 1;
        $patientdata->save($patientdetails);
+       $lastParticipant = $this->Partcipants->find('all')->last();
+       $lastRecordId = $lastParticipant->id;
+
+          
        $result = [
-        'error' => 0,'status' => 200
+        'error' => 0,'status' => 200, 'id'=>$lastRecordId, 'name'=>$data["name"], 'mobile'=>$data["mobile"]
     ];
 
     }else{
