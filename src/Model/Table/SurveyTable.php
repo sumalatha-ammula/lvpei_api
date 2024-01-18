@@ -90,8 +90,7 @@ class SurveyTable extends Table
             ->requirePresence('status', 'create')
             ->notEmptyString('status');
 
-        $validator
-            ->allowEmptyString('field_executive_id');
+       
 
         return $validator;
     }

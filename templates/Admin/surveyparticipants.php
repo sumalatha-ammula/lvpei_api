@@ -63,7 +63,7 @@
                                 echo $this->Html->link("", [
                                     'controller' => "Admin",
                                     'action' => 'surveyparticipantsdata',
-                                    $survey->id
+                                    $survey->id, $survey->survey_id
                                 ], [
                                     'class' => 'fas fa-users'
                                 ]);

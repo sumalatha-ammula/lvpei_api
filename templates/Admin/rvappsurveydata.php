@@ -121,13 +121,13 @@
                         'class' => "form-control ra_input",
                     ]);
 
-                    echo $this->Form->control('Field Executive', [
-                        'type' => 'select',
-                        // 'multiple' => 'checkbox',
-                        'options' => $fieldexecutive,
-                        'id' => 'branch_id',
-                        'class' => 'form-control people ra_input', // Add any additional classes as needed
-                    ]);
+                    // echo $this->Form->control('Field Executive', [
+                    //     'type' => 'select',
+                    //     // 'multiple' => 'checkbox',
+                    //     'options' => $fieldexecutive,
+                    //     'id' => 'branch_id',
+                    //     'class' => 'form-control people ra_input', // Add any additional classes as needed
+                    // ]);
 
                     echo $this->Form->control('Selected Country', [
                         'type' => 'select',
