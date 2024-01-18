@@ -199,7 +199,7 @@ public function patientdetails(){
        $patientdetails->created_by = 1;
        $patientdata->save($patientdetails);
        $result = [
-        'error' => 0,'status' => 200
+        'error' => 0,'status' => 200, 'id' =>$patientdata->id, 'name' =>$data["name"], 'mobile'=>$data["mobile"]
     ];
 
     }else{
