@@ -106,9 +106,18 @@
             $sqs =[];
             $sqs = $this->SurveyQuestions->find('all')
             // ->select(['SurveyQuestions.section'])
-            ->contain(['MasterMain','MasterMain.MasterOptions','survey'])
+            ->contain(['MasterMain','MasterMain.MasterOptions'])
             ->group(['SurveyQuestions.section','SurveyQuestions.id'])
             ->where(['SurveyQuestions.survey_id'=> $data['id']])->toArray();
+
+            $surveydata = $this->Survey->find('all')
+            ->where(['id'=>$data['id']])->toArray();
+            foreach ($surveydata as $survey){
+                // debug($survey->name);
+                $surveyname = $survey->name;
+                $surveyvillage = $survey->village;
+                $surveycountry = $survey->country;
+                }
             $final=[];
             foreach($sqs as $question){
             // print_r($question);die;
@@ -119,7 +128,10 @@
             'question'=>@$question['question'] ,
             'question_id'=> $question['id'],
             'survey_id' => $question['survey_id'],
-            'survey'=>$question['survey']
+            'survey'=>$question['survey'],
+            "surveyname"=>$surveyname,
+            "surveyvillage"=> $surveyvillage,
+            "surveycountry"=> $surveycountry,
             ];    
           $final[$question['section']][] = $tmpArray;
     
