@@ -40,6 +40,10 @@ class UserdataTable extends Table
         $this->setTable('userdata');
         $this->setDisplayField('name');
         $this->setPrimaryKey('id');
+
+        $this->hasOne('MasterMain', [
+            'foreignKey' => 'created_by',
+        ]);
     }
 
     /**

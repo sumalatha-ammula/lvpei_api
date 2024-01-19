@@ -28,6 +28,8 @@ class FieldExecutive extends Entity
         'username' => true,
         'email' => true,
         'password' => true,
+        'status' => true,
+
     ];
 
     /**

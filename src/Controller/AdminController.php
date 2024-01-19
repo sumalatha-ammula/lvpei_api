@@ -45,6 +45,7 @@ class AdminController extends AppController {
 		$this->loadModel("SurveyQuestions");
 		$this->loadModel("Partcipants");
 		$this->loadModel("SurveyData");
+		$this->loadModel("Userdata");
 		
 		$this->loadComponent ( 'Auth', array (
 				'loginAction' => array (
@@ -361,8 +362,12 @@ class AdminController extends AppController {
         }
 
 	public function mastermain(){
-		$masterdata = $this->MasterMain->find ( 'all' );
+		$masterdata = $this->MasterMain->find('all')
+          
+		->contain(["Userdata"]);
 		$master = $this->paginate($masterdata);
+		// debug($master);
+		
 		$this->set ( "master", $master);
 
 	}
@@ -384,7 +389,28 @@ class AdminController extends AppController {
         }
 		return $this->redirect(["controller" => "Admin", 'action' => 'mastermain']);
 	}
+    
+	public function masteroptionsdata($id=null){
+		$masterOp_Data = $this->MasterOptions->find('all',  'list',
+            [
+                'keyField' => 'id',
+                'valueField' => 'option_value'
+            ]
+        )
+		->where(['master_main_id'=>$id])
+		->toArray();
+		// $fieldexecutive = $this->FieldExecutive->find(
+        //     'list',
+        //     [
+        //         'keyField' => 'id',
+        //         'valueField' => 'username'
+        //     ]
+        // )
+        //     ->toArray();
+		// debug($masterOp_Data);
+		$this->set ( "masterOp_Data", $masterOp_Data);
 
+	}
     public function masteroptions(){
 		$result = [];
 		$data = $this->request->getData();

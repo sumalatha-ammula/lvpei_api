@@ -50,6 +50,11 @@ class MasterMainTable extends Table
             'foreignkey' => 'id',
             'joinType' => 'INNER',
          ]);
+
+         $this->belongsTo('Userdata', [
+            'foreignKey' => 'created_by',
+            'joinType' => 'INNER',
+        ]);
     }
 
     /**

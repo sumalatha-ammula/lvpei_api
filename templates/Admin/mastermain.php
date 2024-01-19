@@ -13,6 +13,9 @@ a.fas.fa-poll-h {
 a.fas.fa-users {
     color: #007bff;
 }
+a.fas.fa-eye{
+	color: #007bff;
+}
 </style>
 <div class="col-12">
 	<div class="card">
@@ -56,18 +59,18 @@ a.fas.fa-users {
 																									?>
 						
 						</td>
-						<td><?= h( $masterdata->created_by); ?></td>
+						<td><?= h( $masterdata->userdata->name); ?></td>
 						<td><?= h( $masterdata->status); ?></td>
 						<td><?= h( $masterdata->created_on); ?></td>
-						<td class="actions"><a href="#" data-question="<?php echo $masterdata->id;?>" class="addsurveyquestions"><i class="fas fa-cogs" style="color: #1A89FF;"></i></a>
+						<td class="actions"><a href="#" data-question="<?php echo $masterdata->id;?>" class="addsurveyquestions"><i class="fas fa-cogs" style="color: #1A89FF;"></i></a> |
 						 <?php
-                                // echo $this->Html->link("", [
-                                //     'controller' => "Admin",
-                                //     'action' => 'surveysreport',
-                                //     $survey->id
-                                // ], [
-                                //     'class' => 'fas fa-eye'
-                                // ]);
+                                echo $this->Html->link("", [
+                                    'controller' => "Admin",
+                                    'action' => 'masteroptionsdata',
+                                    $masterdata->id
+                                ], [
+                                    'class' => 'fas fa-eye'
+                                ]);
                                 ?> 
 						</td>
 					</tr>
@@ -164,6 +167,7 @@ a.fas.fa-users {
     </div>
     <!-- /.modal -->
 </div>
+
 <script>
 	var selectedQuestion = 0;
 // var csrfToken = $('meta[name="csrfToken"]').attr('content');

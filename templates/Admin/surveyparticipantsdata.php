@@ -12,6 +12,13 @@
 	width: 40% !important;
 	display: inline-block !important;
 }
+a.fas.fa-poll-h {
+    color: #007bff;
+}
+
+a.fas.fa-users {
+    color: #007bff;
+}
 </style>
 
 
@@ -34,8 +41,8 @@
                         <th>Section</th>
                         <th>Question</th>
                         <th>Option Data</th>
-                        <th>Mobile</th>
-						<th>Field Executive</th>
+                        <!-- <th>Mobile</th>
+						<th>Field Executive</th> -->
 				
 				</thead>
 				<tbody>
@@ -51,8 +58,8 @@
                         <td><?= h($survey->survey_question->section) ?></td>
 						<td><?= h($survey->survey_question->question) ?></td>
 						<td><?= h($survey->option_data) ?></td>
-						<td><?= h($survey->partcipant->mobile); ?></td>
-                        <td><?= h($survey->field_executive->username); ?></td>
+						<!-- <td><?//=// h($survey->partcipant->mobile); ?></td>
+                        <td><?//= //h($survey->field_executive->username); ?></td> -->
 						<!-- <td class="actions"><a href="#"><i class="far fa-edit"></i></a> | <a href="Admin/addsurveyqution" data-question="<?php echo $survey->id;?>" class="addsurveyquestions"><i class="fas fa-poll-h"></i></a>  -->
 						<td> <?php
                                 // echo $this->Html->link("", [

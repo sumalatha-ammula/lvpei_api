@@ -19,20 +19,22 @@
 			<table class="table table-hover text-nowrap">
 				<thead>
 					<tr>
-						<th>ID</th>
+						
                         <th>User Name</th>
                         <th>Password</th>
 						<th>Email</th>
+						<th>Status</th>
 						
 				
 				</thead>
 				<tbody>
                         <?php foreach ($feildexecutiveData as $agent): ?>
                         <tr>
-						<td><?= h($agent->id) ?></td>
+					
 						<td><?= h($agent->username) ?></td>
 						<td><?= h($agent->password) ?></td>
 						<td><?= h($agent->email) ?></td>
+						<td><?= h($agent->status) ?></td>
 						
 						
 					</tr>

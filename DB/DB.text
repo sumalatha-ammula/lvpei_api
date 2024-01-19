@@ -198,3 +198,5 @@ ALTER TABLE `survey_data`
 COMMIT;
 
 ALTER TABLE `survey` ADD `field_executive_id` BIGINT(32) NOT NULL AFTER `status`;
+
+ALTER TABLE `field_executive` ADD `status` TINYINT(2) NOT NULL AFTER `password`;

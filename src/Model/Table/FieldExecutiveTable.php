@@ -70,6 +70,9 @@ class FieldExecutiveTable extends Table
             ->maxLength('password', 200)
             ->requirePresence('password', 'create')
             ->notEmptyString('password');
+            $validator
+            ->requirePresence('status', 'create')
+            ->notEmptyString('status');
 
         return $validator;
     }
