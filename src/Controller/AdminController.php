@@ -391,7 +391,7 @@ class AdminController extends AppController {
 	}
     
 	public function masteroptionsdata($id=null){
-		$masterOp_Data = $this->MasterOptions->find('all',  'list',
+		$masterOp_Data = $this->MasterOptions->find('list',
             [
                 'keyField' => 'id',
                 'valueField' => 'option_value'
@@ -399,14 +399,6 @@ class AdminController extends AppController {
         )
 		->where(['master_main_id'=>$id])
 		->toArray();
-		// $fieldexecutive = $this->FieldExecutive->find(
-        //     'list',
-        //     [
-        //         'keyField' => 'id',
-        //         'valueField' => 'username'
-        //     ]
-        // )
-        //     ->toArray();
 		// debug($masterOp_Data);
 		$this->set ( "masterOp_Data", $masterOp_Data);
 
