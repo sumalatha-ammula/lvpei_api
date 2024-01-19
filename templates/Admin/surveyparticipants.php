@@ -29,11 +29,9 @@ a.fas.fa-users {
 			<div class="card-tools">
                 <h3>Participant List</h3>
                 <h6><?php 
-                  $countOfSurveys =0;
                   $sectionName = '';
                 foreach ($surveys as $survey) {
                     $sectionName = $survey->survey->name;
-                   $countOfSurveys ++;
                 } 
                 
                 echo $sectionName;
