@@ -1,6 +1,6 @@
 
 <?php 
-//debug($surveys);
+//debug(count($surveys));
 // debug($results);
  //echo $this->Html->meta('csrfToken', $this->request->getAttribute('csrfToken')); ?>
 <!-- Modal -->
@@ -28,6 +28,22 @@ a.fas.fa-users {
 		<div class="card-header">
 			<div class="card-tools">
                 <h3>Participant List</h3>
+                <h6><?php 
+                  $countOfSurveys =0;
+                  $sectionName = '';
+                foreach ($surveys as $survey) {
+                    $sectionName = $survey->survey->name;
+                   $countOfSurveys ++;
+                } 
+                
+                echo $sectionName;
+               echo " ";
+               ?></h6>
+               <p><?= $this->Paginator->counter(__(' Total Participant  {{count}}')) ?></p>
+               <a class="btn btn-danger btn btn-block  btncompany" href="javascript:history.back()">Cancel</a>
+
+                
+
             <!-- <a href="#" class="btn btn-block bg-gradient-primary  btncompany" id="company">Create Survey</a>      -->
                 	</div>
 		</div>

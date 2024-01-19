@@ -98,21 +98,21 @@
             $this->set ("result",   $result);           
             }
 
-public function surveyquestions(){
-    $result=[];
-    $result['error'] = 1;
-    if($this->request->is('post')){
-        $data = $this->request->getdata();        
-        $sqs =[];
-        $sqs = $this->SurveyQuestions->find('all')
-        // ->select(['SurveyQuestions.section'])
-       ->contain(['MasterMain','MasterMain.MasterOptions','survey'])->
-       group(['SurveyQuestions.section','SurveyQuestions.id'])->
-       where(['SurveyQuestions.survey_id'=> $data['id']])->toArray();
-       $final=[];
-       foreach($sqs as $question){
-        // print_r($question);die;
-        $tmpArray = [
+        public function surveyquestions(){
+            $result=[];
+            $result['error'] = 1;
+            if($this->request->is('post')){
+            $data = $this->request->getdata();        
+            $sqs =[];
+            $sqs = $this->SurveyQuestions->find('all')
+            // ->select(['SurveyQuestions.section'])
+            ->contain(['MasterMain','MasterMain.MasterOptions','survey'])
+            ->group(['SurveyQuestions.section','SurveyQuestions.id'])
+            ->where(['SurveyQuestions.survey_id'=> $data['id']])->toArray();
+            $final=[];
+            foreach($sqs as $question){
+            // print_r($question);die;
+            $tmpArray = [
             'master_main_name' => @$question['master_main']['name'], 
             'options' =>@$question['master_main']['master_options'],
             'section'=>@$question['section'] ,
@@ -120,21 +120,24 @@ public function surveyquestions(){
             'question_id'=> $question['id'],
             'survey_id' => $question['survey_id'],
             'survey'=>$question['survey']
-        ];    
-        $final[$question['section']][] = $tmpArray;
+            ];    
+          $final[$question['section']][] = $tmpArray;
     
+           }
+
+        }
+        $this->set ("result",   array_values($final)); 
     }
 
-   }
-   $this->set ("result",   array_values($final)); 
-}
+      
 
 public function surveyparticipantsdatarvapp(){
+    if($this->request->is('post')){
     $data = $this->request->getData();
     $result = $this->SurveyData->find ( 'all' )
     ->contain(["Survey","SurveyQuestions", "FieldExecutive","Partcipants" ])
     ->where(['SurveyData.partcipants_id'=>$data['id'], 'SurveyData.survey_id' => $data['sid']]);
-    // debug($surveys);
+    }
     $this->set ("result", $result); 
 }
 
@@ -216,13 +219,22 @@ public function patientdetails(){
     public function participantList(){ 
         $result = [];
         $result = ['error' => 1,];
-        $data = $this->request->getData();   
-        // $data['id']=3;       
-        $result = $this->Partcipants->find ( 'all' )
-         ->where(['survey_id' => $data['id']])->toArray();   
-        //  $result = [
-        //     'error' => 0, 'Partcipants' => $results, 'status' => 200
-        // ];
+        $this->request->is('post');
+        $data = $this->request->getData();  
+              
+        $results = $this->Partcipants->find ( 'all' )
+         ->where(['survey_id' => $data['id']])->toArray();  
+        
+        $surveys = $this->Survey->find ( 'all' )
+        ->where(['id' => $data['id']])->toArray(); 
+        foreach ($surveys as $survey){
+        $surveyname = $survey->name;
+        $surveyvillage = $survey->village;
+        $surveycountry = $survey->country;
+        }
+         $result = [
+            'error' => 0, 'status' => 200, 'PartcipantsData' => $results, 'surveyname'=> $surveyname, 'surveycountry'=>$surveycountry, 'surveyvillage'=>$surveyvillage
+        ];
         $this->set ("result",   $result);  
     }
 

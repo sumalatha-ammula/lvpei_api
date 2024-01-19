@@ -243,6 +243,7 @@ class AdminController extends AppController {
     
 	public function surveyparticipants($id = null){
 		$surveydata = $this->Partcipants->find ( 'all' )
+		->contain(["Survey"])
 		->where(['survey_id'=>$id]);
 		$surveys = $this->paginate ( $surveydata);
 		$this->set ( "surveys", $surveys);
@@ -287,7 +288,7 @@ class AdminController extends AppController {
     public function addqutionsurveyrvapp(){
 		if($this->request->is('post')){
 			$data = $this->request->getdata();
-			
+			// debug($data);
 			if($data['Option_Type'] != 'Dropdown'){
 				$masterID= 0;
 
@@ -310,7 +311,8 @@ class AdminController extends AppController {
 			}else {
 				$this->Flash->error(__('The data could not be saved. Please, try again.'));
 			}
-			return $this->redirect(["controller" => "Admin", 'action' => 'rvappsurveydata']);
+			$lastsurveyid = $data['id'];
+			return $this->redirect(["controller" => "Admin", 'action' => 'addsurveyqution', $lastsurveyid]);
 
 		}
 	}
@@ -319,6 +321,7 @@ class AdminController extends AppController {
 		
 		// debug($id);
 		// echo "hello";
+		
 		$surveyquestiondata = $this->SurveyQuestions->find ( 'all' )
 		->where(['survey_id' => $id]);
 		$surveys = $this->paginate ( $surveyquestiondata);
