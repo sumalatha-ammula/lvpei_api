@@ -28,72 +28,41 @@ a.fas.fa-users {
 		<div class="card-header">
 			<div class="card-tools">
                 <h3>Survey Data </h3>
+                
+               <?php $surveyname='';
+                $surveyqu="";
+               foreach ($surveys as $survey) {
+                    $surveyname = $survey->survey->name;
+                    $surveyqu = $survey->survey_question->section;
+                    
+                }?>
+                <?php echo $surveyname;?><br>
+                <?php echo $surveyqu;?>
             <!-- <a href="#" class="btn btn-block bg-gradient-primary  btncompany" id="company">Create Survey</a>      -->
                 	</div>
 		</div>
 		<!-- /card-header -->
 		<div class="card-body table-responsive p-0">
-			<table class="table table-hover">
-				<thead>
-					<tr>
-						<th>Name</th>
-                        <th>Survey</th>
-                        <th>Section</th>
-                        <th>Question</th>
-                        <th>Option Data</th>
-                        <!-- <th>Mobile</th>
-						<th>Field Executive</th> -->
-				
-				</thead>
-				<tbody>
+		
+			
                         <?php foreach ($surveys as $survey): ?>
-                        <tr>
-						<td>
+                    
+					
 						<?php
-						echo "<b>" . h ( $survey->partcipant->name ) . "</b>";
+						//echo "<b>" . h ( $survey->partcipant->name ) . "</b>";
 																									?>
 						
-						</td>
-						<td><?= h($survey->survey->name) ?></td>
-                        <td><?= h($survey->survey_question->section) ?></td>
-						<td><?= h($survey->survey_question->question) ?></td>
-						<td><?= h($survey->option_data) ?></td>
-						<!-- <td><?//=// h($survey->partcipant->mobile); ?></td>
-                        <td><?//= //h($survey->field_executive->username); ?></td> -->
-						<!-- <td class="actions"><a href="#"><i class="far fa-edit"></i></a> | <a href="Admin/addsurveyqution" data-question="<?php echo $survey->id;?>" class="addsurveyquestions"><i class="fas fa-poll-h"></i></a>  -->
-						<td> <?php
-                                // echo $this->Html->link("", [
-                                //     'controller' => "Admin",
-                                //     'action' => 'addsurveyqution',
-                                //     $survey->id
-                                // ], [
-                                //     'class' => 'fas fa-poll-h'
-                                // ]);
-                                ?>  <?php
-                                // echo $this->Html->link("", [
-                                //     'controller' => "Admin",
-                                //     'action' => 'surveyparticipantsdata',
-                                //     // $survey->id
-                                // ], [
-                                //     'class' => 'fas fa-users'
-                                // ]);
-                                ?> 
-						</td>
-					</tr>
+					
+						<div class="rvapp_qa" style="margin-left:20px">
+						<label style="font-weight:normal;font-size:16px"><span style="font-weight:bold;font-size:16px">Question:</span> <?= h($survey->survey_question->question) ?></label><br>
+						<label style="font-weight:normal;font-size:16px"><span style="font-weight:bold;font-size:16px">Anwser:</span> <?= h($survey->option_data) ?></label><br>
+                        </div>
+						
+				
                         <?php endforeach; ?>
                        
-                    </tbody>
-			</table>
-			<div class="paginator">
-				<ul class="pagination">
-                        <?= $this->Paginator->first('<< ' . __('first')) ?>
-                        <?= $this->Paginator->prev('< ' . __('previous')) ?>
-                        <?= $this->Paginator->numbers() ?>
-                        <?= $this->Paginator->next(__('next') . ' >') ?>
-                        <?= $this->Paginator->last(__('last') . ' >>') ?>
-                    </ul>
-				<p><?= $this->Paginator->counter(__('Page {{page}} of {{pages}}, showing {{current}} record(s) out of {{count}} total')) ?></p>
-			</div>
+	
+		
 		</div>
 		<!-- /.card-body -->
 	</div>
