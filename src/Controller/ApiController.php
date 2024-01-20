@@ -229,7 +229,7 @@ public function savesurveydata(){
     $result['error'] = 1;
     if($this->request->is('post')){
         $data = $this->request->getdata(); 
-        $pid[]=$data["pid"];
+        $pid=$data["pid"];
         $data = json_decode($data['fdata']);
         foreach($data as $d){
             
