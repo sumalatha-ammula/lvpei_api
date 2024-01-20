@@ -27,35 +27,41 @@ a.fas.fa-users {
 	<div class="card">
 		<div class="card-header">
 			<div class="card-tools">
-                <h3>Survey Data </h3>
+                <h3 style="margin-left:20px">Survey Data </h3>
                 
                <?php $surveyname='';
                 $surveyqu="";
                foreach ($surveys as $survey) {
                     $surveyname = $survey->survey->name;
-                    $surveyqu = $survey->survey_question->section;
+                    $surveyqu = $survey->partcipant->name;
                     
                 }?>
-                <?php echo $surveyname;?><br>
-                <?php echo $surveyqu;?>
-            <!-- <a href="#" class="btn btn-block bg-gradient-primary  btncompany" id="company">Create Survey</a>      -->
+                <p style="margin-left:20px"><?php echo $surveyqu;?><br>
+                <?php echo $surveyname;?></p>
+                <a class="btn btn-danger btn btn-block  btncompany" style="margin-right:6px" href="javascript:history.back()">Cancel</a>
+
                 	</div>
 		</div>
 		<!-- /card-header -->
 		<div class="card-body table-responsive p-0">
 		
-			
-                        <?php foreach ($surveys as $survey): ?>
-                    
-					
-						<?php
-						//echo "<b>" . h ( $survey->partcipant->name ) . "</b>";
-																									?>
+                        
+                        <?php 
+                        $previousSection = null;
+                        foreach ($surveys as $index => $survey): ?>
+                            <?php $currentSection = $survey->survey_question->section;?>
+                          <?php if ($currentSection !== $previousSection): ?>
+                            <div class="rvapp_sqa pl-3" style="margin-left:20px">
+                            <!-- <label style="font-weight:normal;font-size:16px"><span style="font-weight:bold;font-size:16px">Section:</span> </label><br> -->
+                            <h3 id="server-side"><div><?php echo $currentSection;?></div></h3>
+                          </div>
+                           <?php  $previousSection = $currentSection; ?>
+                            <?php endif; ?>
 						
-					
-						<div class="rvapp_qa" style="margin-left:20px">
-						<label style="font-weight:normal;font-size:16px"><span style="font-weight:bold;font-size:16px">Question:</span> <?= h($survey->survey_question->question) ?></label><br>
-						<label style="font-weight:normal;font-size:16px"><span style="font-weight:bold;font-size:16px">Anwser:</span> <?= h($survey->option_data) ?></label><br>
+						<div class="rvapp_qa p-3" style="margin-left:20px">
+						<label for="formGroupExampleInput" style="font-weight:bold;font-size:16px"> <?= h($survey->survey_question->question) ?></label><br>
+						<!-- <label style="font-weight:normal;font-size:16px"><span style="font-weight:bold;font-size:16px">Anwser:</span> <?//= h($survey->option_data) ?></label><br> -->
+                        <input class="form-control" type="text" placeholder="<?= h($survey->option_data) ?>" readonly>
                         </div>
 						
 				
