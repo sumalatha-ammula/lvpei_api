@@ -98,52 +98,7 @@
             $this->set ("result",   $result);           
             }
 
-    //     public function surveyquestions(){
-    //         $result=[];
-    //         $result['error'] = 1;
-    //         if($this->request->is('post')){
-    //         $data = $this->request->getdata();        
-    //         $sqs =[];
-    //         $sqs = $this->SurveyQuestions->find('all')
-    //         // ->select(['SurveyQuestions.section'])
-    //         ->contain(['MasterMain','MasterMain.MasterOptions'])
-    //         ->group(['SurveyQuestions.section','SurveyQuestions.id'])
-    //         ->where(['SurveyQuestions.survey_id'=> $data['id']])->toArray();
-
-    //         $surveydata = $this->Survey->find('all')
-    //         ->where(['id'=>$data['id']])->toArray();
-    //         foreach ($surveydata as $survey){
-    //             // debug($survey->name);
-    //             $surveyname = $survey->name;
-    //             $surveyvillage = $survey->village;
-    //             $surveycountry = $survey->country;
-    //             }
-    //         $final=[];
-    //         foreach($sqs as $question){
-    //         // print_r($question);die;
-    //         $tmpArray = [
-    //         'master_main_name' => @$question['master_main']['name'], 
-    //         'options' =>@$question['master_main']['master_options'],
-    //         'section'=>@$question['section'] ,
-    //         'question'=>@$question['question'] ,
-    //         'question_id'=> $question['id'],
-    //         'survey_id' => $question['survey_id'],
-    //         'survey'=>$question['survey'],
-    //         // "surveyname"=>$surveyname,
-    //         // "surveyvillage"=> $surveyvillage,
-    //         // "surveycountry"=> $surveycountry,
-    //         ];    
-    //       $final[$question['section']][] = $tmpArray;
-    //       $final=["surveyname"=>$surveyname,
-    //         "surveyvillage"=> $surveyvillage,
-    //         "surveycountry"=> $surveycountry,];
-      
-    
-    //        }
-
-    //     }
-    //     $this->set ("result",   array_values($final)); 
-    // }
+   
 //     public function surveyquestions(){
 //         $result=[];
 //         $result['error'] = 1;
@@ -180,6 +135,8 @@
 //        }
 //        $this->set ("result", array_values($formattedArray));
 // }
+
+
 public function surveyquestions(){
     $result=[];
     $result['error'] = 1;
@@ -191,6 +148,16 @@ public function surveyquestions(){
        ->contain(['MasterMain','MasterMain.MasterOptions','survey'])->
        group(['SurveyQuestions.section','SurveyQuestions.id'])->
        where(['SurveyQuestions.survey_id'=> $data['id']])->toArray();
+       $surveydata = $this->Survey->find('all')
+       ->where(['id'=>$data['id']])->toArray();
+       
+        foreach ($surveydata as $survey){
+        // debug($survey->name);
+        $surveyname = $survey->name;
+        $surveyvillage = $survey->village;
+        $surveycountry = $survey->country;
+                }
+                // debug($surveydata);
        $final=[];
        foreach($sqs as $question){
         // print_r($question);die;
@@ -201,14 +168,16 @@ public function surveyquestions(){
             'question'=>@$question['question'] ,
             'question_id'=> $question['id'],
             'survey_id' => $question['survey_id'],
-            'survey'=>$question['survey']
+            // 'survey'=>$question['survey']
         ];    
         $final[$question['section']][] = $tmpArray;
-    
     }
-
+    $result = [
+        'error' => 0,'status' => 200, array_values($final), 'name'=>$surveyname, 'village'=>$surveyvillage, 'surveycountry'=>$surveycountry
+    ];
    }
-   $this->set ("result",   array_values($final)); 
+   $this->set ("result",   $result);
+
 }
 
 
