@@ -8,51 +8,36 @@
 		<div class="col-md-6">
 			<div class="card card-primary">
 				<div class="card-header">
-					<h3 class="card-title">Add Executive</h3>
+					<h3 class="card-title">Master Options</h3>
 					
 				</div>
-				  <?php //debug($masterOp_Data);
-						echo $this->Flash->render ();
-						echo $this->Form->create ( null, array (
-								'url' => array (
-										'controller' => 'Admin',
-										'action' => 'createfeildexecutive' 
-								),
-								'enctype' => 'multipart/form-data',
-								'id' => 'login' 
-						) );
-						?>
+				  <?php //debug($masterOp_Data);?>
 
 				<div class="card-body">
-					<!-- <div class="form-group">
-						<label for="inputName">Name</label> <input type="text" name="name" class="form-control">
-					</div> -->
 					
-					<!-- <div class="form-group">
-						<label for="inputStatus">Phone</label> <input type="text" name="Mobilenumber" class="form-control">
-					</div> -->
 					<div class="form-group">
-					<?php	
-					
-					echo $this->Form->control('Master Option', [
-                        'type' => 'select',
-                        //  'multiple' => 'checkbox',
-                        'options' =>$masterOp_Data,
-                        'id' => 'branch_id',
-                        'class' => 'form-control people ra_input', // Add any additional classes as needed
-                    ]);?>
+					<?php foreach ($masterOp_Data as $index => $survey): ?>
+						<?php $masterdata = $survey->master_main->name;?>
+
+					<?php endforeach; ?>
+					<label for="formGroupExampleInput" style="font-weight:bold;font-size:16px"><?php echo $masterdata ?></label><br>
+
+					<?php 
+					foreach ($masterOp_Data as $index => $survey): ?>
+					<br>
+					<input class="form-control" type="text" placeholder="<?= h($survey->option_value) ?>" readonly>
+					<?php endforeach; ?>
+					<?php 
+					// echo $this->Form->control('Master Option', [
+                    //     'type' => 'select',
+                    //     //  'multiple' => 'checkbox',
+                    //     'options' =>$masterOp_Data,
+                    //     'id' => 'branch_id',
+                    //     'class' => 'form-control people ra_input', // Add any additional classes as needed
+                    // ]);
+					?>
 					</div>
-					<!-- <div class="form-group">
-						<label for="inputClientCompany">Username</label> <input name="username" id="inputClientCompany" class="form-control">
-					</div> -->
 					
-					<!-- <div class="form-group">
-						<label for="inputClientCompany">Password</label> <input type="password" name="password" id="inputClientCompany" class="form-control">
-					</div> -->
-					<!-- <div class="form-group">
-						<label for="inputClientCompany">Re-Enter Password</label> <input type="password" name="reenterpassword" id="inputClientCompany" class="form-control">
-					</div> -->
-					<!-- <input type="submit" value="Add new Executive" class="btn btn-success  bg-gradient-primary  btncompany""> -->
 					<a href="javascript:history.back()" class="btn btn-secondary">Cancel</a> 
 				</div>
 				<?php echo $this->Form->end ();?>

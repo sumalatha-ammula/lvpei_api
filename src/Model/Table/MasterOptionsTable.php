@@ -44,6 +44,11 @@ class MasterOptionsTable extends Table
         $this->hasOne('SurveyQuestions', [
             'foreignKey' => 'master_main_id',
         ]);
+
+        $this->belongsTo('MasterMain', [
+            'foreignKey' => 'master_main_id',
+            'joinType' => 'INNER',
+        ]);
     }
 
     /**

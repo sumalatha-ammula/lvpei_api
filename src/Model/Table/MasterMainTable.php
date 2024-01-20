@@ -55,6 +55,9 @@ class MasterMainTable extends Table
             'foreignKey' => 'created_by',
             'joinType' => 'INNER',
         ]);
+        $this->hasMany('MasterOptions', [
+            'foreignKey' => 'master_main_id',
+        ]);
     }
 
     /**

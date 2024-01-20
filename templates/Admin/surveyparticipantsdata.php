@@ -38,7 +38,7 @@ a.fas.fa-users {
                 }?>
                 <p style="margin-left:20px"><?php echo $surveyqu;?><br>
                 <?php echo $surveyname;?></p>
-                <a class="btn btn-danger btn btn-block  btncompany" style="margin-right:6px" href="javascript:history.back()">Cancel</a>
+                <a class="btn btn-secondary btn btn-block  btncompany" style="margin-right:6px" href="javascript:history.back()">Cancel</a>
 
                 	</div>
 		</div>
