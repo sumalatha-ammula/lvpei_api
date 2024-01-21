@@ -38,7 +38,7 @@
 					?>
 					</div>
 					
-					<a href="javascript:history.back()" class="btn btn-secondary">Cancel</a> 
+					<a href="javascript:history.back()" class="btn btn-secondary">Back</a> 
 				</div>
 				<?php echo $this->Form->end ();?>
 			</div>
