@@ -323,6 +323,7 @@ class AdminController extends AppController {
 		// echo "hello";
 		
 		$surveyquestiondata = $this->SurveyQuestions->find ( 'all' )
+		->contain(['MasterMain'])
 		->where(['survey_id' => $id]);
 		$surveys = $this->paginate ( $surveyquestiondata);
 		$masterOptionData = $this->MasterMain->find(

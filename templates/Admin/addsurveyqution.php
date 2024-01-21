@@ -1,9 +1,6 @@
 
 <?php 
-//debug($surveys);
-// debug($results);
- //echo $this->Html->meta('csrfToken', $this->request->getAttribute('csrfToken')); ?>
-<!-- Modal -->
+//debug($surveys);?>
 <style>
 .ra_input{
     margin-bottom: 20px;
@@ -124,7 +121,10 @@ a.fas.fa-users {
                         <th>Created On</th>
 				</thead>
 				<tbody>
-                        <?php foreach ($surveys as $survey): ?>
+                        <?php 
+                        //$mastermaind= "Null";
+                        foreach ($surveys as $survey): ?>
+                        <?php $mastermaind = $survey->master_main->name?? "Null"; ?>
                         <tr>
 						<td>
 						<?php
@@ -134,7 +134,7 @@ a.fas.fa-users {
 						</td>
 						<td><?= h($survey->question) ?></td>
 						<td><?= h($survey->option_type) ?></td>
-						<td><?= h($survey->master_main_id) ?></td>
+						<td><?= h($mastermaind) ?></td>
 						<td><?= h($survey->created_on); ?></td>
 					   
 					</tr>
