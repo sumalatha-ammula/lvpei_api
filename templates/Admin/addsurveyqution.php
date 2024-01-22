@@ -16,6 +16,9 @@ a.fas.fa-poll-h {
 a.fas.fa-users {
     color: #007bff;
 }
+a.fas.fa-edit {
+    color: #007bff;
+}
 </style>
 
 
@@ -114,11 +117,13 @@ a.fas.fa-users {
 			<table class="table table-hover">
 				<thead>
 					<tr>
+                        <th>Id</th>
 						<th>Section</th>
                         <th>Question</th>
                         <th>Option Type</th>
                         <th>Master Main ID</th>
                         <th>Created On</th>
+                        <th>Action</th>
 				</thead>
 				<tbody>
                         <?php 
@@ -126,6 +131,7 @@ a.fas.fa-users {
                         foreach ($surveys as $survey): ?>
                         <?php $mastermaind = $survey->master_main->name?? "Null"; ?>
                         <tr>
+                            <td><?php echo $survey->id ?></td>
 						<td>
 						<?php
 						echo "<b>" . h ( $survey->section ) . "</b>";
@@ -136,6 +142,14 @@ a.fas.fa-users {
 						<td><?= h($survey->option_type) ?></td>
 						<td><?= h($mastermaind) ?></td>
 						<td><?= h($survey->created_on); ?></td>
+                        <td> 
+                            <?php echo $this->Html->link("", [
+                                    'controller' => "Admin",
+                                    'action' => 'editsurveyqution',
+                                    $survey->id
+                                ], [
+                                    'class' => 'fas fa-edit'
+                                ]);?> </td>
 					   
 					</tr>
                         <?php endforeach; ?>

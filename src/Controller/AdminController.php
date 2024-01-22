@@ -317,6 +317,45 @@ class AdminController extends AppController {
 		}
 	}
 
+	public function editsurveyqution($id = null)
+		{
+			$lastsurveyid = $data['id'];
+			// debug($id);
+			$surveyedit = $this->SurveyQuestions->get($id);
+			$masterOptionData = $this->MasterMain->find('list',[
+					'keyField' => 'id',
+					'valueField' => 'name',
+				])->toArray();
+
+			if ($this->request->is(['post', 'put'])) {
+				$data = $this->request->getdata();
+
+				if($data['option_type'] != 'Dropdown'){
+					$masterID= 0;
+	
+				}else{
+					$masterID = $data['master_main_id'];
+				}
+				// debug($data);
+				$masterdata['section'] = $data['section'];
+				$masterdata['question'] = $data['question'];
+				$masterdata['option_type'] = $data['option_type'];
+				$masterdata['master_main_id'] = $masterID;
+                // debug($masterdata);
+				$surveyedit = $this->SurveyQuestions->patchEntity($surveyedit,$masterdata);
+				// debug($surveyedit);
+			  if ($this->SurveyQuestions->save($surveyedit)) {
+					$this->Flash->success(__('The data has been saved.')); 
+					
+					return $this->redirect(['action' => 'addsurveyqution', $lastsurveyid]);
+				}
+				$this->Flash->error(__('The data could not be saved. Please, try again.'));
+			}
+			$this->set(compact('surveyedit'));
+			$this->set(compact('masterOptionData'));
+			$this->set("active", "bbpsappsedit");
+	}
+
 	public function addsurveyqution($id = null){
 		
 		// debug($id);
@@ -339,6 +378,7 @@ class AdminController extends AppController {
 			$this->set ( "surveys", $surveys);
 			$this->set('id', $id);
 	}
+	
     public function fieldexecutive() {
 		$feilddata = $this->FieldExecutive->find('all');
 		$feildexecutiveData = $this->paginate($feilddata);
@@ -374,6 +414,9 @@ class AdminController extends AppController {
 		
 		$this->set ( "master", $master);
 
+	}
+	public function editmastermain(){
+		
 	}
 
 	public function addmastermain(){
