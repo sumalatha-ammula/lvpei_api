@@ -146,7 +146,7 @@ a.fas.fa-edit {
                             <?php echo $this->Html->link("", [
                                     'controller' => "Admin",
                                     'action' => 'editsurveyqution',
-                                    $survey->id
+                                    $survey->id,$id
                                 ], [
                                     'class' => 'fas fa-edit'
                                 ]);?> </td>

@@ -317,10 +317,8 @@ class AdminController extends AppController {
 		}
 	}
 
-	public function editsurveyqution($id = null)
+	public function editsurveyqution($id = null, $ids = null)
 		{
-			$lastsurveyid = $data['id'];
-			// debug($id);
 			$surveyedit = $this->SurveyQuestions->get($id);
 			$masterOptionData = $this->MasterMain->find('list',[
 					'keyField' => 'id',
@@ -347,7 +345,7 @@ class AdminController extends AppController {
 			  if ($this->SurveyQuestions->save($surveyedit)) {
 					$this->Flash->success(__('The data has been saved.')); 
 					
-					return $this->redirect(['action' => 'addsurveyqution', $lastsurveyid]);
+					return $this->redirect(['action' => 'addsurveyqution', $ids]);
 				}
 				$this->Flash->error(__('The data could not be saved. Please, try again.'));
 			}
