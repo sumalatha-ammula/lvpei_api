@@ -354,6 +354,20 @@ class AdminController extends AppController {
 			$this->set("active", "bbpsappsedit");
 	}
 
+	public function deletesurveyqution($id = null, $ids = null)
+    {
+        $this->request->allowMethod(['post', 'delete']);
+        $data = $this->SurveyQuestions->get($id);
+        // debug($data);
+		// die;
+        if ($this->SurveyQuestions->delete($data)) {
+            $this->Flash->success(__('The record has been deleted.'));
+        } else {
+            $this->Flash->error(__('The record could not be deleted. Please, try again.'));
+        }
+        return $this->redirect(['action' => 'addsurveyqution',$ids]);
+    }
+
 	public function addsurveyqution($id = null){
 		
 		// debug($id);
