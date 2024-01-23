@@ -44,6 +44,11 @@ a.fas.fa-trash{
                             'Dropdown'=>'Dropdown',
                             'Text Box'=>'Text Box',
                             ];
+                            $formType=[
+                                'Select'=> 'Select',
+                                'Non Clinical' => 'Non Clinical',
+                                'Clinical'=> 'Clinical',
+                            ];
                             echo $this->Form->create(null, array(
                             'url' => array(
                                 'controller' => 'Admin', 'action' => 'addqutionsurveyrvapp'
@@ -61,7 +66,12 @@ a.fas.fa-trash{
                             'id' => 'edit_section',
                             'class' => "form-control ra_input",
                             ]);
-                       
+                            echo $this->Form->control('Survey Form Name', [
+                                'type' => 'select',
+                                'options' => $formType,
+                                'id' => 'answer',
+                                'class' => 'form-control people', // Add any additional classes as needed
+                                ]);
                             echo $this->Form->control('Option Type', [
                             'type' => 'select',
                             'options' => $AnswerType,
@@ -125,6 +135,7 @@ a.fas.fa-trash{
                         <th>Question</th>
                         <th>Option Type</th>
                         <th>Master Main ID</th>
+                        <th>Survey Form Name</th>
                         <th>Created On</th>
                         <th>Action</th>
 				</thead>
@@ -144,6 +155,7 @@ a.fas.fa-trash{
 						<td><?= h($survey->question) ?></td>
 						<td><?= h($survey->option_type) ?></td>
 						<td><?= h($mastermaind) ?></td>
+                        <td><?= h($survey->survey_form_name) ?></td>
 						<td><?= h($survey->created_on); ?></td>
                         <td> 
                             <?php echo $this->Html->link("", [

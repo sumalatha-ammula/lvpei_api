@@ -183,7 +183,7 @@
 //    $this->set ("result",   $result);
 
 // }
-public function surveyquestions(){
+public function surveyquestionsnc(){
     $result=[];
     $result['error'] = 1;
     if($this->request->is('post')){
@@ -193,7 +193,7 @@ public function surveyquestions(){
         // ->select(['SurveyQuestions.section'])
        ->contain(['MasterMain','MasterMain.MasterOptions','survey'])->
        group(['SurveyQuestions.section','SurveyQuestions.id'])->
-       where(['SurveyQuestions.survey_id'=> $data['id']])->toArray();
+       where(['SurveyQuestions.survey_id'=> $data['id'], 'SurveyQuestions.survey_form_name'=> 'Non Clinical' ])->toArray();
        $final=[];
        foreach($sqs as $question){
         // print_r($question);die;
@@ -213,6 +213,38 @@ public function surveyquestions(){
    }
    $this->set ("result",   array_values($final));
 }
+
+public function surveyquestionsc(){
+    $result=[];
+    $result['error'] = 1;
+    if($this->request->is('post')){
+        $data = $this->request->getdata();        
+        $sqs =[];
+        $sqs = $this->SurveyQuestions->find('all')
+        // ->select(['SurveyQuestions.section'])
+       ->contain(['MasterMain','MasterMain.MasterOptions','survey'])->
+       group(['SurveyQuestions.section','SurveyQuestions.id'])->
+       where(['SurveyQuestions.survey_id'=> $data['id'], 'SurveyQuestions.survey_form_name'=> 'Clinical' ])->toArray();
+       $final=[];
+       foreach($sqs as $question){
+        // print_r($question);die;
+        $tmpArray = [
+            'master_main_name' => @$question['master_main']['name'], 
+            'options' =>@$question['master_main']['master_options'],
+            'section'=>@$question['section'] ,
+            'question'=>@$question['question'] ,
+            'question_id'=> $question['id'],
+            'survey_id' => $question['survey_id'],
+            'survey'=>$question['survey']
+        ];    
+        $final[$question['section']][] = $tmpArray;
+    
+    }
+
+   }
+   $this->set ("result",   array_values($final));
+}
+
 
 
       

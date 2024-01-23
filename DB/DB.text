@@ -200,3 +200,5 @@ COMMIT;
 ALTER TABLE `survey` ADD `field_executive_id` BIGINT(32) NOT NULL AFTER `status`;
 
 ALTER TABLE `field_executive` ADD `status` TINYINT(2) NOT NULL AFTER `password`;
+
+ALTER TABLE `survey_questions` ADD `survey_form_name` VARCHAR(250) NOT NULL AFTER `created_by`;

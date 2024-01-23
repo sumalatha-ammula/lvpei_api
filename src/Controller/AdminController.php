@@ -306,6 +306,7 @@ class AdminController extends AppController {
 				$adsurveyQuUpdData->survey_id = $data['id'];
 				$adsurveyQuUpdData->created_by = $this->userdt['id'];
 				$adsurveyQuUpdData->created_on = date("Y-m-d");
+				$adsurveyQuUpdData->survey_form_name = $data['Survey_Form_Name'];
 				$adsurveyQuT->save($adsurveyQuUpdData);
 				$this->Flash->success(__('The Survey Question data has been saved.'));
 			}else {
