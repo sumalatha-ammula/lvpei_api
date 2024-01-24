@@ -41,10 +41,9 @@ class PartcipantsTable extends Table
         $this->setDisplayField('name');
         $this->setPrimaryKey('id');
 
-        
         $this->belongsTo('Survey', [
             'foreignKey' => 'survey_id',
-            'joinType' => 'INNER',
+            'joinType'=>'INNER',
 ]);
     }
 
@@ -90,7 +89,7 @@ class PartcipantsTable extends Table
 
         $validator
             ->scalar('mobile')
-            ->maxLength('mobile', 20)
+            ->maxLength('mobile', 12)
             ->requirePresence('mobile', 'create')
             ->notEmptyString('mobile');
 
@@ -145,26 +144,35 @@ class PartcipantsTable extends Table
             ->notEmptyString('district');
 
         $validator
-            ->scalar('area')
-            ->maxLength('area', 33)
-            ->requirePresence('area', 'create')
-            ->notEmptyString('area');
-
-        $validator
-            ->scalar('areawardno')
-            ->maxLength('areawardno', 33)
-            ->allowEmptyString('areawardno');
-
-        $validator
-            ->integer('pincode')
-            ->requirePresence('pincode', 'create')
-            ->notEmptyString('pincode');
-
-        $validator
             ->scalar('education')
             ->maxLength('education', 100)
             ->requirePresence('education', 'create')
             ->notEmptyString('education');
+
+        $validator
+            ->integer('idcode')
+            ->requirePresence('idcode', 'create')
+            ->notEmptyString('idcode');
+
+        $validator
+            ->scalar('landmark')
+            ->requirePresence('landmark', 'create')
+            ->notEmptyString('landmark');
+
+        $validator
+            ->integer('clustercode')
+            ->requirePresence('clustercode', 'create')
+            ->notEmptyString('clustercode');
+
+        $validator
+            ->integer('indiviadualcode')
+            ->requirePresence('indiviadualcode', 'create')
+            ->notEmptyString('indiviadualcode');
+
+        $validator
+            ->integer('unid')
+            ->requirePresence('unid', 'create')
+            ->notEmptyString('unid');
 
         return $validator;
     }

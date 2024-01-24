@@ -219,8 +219,8 @@ ALTER TABLE `partcipants` ADD `indiviadualcode` INT(33) NOT NULL AFTER `clusterc
 
 ALTER TABLE `partcipants` ADD `unid` INT(10) NOT NULL AFTER `indiviadualcode`;
 
-ALTER TABLE `survey_questions` CHANGE `survey_form_name` `is_clinical` TINYINT NOT NULL DEFAULT '1';
 
+ALTER TABLE `survey_questions` ADD `is_clinical` TINYINT(1) NOT NULL DEFAULT '1';
 
 ALTER TABLE `survey_data` ADD `unid` INT(10) NOT NULL;
 

@@ -26,10 +26,14 @@ use Cake\ORM\Entity;
  * @property string $country
  * @property string $state
  * @property string $district
- * @property string $area
- * @property string|null $areawardno
- * @property int $pincode
  * @property string $education
+ * @property int $idcode
+ * @property string $landmark
+ * @property int $clustercode
+ * @property int $indiviadualcode
+ * @property int $unid
+ *
+ * @property \App\Model\Entity\Survey $survey
  */
 class Partcipant extends Entity
 {
@@ -60,9 +64,12 @@ class Partcipant extends Entity
         'country' => true,
         'state' => true,
         'district' => true,
-        'area' => true,
-        'areawardno' => true,
-        'pincode' => true,
         'education' => true,
+        'idcode' => true,
+        'landmark' => true,
+        'clustercode' => true,
+        'indiviadualcode' => true,
+        'unid' => true,
+        'survey' => true,
     ];
 }

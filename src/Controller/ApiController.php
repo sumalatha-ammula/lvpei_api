@@ -200,6 +200,7 @@ public function surveyquestionsnc(){
         $tmpArray = [
             'master_main_name' => @$question['master_main']['name'], 
             'options' =>@$question['master_main']['master_options'],
+            'option_type' => @$question['option_type'], 
             'section'=>@$question['section'] ,
             'question'=>@$question['question'] ,
             'question_id'=> $question['id'],
@@ -227,10 +228,12 @@ public function surveyquestionsc(){
        where(['SurveyQuestions.survey_id'=> $data['id'], 'SurveyQuestions.is_clinical'=> '1' ])->toArray();
        $final=[];
        foreach($sqs as $question){
-        // print_r($question);die;
+        // debug($question);
+        // die;
         $tmpArray = [
-            'master_main_name' => @$question['master_main']['name'], 
+            'master_main_name' => @$question['master_main']['name'],
             'options' =>@$question['master_main']['master_options'],
+            'option_type' => @$question['option_type'], 
             'section'=>@$question['section'] ,
             'question'=>@$question['question'] ,
             'question_id'=> $question['id'],
