@@ -193,7 +193,7 @@ public function surveyquestionsnc(){
         // ->select(['SurveyQuestions.section'])
        ->contain(['MasterMain','MasterMain.MasterOptions','survey'])->
        group(['SurveyQuestions.section','SurveyQuestions.id'])->
-       where(['SurveyQuestions.survey_id'=> $data['id'], 'SurveyQuestions.survey_form_name'=> 'Non Clinical' ])->toArray();
+       where(['SurveyQuestions.survey_id'=> $data['id'], 'SurveyQuestions.is_clinical'=> '0' ])->toArray();
        $final=[];
        foreach($sqs as $question){
         // print_r($question);die;
@@ -224,7 +224,7 @@ public function surveyquestionsc(){
         // ->select(['SurveyQuestions.section'])
        ->contain(['MasterMain','MasterMain.MasterOptions','survey'])->
        group(['SurveyQuestions.section','SurveyQuestions.id'])->
-       where(['SurveyQuestions.survey_id'=> $data['id'], 'SurveyQuestions.survey_form_name'=> 'Clinical' ])->toArray();
+       where(['SurveyQuestions.survey_id'=> $data['id'], 'SurveyQuestions.is_clinical'=> '1' ])->toArray();
        $final=[];
        foreach($sqs as $question){
         // print_r($question);die;
@@ -313,7 +313,6 @@ public function patientdetails(){
        $patientdetails->status =$data["status"];
        $patientdetails->is_survey = $data["is_survey"];
        $patientdetails->monthlyincome =$data["monthlyincome"];
-    //    $patientdetails->dateofbirth = $data["dateofbirth"];
        $patientdetails->country = $data["country"];
        $patientdetails->state = $data["state"];
        $patientdetails->district = $data["district"];
@@ -322,9 +321,6 @@ public function patientdetails(){
        $patientdetails->indiviadualcode = $data["indiviadualcode"];
        $patientdetails->landmark = $data["landmark"];
        $patientdetails->unid =  intval($uniqID);
-    //    $patientdetails->area = $data["area"];
-    //    $patientdetails->areawardno = $data["areawardno"];
-    //    $patientdetails->pincode = $data["pincode"];
        $patientdetails->created_by = 1;
        $patientdata->save($patientdetails);
        $lastParticipant = $this->Partcipants->find('all')->last();

@@ -289,7 +289,8 @@ class AdminController extends AppController {
 		if($this->request->is('post')){
 			$data = $this->request->getdata();
 			// debug($data);
-			if($data['Option_Type'] != 'Dropdown'){
+			// die;
+			if($data['Option_Type'] === 'Text Box'){
 				$masterID= 0;
 
 			}else{
@@ -306,7 +307,7 @@ class AdminController extends AppController {
 				$adsurveyQuUpdData->survey_id = $data['id'];
 				$adsurveyQuUpdData->created_by = $this->userdt['id'];
 				$adsurveyQuUpdData->created_on = date("Y-m-d");
-				$adsurveyQuUpdData->survey_form_name = $data['Survey_Form_Name'];
+				$adsurveyQuUpdData->is_clinical = $data['is_clinical'];
 				$adsurveyQuT->save($adsurveyQuUpdData);
 				$this->Flash->success(__('The Survey Question data has been saved.'));
 			}else {

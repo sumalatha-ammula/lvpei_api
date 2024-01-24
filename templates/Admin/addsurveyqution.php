@@ -42,13 +42,10 @@ a.fas.fa-trash{
                              $AnswerType=[
                             'Select'=>'Select',
                             'Dropdown'=>'Dropdown',
+                            'Multiple'=> 'Multiple Select',
                             'Text Box'=>'Text Box',
                             ];
-                            $formType=[
-                                'Select'=> 'Select',
-                                'Non Clinical' => 'Non Clinical',
-                                'Clinical'=> 'Clinical',
-                            ];
+                           
                             echo $this->Form->create(null, array(
                             'url' => array(
                                 'controller' => 'Admin', 'action' => 'addqutionsurveyrvapp'
@@ -66,12 +63,16 @@ a.fas.fa-trash{
                             'id' => 'edit_section',
                             'class' => "form-control ra_input",
                             ]);
-                            echo $this->Form->control('Survey Form Name', [
-                                'type' => 'select',
-                                'options' => $formType,
-                                'id' => 'answer',
-                                'class' => 'form-control people', // Add any additional classes as needed
-                                ]);
+                            echo $this->Form->control('Is Non Clinical', [
+                                'type' => 'checkbox', // Set the type to checkbox
+                                'id' => 'edit_section',
+                                'name' => 'is_clinical', 
+                                'hiddenField' => '1', // Specify the value when the checkbox is unchecked
+                                'value' => '0', // Set the value to '0' when the checkbox is checked
+                                'class' => 'form-check-input ra_input', // Add form-check-input class for proper styling
+                            ]);
+                            
+                           
                             echo $this->Form->control('Option Type', [
                             'type' => 'select',
                             'options' => $AnswerType,
@@ -135,7 +136,6 @@ a.fas.fa-trash{
                         <th>Question</th>
                         <th>Option Type</th>
                         <th>Master Main ID</th>
-                        <th>Survey Form Name</th>
                         <th>Created On</th>
                         <th>Action</th>
 				</thead>
@@ -155,7 +155,6 @@ a.fas.fa-trash{
 						<td><?= h($survey->question) ?></td>
 						<td><?= h($survey->option_type) ?></td>
 						<td><?= h($mastermaind) ?></td>
-                        <td><?= h($survey->survey_form_name) ?></td>
 						<td><?= h($survey->created_on); ?></td>
                         <td> 
                             <?php echo $this->Html->link("", [
@@ -247,7 +246,7 @@ $(document).ready(function() {
         $('#dropdown_field').hide();
         $('#text_field').hide();
 
-        if (selectedOption === 'Dropdown') {
+        if (selectedOption === 'Dropdown' || selectedOption === 'Multiple') {
             $('#dropdown_field').show(); // Show the dropdown field if 'Dropdown' is selected
         } else if (selectedOption === 'Text Box') {
             $('#text_field').show(); // Show the text field if 'Text Box' is selected

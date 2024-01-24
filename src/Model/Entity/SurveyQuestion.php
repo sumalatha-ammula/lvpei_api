@@ -18,10 +18,13 @@ use Cake\ORM\Entity;
  * @property string|null $show_if
  * @property \Cake\I18n\FrozenTime $created_on
  * @property int $created_by
+ * @property int $is_clinical
  *
  * @property \App\Model\Entity\SurveyQuestion $parent_survey_question
  * @property \App\Model\Entity\SurveyQuestion[] $child_survey_questions
  * @property \App\Model\Entity\MasterMain $master_main
+ * @property \App\Model\Entity\MasterOption $master_option
+ * @property \App\Model\Entity\Survey $survey
  */
 class SurveyQuestion extends Entity
 {
@@ -44,8 +47,11 @@ class SurveyQuestion extends Entity
         'show_if' => true,
         'created_on' => true,
         'created_by' => true,
+        'is_clinical' => true,
         'parent_survey_question' => true,
         'child_survey_questions' => true,
         'master_main' => true,
+        'master_option' => true,
+        'survey' => true,
     ];
 }

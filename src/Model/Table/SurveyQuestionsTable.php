@@ -93,7 +93,7 @@ class SurveyQuestionsTable extends Table
 
         $validator
             ->scalar('option_type')
-            ->maxLength('option_type', 250)
+            ->maxLength('option_type', 33)
             ->requirePresence('option_type', 'create')
             ->notEmptyString('option_type');
 
@@ -117,6 +117,9 @@ class SurveyQuestionsTable extends Table
             ->integer('created_by')
             ->requirePresence('created_by', 'create')
             ->notEmptyString('created_by');
+
+        $validator
+            ->notEmptyString('is_clinical');
 
         return $validator;
     }
