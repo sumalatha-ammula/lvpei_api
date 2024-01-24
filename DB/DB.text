@@ -202,3 +202,19 @@ ALTER TABLE `survey` ADD `field_executive_id` BIGINT(32) NOT NULL AFTER `status`
 ALTER TABLE `field_executive` ADD `status` TINYINT(2) NOT NULL AFTER `password`;
 
 ALTER TABLE `survey_questions` ADD `survey_form_name` VARCHAR(250) NOT NULL AFTER `created_by`;
+
+ALTER TABLE `partcipants` DROP `area`;
+
+ALTER TABLE `partcipants` DROP `areawardno`;
+
+ALTER TABLE `partcipants` DROP `pincode`;
+
+ALTER TABLE `partcipants` ADD `idcode` INT(33) NOT NULL AFTER `education`;
+
+ALTER TABLE `partcipants` ADD `landmark` VARCHAR(250) NOT NULL AFTER `idcode`;
+
+ALTER TABLE `partcipants` ADD `clustercode` INT(33) NOT NULL AFTER `landmark`;
+
+ALTER TABLE `partcipants` ADD `indiviadualcode` INT(33) NOT NULL AFTER `clustercode`;
+
+ALTER TABLE `partcipants` ADD `unid` INT(10) NOT NULL AFTER `indiviadualcode`;
