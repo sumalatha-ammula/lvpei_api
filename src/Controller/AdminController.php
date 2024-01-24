@@ -329,8 +329,8 @@ class AdminController extends AppController {
 
 			if ($this->request->is(['post', 'put'])) {
 				$data = $this->request->getdata();
-
-				if($data['option_type'] != 'Dropdown'){
+    
+				if($data['option_type'] === 'Text Box'){
 					$masterID= 0;
 	
 				}else{

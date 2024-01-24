@@ -174,6 +174,9 @@ class PartcipantsTable extends Table
             ->requirePresence('unid', 'create')
             ->notEmptyString('unid');
 
+        $validator
+            ->notEmptyString('is_examine');
+
         return $validator;
     }
 }

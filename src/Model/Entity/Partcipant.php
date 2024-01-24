@@ -32,6 +32,7 @@ use Cake\ORM\Entity;
  * @property int $clustercode
  * @property int $indiviadualcode
  * @property int $unid
+ * @property int $is_examine
  *
  * @property \App\Model\Entity\Survey $survey
  */
@@ -70,6 +71,7 @@ class Partcipant extends Entity
         'clustercode' => true,
         'indiviadualcode' => true,
         'unid' => true,
+        'is_examine' => true,
         'survey' => true,
     ];
 }

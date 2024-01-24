@@ -99,22 +99,17 @@
             }
 
           public function participantupdate(){
-            if($this->request->is('post')){
-            $data = $this->request->getdata();
-            // debug($data);
-            $pid = $data['pid'];
-            $pdataid = $this->Partcipants->find ( 'all' )
-            ->select(['id'])
-            ->where(['survey_id' => $data['id']])->toArray(); 
-            if( $pid === $pdataid ){
-                $patientdata = TableRegistry::get('Partcipants');
-                $patientdetails = $this->Partcipants->newEmptyEntity();
-                $patientdetails->name =$pid;
-            }
-
-            die;
-            }
+            $pid = $this->request->getData('pid');
+            $CompanyRecord = $this->Partcipants->get($pid);
+            $CompanyRecord->is_examine = $pid;
+            $this->Partcipants->save($CompanyRecord);
+            $result = [
+                'error' => 0,'status' => 200,  
+            ];
+            $this->set ("result",   $result);
           }
+
+
 //     public function surveyquestions(){
 //         $result=[];
 //         $result['error'] = 1;
