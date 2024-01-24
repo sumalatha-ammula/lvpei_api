@@ -22,6 +22,9 @@ a.fas.fa-edit {
 a.fas.fa-trash{
     color: #007bff;
 }
+.ra_inputl{
+    margin-left: 130px;
+}
 </style>
 
 
@@ -69,7 +72,7 @@ a.fas.fa-trash{
                                 'name' => 'is_clinical', 
                                 'hiddenField' => '1', // Specify the value when the checkbox is unchecked
                                 'value' => '0', // Set the value to '0' when the checkbox is checked
-                                'class' => 'form-check-input ra_input', // Add form-check-input class for proper styling
+                                'class' => 'form-check-input ra_inputl', // Add form-check-input class for proper styling
                             ]);
                             
                            

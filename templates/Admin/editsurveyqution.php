@@ -40,6 +40,7 @@
                     $AnswerType=[
                         'Select'=>'Select',
                         'Dropdown'=>'Dropdown',
+                        'Multiple'=> 'Multiple Select',
                         'Text Box'=>'Text Box',
                         ];
 
