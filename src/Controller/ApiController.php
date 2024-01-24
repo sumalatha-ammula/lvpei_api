@@ -99,13 +99,19 @@
             }
 
           public function participantupdate(){
-            $pid = $this->request->getData('pid');
-            $CompanyRecord = $this->Partcipants->get($pid);
-            $CompanyRecord->is_examine = $pid;
-            $this->Partcipants->save($CompanyRecord);
-            $result = [
-                'error' => 0,'status' => 200,  
-            ];
+            $result['error'] = 0;
+            $data = $this->request->getdata();
+        
+            $pid= $this->Partcipants->find('all')
+            ->select(['id'])
+            ->where(['id'=>$data['pid']])
+            ->toArray();
+            if($pid != 0){
+                $partcipantsRecord = $this->Partcipants->get($pid[0]->id);
+                $partcipantsRecord->is_examine = 1;
+                $this->Partcipants->save($partcipantsRecord);
+                $result = ['error' => 0,'status' => 200,];
+            }
             $this->set ("result",   $result);
           }
 
