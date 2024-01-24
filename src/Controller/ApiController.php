@@ -294,9 +294,11 @@ public function savesurveydata(){
 }
 
 public function patientdetails(){
+
     $result = [];
     if($this->request->is('post')){ 
-        $data = $this->request->getData();     
+        $data = $this->request->getData();  
+        $uniqID = $data["idcode"] . $data["clustercode"] . $data["indiviadualcode"];
        $patientdata = TableRegistry::get('Partcipants');
        $patientdetails = $this->Partcipants->newEmptyEntity();
        $patientdetails->name =$data["name"];
@@ -311,20 +313,25 @@ public function patientdetails(){
        $patientdetails->status =$data["status"];
        $patientdetails->is_survey = $data["is_survey"];
        $patientdetails->monthlyincome =$data["monthlyincome"];
-       $patientdetails->dateofbirth = $data["dateofbirth"];
+    //    $patientdetails->dateofbirth = $data["dateofbirth"];
        $patientdetails->country = $data["country"];
        $patientdetails->state = $data["state"];
        $patientdetails->district = $data["district"];
-       $patientdetails->area = $data["area"];
-       $patientdetails->areawardno = $data["areawardno"];
-       $patientdetails->pincode = $data["pincode"];
+       $patientdetails->idcode = $data["idcode"];
+       $patientdetails->clustercode = $data["clustercode"];
+       $patientdetails->indiviadualcode = $data["indiviadualcode"];
+       $patientdetails->landmark = $data["landmark"];
+       $patientdetails->unid =  intval($uniqID);
+    //    $patientdetails->area = $data["area"];
+    //    $patientdetails->areawardno = $data["areawardno"];
+    //    $patientdetails->pincode = $data["pincode"];
        $patientdetails->created_by = 1;
        $patientdata->save($patientdetails);
        $lastParticipant = $this->Partcipants->find('all')->last();
        $lastRecordId = $lastParticipant->id;
 
        $result = [
-        'error' => 0,'status' => 200, 'id'=>$lastRecordId, 'name'=>$data["name"], 'mobile'=>$data["mobile"]
+        'error' => 0,'status' => 200, 'id'=>$lastRecordId, 'name'=>$data["name"], 'mobile'=>$data["mobile"], "unid"=>  intval($uniqID)
     ];
 
     }else{
