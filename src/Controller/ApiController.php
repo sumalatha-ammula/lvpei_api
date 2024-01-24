@@ -108,6 +108,7 @@
             ->toArray();
             if($pid != 0){
                 $partcipantsRecord = $this->Partcipants->get($pid[0]->id);
+                $partcipantsRecord->status = 'Examined';
                 $partcipantsRecord->is_examine = 1;
                 $this->Partcipants->save($partcipantsRecord);
                 $result = ['error' => 0,'status' => 200,];
