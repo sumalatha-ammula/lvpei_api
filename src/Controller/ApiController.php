@@ -348,7 +348,7 @@ public function patientdetails(){
        $lastRecordId = $lastParticipant->id;
 
        $result = [
-        'error' => 0,'status' => 200, 'id'=>$lastRecordId, 'name'=>$data["name"], 'mobile'=>$data["mobile"], "unid"=>  intval($uniqID)
+        'error' => 0,'status' => 200, 'id'=>$lastRecordId, 'name'=>$data["name"], 'age'=>$data["age"], "unid"=>  intval($uniqID)
     ];
 
     }else{
@@ -465,6 +465,34 @@ public function patientdetails(){
         }
 
        $this->set ("result",   array_values($final));
+    }
+    public function editprofile(){
+        $result = [];
+        $result = ['error' => 1,];
+        $this->request->is('post');
+        $data = $this->request->getData(); 
+        // debug($data);
+        $results = $this->FieldExecutive->get($data['id']); 
+        if (!empty($data['username'])){
+            $fielddata ['username'] = $data['username'];
+            $fielddata ['email'] = $data['email'];
+            $fielddata ['phone'] = $data['phone'];
+            $profiledata = $this->FieldExecutive->patchEntity($results,$fielddata);
+            $this->FieldExecutive->save( $profiledata);
+        }
+        $result = [
+            'error'=>0, 'status'=> 200, 'fieldexecutive'=> $results
+       ];
+
+
+
+
+
+        // $result = $this->FieldExecutive->find ( 'all' )
+        // ->where(['id' => $data['id']])->toArray();
+        // debug($data['id']) ;
+        // debug($result) ;
+        $this->set ("result",$result);
     }
     
 }
