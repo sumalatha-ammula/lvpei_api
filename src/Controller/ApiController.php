@@ -393,14 +393,41 @@ public function patientdetails(){
     }
 
     public function surveyupdate(){
+        $result['error'] = 1;
+        $result_data = '';
         if($this->request->is('post')){ 
             $data = $this->request->getData(); 
             // debug($data);
-            $results = $this->Partcipants->find ( 'all' )
-            ->where(['id' => $data['id'], 'survey_id' => $data['sid']])->toArray();
+            // die;
+            $results = $this->Partcipants->get($data['id']);
+
+            if (!empty($data['name'])){
+                $Partcipantedit ['name'] = $data['name'];
+                $Partcipantedit ['age'] = $data['age'];
+                $Partcipantedit ['mobile'] = $data['mobile'];
+                $Partcipantedit ['status'] = $data['status'];
+                $Partcipantedit ['gender'] = $data['gender'];
+                $Partcipantedit ['nameeducation'] = $data['education'];
+                $Partcipantedit ['adharnumber'] = $data['adharnumber'];
+                $Partcipantedit ['occupation'] = $data['occupation'];
+                $Partcipantedit ['monthlyincome'] = $data['monthlyincome'];
+                $Partcipantedit ['country'] = $data['country'];
+                $Partcipantedit ['state'] = $data['state'];
+                $Partcipantedit ['district'] = $data['district'];
+                $Partcipantedit ['idcode'] = $data['idcode'];
+                $Partcipantedit ['clustercode'] = $data['clustercode'];
+                $Partcipantedit ['indiviadualcode'] = $data['indiviadualcode'];
+                $Partcipantedit ['landmark'] = $data['landmark'];
+
+                $surveyPartcipantedit = $this->Partcipants->patchEntity($results,$Partcipantedit);
+                $this->Partcipants->save( $surveyPartcipantedit);
+                $result_data='Data added';
+
+            }
+
         }
         $result = [
-            'error' => 0, 'Surveyquestion' => $results,'status' => 200
+            'Surveyquestion' => $results, $result_data, 'error'=>0, 'status'=> 200
         ];
         $this->set ("result",$result);
     }
