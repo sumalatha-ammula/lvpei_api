@@ -391,6 +391,21 @@ public function patientdetails(){
         // ];       
         $this->set ("result",$result);
     }
+
+    public function surveyupdate(){
+        if($this->request->is('post')){ 
+            $data = $this->request->getData(); 
+            // debug($data);
+            $results = $this->Partcipants->find ( 'all' )
+            ->where(['id' => $data['id'], 'survey_id' => $data['sid']])->toArray();
+        }
+        $result = [
+            'error' => 0, 'Surveyquestion' => $results,'status' => 200
+        ];
+        $this->set ("result",$result);
+    }
+
+   
 }
 
    
