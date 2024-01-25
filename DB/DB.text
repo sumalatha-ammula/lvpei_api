@@ -226,3 +226,5 @@ ALTER TABLE `survey_data` ADD `unid` INT(10) NOT NULL;
 
 ALTER TABLE `partcipants` ADD `is_examine` TINYINT NOT NULL DEFAULT '0';
 
+ALTER TABLE `partcipants` DROP `dateofbirth`;
+

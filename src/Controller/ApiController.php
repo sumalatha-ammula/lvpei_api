@@ -416,20 +416,15 @@ public function patientdetails(){
             foreach($sps as $question){
             //  debug($question);
              // die;
-             $tmpArray = [
-                // 'master_main_name' => @$question['survey_question']['master_main']['name'],
-                // 'options' => []
-            ];
+           
             if (is_array(@$question['survey_question']['master_main']['master_options'])) {
                 foreach ($question['survey_question']['master_main']['master_options'] as $option) {
-                    $tmpArray[] = $option['option_value'];
-
-                }
-            }
+                    // $tmpArraye[] = $option['option_value'];
+        
              $tmpArray = [
                  'master_main_name' => @$question['survey_question']['master_main']['name'],
                 //  'options' =>@$question['survey_question']['master_main']['master_options'][0]['option_value'],
-                 'options'=>$tmpArray,
+                 'options'=>$option['option_value'],
                  'option_type' => @$question['survey_question']['option_type'], 
                  'section'=>@$question['survey_question']['section'] ,
                  'question'=>@$question['survey_question']['question'] ,
@@ -439,15 +434,15 @@ public function patientdetails(){
                  'unid'=>$question['unid'],
                  'option_data'=>$question['option_data'],
              ];    
-             $final[$question['section']][] = $tmpArray;
-         
-         }
-
+             $final[$question['survey_question']['section']][] = $tmpArray;
             }
+        }
+          }
+        }
 
-            $this->set ("result",   array_values($final));
-        
+       $this->set ("result",   array_values($final));
     }
+    
 }
 
    
