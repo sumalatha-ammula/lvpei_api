@@ -405,7 +405,49 @@ public function patientdetails(){
         $this->set ("result",$result);
     }
 
-   
+    public function editsurveyquestions(){
+        if($this->request->is('post')){
+            $data = $this->request->getData();
+            $sps = $this->SurveyData->find ( 'all' )
+            ->contain(["Survey","SurveyQuestions", "FieldExecutive","Partcipants","SurveyQuestions.MasterMain.MasterOptions","SurveyQuestions.MasterMain" ])
+            ->where(['SurveyData.partcipants_id'=>$data['id'], 'SurveyData.survey_id' => $data['sid']])->toArray();
+            // debug($sps);
+            $final=[];
+            foreach($sps as $question){
+            //  debug($question);
+             // die;
+             $tmpArray = [
+                // 'master_main_name' => @$question['survey_question']['master_main']['name'],
+                // 'options' => []
+            ];
+            if (is_array(@$question['survey_question']['master_main']['master_options'])) {
+                foreach ($question['survey_question']['master_main']['master_options'] as $option) {
+                    $tmpArray[] = $option['option_value'];
+
+                }
+            }
+             $tmpArray = [
+                 'master_main_name' => @$question['survey_question']['master_main']['name'],
+                //  'options' =>@$question['survey_question']['master_main']['master_options'][0]['option_value'],
+                 'options'=>$tmpArray,
+                 'option_type' => @$question['survey_question']['option_type'], 
+                 'section'=>@$question['survey_question']['section'] ,
+                 'question'=>@$question['survey_question']['question'] ,
+                //  'question_id'=> $question['id'],
+                 'survey_id' => $question['survey_id'],
+                 'survey'=>$question['survey'],
+                 'unid'=>$question['unid'],
+                 'option_data'=>$question['option_data'],
+             ];    
+             $final[$question['section']][] = $tmpArray;
+         
+         }
+
+            }
+
+            $this->set ("result",   array_values($final));
+        
+    }
 }
 
    
