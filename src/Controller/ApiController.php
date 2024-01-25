@@ -417,15 +417,11 @@ public function patientdetails(){
             //  debug($question);
              // die;
            
-            if (is_array(@$question['survey_question']['master_main']['master_options'])) {
-                foreach ($question['survey_question']['master_main']['master_options'] as $option) {
-                    $tmpArraye[] = $option['option_value'];
-                }
-            }
+           
              $tmpArray = [
                  'master_main_name' => @$question['survey_question']['master_main']['name'],
                 //  'options' =>@$question['survey_question']['master_main']['master_options'][0]['option_value'],
-                 'options'=>$tmpArraye,
+                 'options'=>@$question['survey_question']['master_main']['master_options'],
                  'option_type' => @$question['survey_question']['option_type'], 
                  'section'=>@$question['survey_question']['section'] ,
                  'question'=>@$question['survey_question']['question'] ,
