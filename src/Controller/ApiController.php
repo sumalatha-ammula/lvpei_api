@@ -280,6 +280,41 @@ public function surveyparticipantsdatarvapp(){
     $this->set ("result", $result); 
 }
 
+public function editsavesurveydata(){
+    if($this->request->is('post')){
+        $data = $this->request->getdata(); 
+        $pid=$data["pid"];
+        $data = json_decode($data['fdata']);
+        // debug( $data);
+        
+        foreach($data as $d){
+            $results = $this->SurveyData->get($d->question_id);            
+            $surveydetails = [];
+            $surveydetails['survey_id'] = $d->survey_id;
+            $surveydetails['survey_questions_id'] = $d->question_id;
+            $surveydetails['field_executive_id'] = $d->executive_id;
+            $surveydetails['geo_location'] = '23.23,34,8';
+            $surveydetails['question'] = $d->question;
+            // $surveydetails['option_data'] = $d->answer;
+            $surveydetails['option_data'] = json_encode($d->answer);
+            $surveydetails['partcipants_id'] = $pid;
+            // debug( $surveydetails);
+            $sdata = $this->SurveyData->patchEntity($results, $surveydetails);
+            // debug( $sdata);
+            $this->SurveyData->save($sdata);
+
+            $result = [
+                'error' => 0,'status' => 200
+            ]; 
+
+        }
+        
+    }
+    $this->set ("result", $result); 
+
+
+}
+
 public function savesurveydata(){
     $result=[];
     $result['error'] = 1;
@@ -296,7 +331,8 @@ public function savesurveydata(){
             $surveydetails['field_executive_id'] = $d->executive_id;
             $surveydetails['geo_location'] = '23.23,34,8';
             $surveydetails['question'] = $d->question;
-            $surveydetails['option_data'] = $d->answer;
+            // $surveydetails['option_data'] = $d->answer;
+            $surveydetails['option_data'] = json_encode($d->answer);
             $surveydetails['partcipants_id'] = $pid;
             $sdata = $this->SurveyData->patchEntity($surveydata, $surveydetails);
             $this->SurveyData->save($sdata);
@@ -452,7 +488,7 @@ public function patientdetails(){
                  'option_type' => @$question['survey_question']['option_type'], 
                  'section'=>@$question['survey_question']['section'] ,
                  'question'=>@$question['survey_question']['question'] ,
-                //  'question_id'=> $question['id'],
+                 'question_id'=> $question['survey_question']['id'],
                  'survey_id' => $question['survey_id'],
                  'survey'=>$question['survey'],
                  'unid'=>$question['unid'],
