@@ -53,5 +53,6 @@ class SurveyQuestion extends Entity
         'master_main' => true,
         'master_option' => true,
         'survey' => true,
+        'sort' => true,
     ];
 }

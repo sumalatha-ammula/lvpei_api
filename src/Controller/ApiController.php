@@ -241,9 +241,10 @@ public function surveyquestionsc(){
         $sqs =[];
         $sqs = $this->SurveyQuestions->find('all')
         // ->select(['SurveyQuestions.section'])
-       ->contain(['MasterMain','MasterMain.MasterOptions','survey'])->
-       group(['SurveyQuestions.section','SurveyQuestions.id'])->
-       where(['SurveyQuestions.survey_id'=> $data['id'], 'SurveyQuestions.is_clinical'=> '1' ])->toArray();
+       ->contain(['MasterMain','MasterMain.MasterOptions','survey'])
+       ->group(['SurveyQuestions.section','SurveyQuestions.id'])
+       ->order(['sort', 'SurveyQuestions.id'])
+       ->where(['SurveyQuestions.survey_id'=> $data['id'], 'SurveyQuestions.is_clinical'=> '1' ])->toArray();
        $final=[];
        foreach($sqs as $question){
         // debug($question);

@@ -376,6 +376,7 @@ class AdminController extends AppController {
 		// echo "hello";
 		
 		$surveyquestiondata = $this->SurveyQuestions->find ( 'all' )
+		->order(['sort', 'SurveyQuestions.id'])
 		->contain(['MasterMain'])
 		->where(['survey_id' => $id]);
 		$surveys = $this->paginate ( $surveyquestiondata);

@@ -228,3 +228,11 @@ ALTER TABLE `partcipants` ADD `is_examine` TINYINT NOT NULL DEFAULT '0';
 
 ALTER TABLE `partcipants` DROP `dateofbirth`;
 
+======================================
+
+ALTER TABLE `survey_questions` CHANGE `show_if` `show_if` BIGINT(32) NULL DEFAULT NULL;
+
+ALTER TABLE `survey_questions` ADD `sort` INT(10) NOT NULL DEFAULT '0' AFTER `is_clinical`;
+
+
+
