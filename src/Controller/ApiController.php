@@ -334,7 +334,7 @@ public function savesurveydata(){
             $surveydetails['geo_location'] = '23.23,34,8';
             $surveydetails['question'] = $d->question;
             // $surveydetails['option_data'] = $d->answer;           
-            $surveydetails['option_data'] = json_encode($d->answer);
+            $surveydetails['option_data'] = is_array($d->answer) ? implode(',',$d->answer) : $d->answer ;
             $surveydetails['partcipants_id'] = $pid;
             $surveydetails['unid'] = $punid;
             $sdata = $this->SurveyData->patchEntity($surveydata, $surveydetails);
