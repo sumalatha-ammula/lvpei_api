@@ -241,9 +241,10 @@ public function surveyquestionsc(){
         $sqs =[];
         $sqs = $this->SurveyQuestions->find('all')
         // ->select(['SurveyQuestions.section'])
-       ->contain(['MasterMain','MasterMain.MasterOptions','survey'])->
-       group(['SurveyQuestions.section','SurveyQuestions.id'])->
-       where(['SurveyQuestions.survey_id'=> $data['id'], 'SurveyQuestions.is_clinical'=> '1' ])->toArray();
+       ->contain(['MasterMain','MasterMain.MasterOptions','survey'])
+       ->group(['SurveyQuestions.section','SurveyQuestions.id'])
+       ->order(['sort', 'SurveyQuestions.id'])
+       ->where(['SurveyQuestions.survey_id'=> $data['id'], 'SurveyQuestions.is_clinical'=> '1' ])->toArray();
        $final=[];
        foreach($sqs as $question){
         // debug($question);
@@ -280,6 +281,41 @@ public function surveyparticipantsdatarvapp(){
     $this->set ("result", $result); 
 }
 
+public function editsavesurveydata(){
+    if($this->request->is('post')){
+        $data = $this->request->getdata(); 
+        $pid=$data["pid"];
+        $data = json_decode($data['fdata']);
+        // debug( $data);
+        
+        foreach($data as $d){
+            $results = $this->SurveyData->get($d->question_id);            
+            $surveydetails = [];
+            $surveydetails['survey_id'] = $d->survey_id;
+            $surveydetails['survey_questions_id'] = $d->question_id;
+            $surveydetails['field_executive_id'] = $d->executive_id;
+            $surveydetails['geo_location'] = '23.23,34,8';
+            $surveydetails['question'] = $d->question;
+            // $surveydetails['option_data'] = $d->answer;
+            $surveydetails['option_data'] = json_encode($d->answer);
+            $surveydetails['partcipants_id'] = $pid;
+            // debug( $surveydetails);
+            $sdata = $this->SurveyData->patchEntity($results, $surveydetails);
+            // debug( $sdata);
+            $this->SurveyData->save($sdata);
+
+            $result = [
+                'error' => 0,'status' => 200
+            ]; 
+
+        }
+        
+    }
+    $this->set ("result", $result); 
+
+
+}
+
 public function savesurveydata(){
     $result=[];
     $result['error'] = 1;
@@ -296,7 +332,8 @@ public function savesurveydata(){
             $surveydetails['field_executive_id'] = $d->executive_id;
             $surveydetails['geo_location'] = '23.23,34,8';
             $surveydetails['question'] = $d->question;
-            $surveydetails['option_data'] = $d->answer;
+            // $surveydetails['option_data'] = $d->answer;
+            $surveydetails['option_data'] = json_encode($d->answer);
             $surveydetails['partcipants_id'] = $pid;
             $sdata = $this->SurveyData->patchEntity($surveydata, $surveydetails);
             $this->SurveyData->save($sdata);
@@ -348,7 +385,7 @@ public function patientdetails(){
        $lastRecordId = $lastParticipant->id;
 
        $result = [
-        'error' => 0,'status' => 200, 'id'=>$lastRecordId, 'name'=>$data["name"], 'mobile'=>$data["mobile"], "unid"=>  intval($uniqID)
+        'error' => 0,'status' => 200, 'id'=>$lastRecordId, 'name'=>$data["name"], 'age'=>$data["age"], "unid"=>  intval($uniqID)
     ];
 
     }else{
@@ -452,7 +489,7 @@ public function patientdetails(){
                  'option_type' => @$question['survey_question']['option_type'], 
                  'section'=>@$question['survey_question']['section'] ,
                  'question'=>@$question['survey_question']['question'] ,
-                //  'question_id'=> $question['id'],
+                 'question_id'=> $question['survey_question']['id'],
                  'survey_id' => $question['survey_id'],
                  'survey'=>$question['survey'],
                  'unid'=>$question['unid'],
@@ -465,6 +502,34 @@ public function patientdetails(){
         }
 
        $this->set ("result",   array_values($final));
+    }
+    public function editprofile(){
+        $result = [];
+        $result = ['error' => 1,];
+        $this->request->is('post');
+        $data = $this->request->getData(); 
+        // debug($data);
+        $results = $this->FieldExecutive->get($data['id']); 
+        if (!empty($data['username'])){
+            $fielddata ['username'] = $data['username'];
+            $fielddata ['email'] = $data['email'];
+            $fielddata ['phone'] = $data['phone'];
+            $profiledata = $this->FieldExecutive->patchEntity($results,$fielddata);
+            $this->FieldExecutive->save( $profiledata);
+        }
+        $result = [
+            'error'=>0, 'status'=> 200, 'fieldexecutive'=> $results
+       ];
+
+
+
+
+
+        // $result = $this->FieldExecutive->find ( 'all' )
+        // ->where(['id' => $data['id']])->toArray();
+        // debug($data['id']) ;
+        // debug($result) ;
+        $this->set ("result",$result);
     }
     
 }

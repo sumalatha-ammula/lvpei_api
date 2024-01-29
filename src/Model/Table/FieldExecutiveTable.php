@@ -41,9 +41,15 @@ class FieldExecutiveTable extends Table
         $this->setDisplayField('username');
         $this->setPrimaryKey('id');
 
-        $this->belongsTo('surveyData', [
+        $this->hasMany('Partcipants', [
             'foreignKey' => 'field_executive_id',
-            ]);
+        ]);
+        $this->hasMany('Survey', [
+            'foreignKey' => 'field_executive_id',
+        ]);
+        $this->hasMany('SurveyData', [
+            'foreignKey' => 'field_executive_id',
+        ]);
     }
 
     /**
@@ -70,9 +76,16 @@ class FieldExecutiveTable extends Table
             ->maxLength('password', 200)
             ->requirePresence('password', 'create')
             ->notEmptyString('password');
-            $validator
+
+        $validator
             ->requirePresence('status', 'create')
             ->notEmptyString('status');
+
+        $validator
+            ->scalar('phone')
+            ->maxLength('phone', 10)
+            ->requirePresence('phone', 'create')
+            ->notEmptyString('phone');
 
         return $validator;
     }
