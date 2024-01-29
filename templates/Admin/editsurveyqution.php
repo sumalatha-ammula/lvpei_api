@@ -15,7 +15,7 @@
 					<h3 class="card-title">Edit Survey Question</h3>
 					
 				</div>
-               <?php debug($surveyedit);?>
+               <?php //debug($surveyedit);?>
                 <?= $this->Form->create($surveyedit) ?>
 
 				<div class="card-body">
@@ -48,7 +48,7 @@
                         'Multiple'=> 'Multiple Select',
                         'Text Box'=>'Text Box',
                         ];
-                        debug($surveyedit->is_clinical);
+                    
                         if($surveyedit->is_clinical === false){
                             $is_clinical = true;
                         }else{
