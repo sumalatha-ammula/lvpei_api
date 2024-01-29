@@ -322,6 +322,7 @@ public function savesurveydata(){
     if($this->request->is('post')){
         $data = $this->request->getdata(); 
         $pid=$data["pid"];
+        $punid =$data['punid'];
         $data = json_decode($data['fdata']);
         foreach($data as $d){
             
@@ -332,9 +333,10 @@ public function savesurveydata(){
             $surveydetails['field_executive_id'] = $d->executive_id;
             $surveydetails['geo_location'] = '23.23,34,8';
             $surveydetails['question'] = $d->question;
-            // $surveydetails['option_data'] = $d->answer;
+            // $surveydetails['option_data'] = $d->answer;           
             $surveydetails['option_data'] = json_encode($d->answer);
             $surveydetails['partcipants_id'] = $pid;
+            $surveydetails['unid'] = $punid;
             $sdata = $this->SurveyData->patchEntity($surveydata, $surveydetails);
             $this->SurveyData->save($sdata);
             $result = [

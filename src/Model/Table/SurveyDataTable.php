@@ -52,7 +52,6 @@ class SurveyDataTable extends Table
             'foreignKey' => 'partcipants_id',
             'joinType' => 'INNER',
         ]);
-
         $this->belongsTo('Survey', [
             'foreignKey' => 'survey_id',
             'joinType' => 'INNER',
@@ -61,7 +60,7 @@ class SurveyDataTable extends Table
         $this->belongsTo('FieldExecutive', [
             'foreignKey' => 'field_executive_id',
             'joinType' => 'INNER',
-        ]);
+      ]);
     }
 
     /**
@@ -104,7 +103,13 @@ class SurveyDataTable extends Table
             ->notEmptyDateTime('sync_time');
 
         $validator
+            ->scalar('partcipants_id')
             ->notEmptyString('partcipants_id');
+
+        $validator
+            ->integer('unid')
+            ->requirePresence('unid', 'create')
+            ->notEmptyString('unid');
 
         return $validator;
     }
@@ -118,8 +123,8 @@ class SurveyDataTable extends Table
      */
     public function buildRules(RulesChecker $rules): RulesChecker
     {
-        //$rules->add($rules->existsIn('survey_questions_id', 'SurveyQuestions'), ['errorField' => 'survey_questions_id']);
-        //$rules->add($rules->existsIn('partcipants_id', 'Partcipants'), ['errorField' => 'partcipants_id']);
+        $rules->add($rules->existsIn('survey_questions_id', 'SurveyQuestions'), ['errorField' => 'survey_questions_id']);
+        $rules->add($rules->existsIn('partcipants_id', 'Partcipants'), ['errorField' => 'partcipants_id']);
 
         return $rules;
     }
