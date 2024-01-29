@@ -329,7 +329,8 @@ class AdminController extends AppController {
 
 			if ($this->request->is(['post', 'put'])) {
 				$data = $this->request->getdata();
-    
+                //  debug($data);
+				//  die;
 				if($data['option_type'] === 'Text Box'){
 					$masterID= 0;
 	
@@ -341,6 +342,7 @@ class AdminController extends AppController {
 				$masterdata['question'] = $data['question'];
 				$masterdata['option_type'] = $data['option_type'];
 				$masterdata['master_main_id'] = $masterID;
+				$masterdata['is_clinical'] = $data['is_clinical'];
                 // debug($masterdata);
 				$surveyedit = $this->SurveyQuestions->patchEntity($surveyedit,$masterdata);
 				// debug($surveyedit);

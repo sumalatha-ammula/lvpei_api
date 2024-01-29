@@ -3,6 +3,10 @@
 <script>
   var baseURL = "<?php echo $this->Url->build('/', array('fullBase'=>true)); ?>";
   </script>
+  <style>.ra_inputl{
+    margin-left: 130px;
+}
+</style>
 <section class="content">
 	<div class="row">
 		<div class="col-md-6">
@@ -11,6 +15,7 @@
 					<h3 class="card-title">Edit Survey Question</h3>
 					
 				</div>
+               <?php debug($surveyedit);?>
                 <?= $this->Form->create($surveyedit) ?>
 
 				<div class="card-body">
@@ -43,8 +48,22 @@
                         'Multiple'=> 'Multiple Select',
                         'Text Box'=>'Text Box',
                         ];
-
-                    echo $this->Form->control('option_type', [
+                        debug($surveyedit->is_clinical);
+                        if($surveyedit->is_clinical === false){
+                            $is_clinical = true;
+                        }else{
+                            $is_clinical = false;
+                        }
+                        echo $this->Form->control('is Non clinical', [
+                            'type' => 'checkbox', // Set the type to checkbox
+                            'id' => 'edit_section',
+                            'name' => 'is_clinical', 
+                            'hiddenField' => '1', // Specify the value when the checkbox is unchecked
+                            'value' => '0', // Set the value to '0' when the checkbox is c
+                            'class' => 'form-check-input ra_inputl', // Add form-check-input class for proper styling
+                            'checked' => $is_clinical // Set the 'checked' attribute based on the value of 'is_clinical'
+                        ]);
+                        echo $this->Form->control('option_type', [
                         'type' => 'select',
                         'options' => $AnswerType,
                         'id' => 'answer_type',
