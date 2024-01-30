@@ -52,15 +52,6 @@ class SurveyDataTable extends Table
             'foreignKey' => 'partcipants_id',
             'joinType' => 'INNER',
         ]);
-        $this->belongsTo('Survey', [
-            'foreignKey' => 'survey_id',
-            'joinType' => 'INNER',
-        ]);
-
-        $this->belongsTo('FieldExecutive', [
-            'foreignKey' => 'field_executive_id',
-            'joinType' => 'INNER',
-      ]);
     }
 
     /**
@@ -91,6 +82,11 @@ class SurveyDataTable extends Table
             ->maxLength('geo_location', 255)
             ->requirePresence('geo_location', 'create')
             ->notEmptyString('geo_location');
+
+        $validator
+            ->scalar('question')
+            ->maxLength('question', 255)
+            ->allowEmptyString('question');
 
         $validator
             ->scalar('option_data')

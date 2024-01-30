@@ -14,6 +14,7 @@ use Cake\ORM\Entity;
  * @property int $field_executive_id
  * @property \Cake\I18n\FrozenTime $datetime
  * @property string $geo_location
+ * @property string|null $question
  * @property string $option_data
  * @property \Cake\I18n\FrozenTime $sync_time
  * @property string $partcipants_id
@@ -41,6 +42,7 @@ class SurveyData extends Entity
         'field_executive_id' => true,
         'datetime' => true,
         'geo_location' => true,
+        'question' => true,
         'option_data' => true,
         'sync_time' => true,
         'partcipants_id' => true,
