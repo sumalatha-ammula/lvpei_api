@@ -469,7 +469,25 @@ class AdminController extends AppController {
 		->toArray();
 		// debug($masterOp_Data);
 		$this->set ( "masterOp_Data", $masterOp_Data);
+		$this->set("id", $id);
 
+	}
+	public function editmasteroption(){
+		
+			$data = $this->request->getData();
+			$potiondata = $data['survey_option'];
+			foreach ($potiondata as $id => $value) {
+				// debug($id);
+				$masterdataRecord = $this->MasterOptions->get($id);
+				$masterdataRecord->option_value = $value;
+				$this->MasterOptions->save($masterdataRecord);
+				// Handle each $value based on $id
+				// Example: Update the database with the new value
+			}
+			 $this->Flash->error(__('The Master_option data has been saved.'));
+
+		return $this->redirect(["controller" => "Admin", 'action' => 'masteroptionsdata',$data['id']]);
+		// $this->set("result", $result);
 	}
     public function masteroptions(){
 		$result = [];

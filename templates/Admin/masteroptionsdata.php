@@ -11,33 +11,36 @@
 					<h3 class="card-title">Master Options</h3>
 					
 				</div>
-				  <?php //debug($masterOp_Data);?>
+				<?php
+						echo $this->Flash->render ();
+						echo $this->Form->create ( null, array (
+								'url' => array (
+										'controller' => 'Admin',
+										'action' => 'editmasteroption' 
+								),
+								'enctype' => 'multipart/form-data',
+								'id' => 'login' 
+						) );
+						?>
 
 				<div class="card-body">
 					
-					<div class="form-group">
-					<?php foreach ($masterOp_Data as $index => $survey): ?>
-						<?php $masterdata = $survey->master_main->name;?>
+				<div class="form-group">
+				<?php foreach ($masterOp_Data as $index => $survey): ?>
+					<?php $masterdata = $survey->master_main->name; ?>
+					 <?php endforeach; ?>
+                     <label for="<?= 'option_' . $survey->id ?>" style="font-weight:bold; font-size:16px"><?= $masterdata ?></label><br>
 
-					<?php endforeach; ?>
-					<label for="formGroupExampleInput" style="font-weight:bold;font-size:16px"><?php echo $masterdata ?></label><br>
-
-					<?php 
-					foreach ($masterOp_Data as $index => $survey): ?>
-					<br>
-					<input class="form-control" type="text" placeholder="<?= h($survey->option_value) ?>" readonly>
-					<?php endforeach; ?>
-					<?php 
-					// echo $this->Form->control('Master Option', [
-                    //     'type' => 'select',
-                    //     //  'multiple' => 'checkbox',
-                    //     'options' =>$masterOp_Data,
-                    //     'id' => 'branch_id',
-                    //     'class' => 'form-control people ra_input', // Add any additional classes as needed
-                    // ]);
-					?>
-					</div>
+                     <?php foreach ($masterOp_Data as $index => $survey): ?>
+                               <br>
+                     <input class="form-control" type="text" id="<?= 'option_' . $survey->id ?>" name="survey_option[<?= $survey->id ?>]" value="<?= htmlspecialchars($survey->option_value) ?>">
 					
+                     <?php endforeach; ?>
+					 <input class="form-control" type="hidden" name="id" value="<?= htmlspecialchars($id) ?>">
+
+					 <?php// debug($id);?>
+                     </div>
+					<?= $this->Form->button(__('Submit'), ['class' => "btn  bg-gradient-primary  btncompany"]) ?>
 					<a href="javascript:history.back()" class="btn btn-secondary">Back</a> 
 				</div>
 				<?php echo $this->Form->end ();?>
