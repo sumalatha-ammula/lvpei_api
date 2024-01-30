@@ -223,6 +223,8 @@ public function surveyquestionsnc(){
             'question'=>@$question['question'] ,
             'question_id'=> $question['id'],
             'survey_id' => $question['survey_id'],
+            'parent_id'=> @$question['parent_id'],
+            'show_if'=> @$question['show_if'],
             'survey'=>$question['survey']
         ];    
         $final[$question['section']][] = $tmpArray;
@@ -271,6 +273,8 @@ public function surveyquestionsc(){
             'question'=>@$question['question'] ,
             'question_id'=> $question['id'],
             'survey_id' => $question['survey_id'],
+            'parent_id'=> @$question['parent_id'],
+            'show_if'=> @$question['show_if'],
             'survey'=>$question['survey']
         ];    
         $final[$question['section']][] = $tmpArray;
