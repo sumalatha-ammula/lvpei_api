@@ -286,8 +286,10 @@ public function surveyquestionsc(){
       
 
 public function surveyparticipantsdatarvapp(){
+    $result=[];
     if($this->request->is('post')){
     $data = $this->request->getData();
+    // debug($data);
     $result = $this->SurveyData->find ( 'all' )
     ->contain(["Survey","SurveyQuestions", "FieldExecutive","Partcipants" ])
     ->where(['SurveyData.partcipants_id'=>$data['id'], 'SurveyData.survey_id' => $data['sid']]);
@@ -311,7 +313,8 @@ public function editsavesurveydata(){
             $surveydetails['geo_location'] = '23.23,34,8';
             $surveydetails['question'] = $d->question;
             // $surveydetails['option_data'] = $d->answer;
-            $surveydetails['option_data'] = json_encode($d->answer);
+            // $surveydetails['option_data'] = json_encode($d->answer);
+            $surveydetails['option_data'] = is_array($d->answer) ? implode(',',$d->answer) : $d->answer ;
             $surveydetails['partcipants_id'] = $pid;
             // debug( $surveydetails);
             $sdata = $this->SurveyData->patchEntity($results, $surveydetails);
