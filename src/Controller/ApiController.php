@@ -233,6 +233,20 @@ public function surveyquestionsnc(){
    $this->set ("result",   array_values($final));
 }
 
+public function getmasteroptions(){
+    $result=[];
+    $result['error'] = 0;
+    $data = $this->request->getdata();  
+    
+    $d = $this->SurveyQuestions->find('all')
+    ->contain(['MasterMain', 'MasterMain.MasterOptions'])
+    ->where(['SurveyQuestions.id' => $data['id']])
+    ->toArray();
+    $result['data'] = $d[0] ;
+    $this->set ("result", $result); 
+    
+}
+
 public function surveyquestionsc(){
     $result=[];
     $result['error'] = 1;

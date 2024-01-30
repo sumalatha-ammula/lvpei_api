@@ -343,6 +343,8 @@ class AdminController extends AppController {
 				$masterdata['option_type'] = $data['option_type'];
 				$masterdata['master_main_id'] = $masterID;
 				$masterdata['is_clinical'] = $data['is_clinical'];
+				$masterdata['parent_id'] = $data['parent_id'];
+				$masterdata['show_if'] = $data['show_if'];
                 // debug($masterdata);
 				$surveyedit = $this->SurveyQuestions->patchEntity($surveyedit,$masterdata);
 				// debug($surveyedit);

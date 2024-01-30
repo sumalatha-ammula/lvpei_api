@@ -111,6 +111,7 @@
 	</div>
 </section>
 <script>
+    var baseurl = "<?php echo $this->Url->build('/'); ?>";
 $(document).ready(function() {
     $('#answer_type').change(function() {
         var selectedOption = $(this).val();
@@ -127,7 +128,37 @@ $(document).ready(function() {
     });
     $("#parent_id").on('change', function(){
         var selectedOption = $(this).val();
-        $url = '';
+        var url = baseurl+'api/getmasteroptions';
+        var s = this;
+        $.ajax( {
+             url: url,
+            //  headers: {'X-CSRF-TOKEN': csrfToken},
+            
+             method:'post',
+             data: {
+                id:selectedOption
+                },
+             success: function( data ) {
+                 	 console.log( data );
+                     var dt = jQuery.parseJSON(data);
+                     console.log(dt);
+                     var no='';
+                     
+                     $.each(dt.data.master_main.master_options, function(i, op){
+                        
+                        no += '<option value="'+op.master_main_id+'">'+op.option_value+'</option>';
+                     });
+                      $("#show_if").find('option')
+                        .remove()
+                        .end()
+                        .append(no);
+    
+;
+
+
+             }   
+
+            });
     });
 });
 </script>
