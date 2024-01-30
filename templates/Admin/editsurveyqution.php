@@ -81,8 +81,28 @@
                         'class' => 'form-control people ra_input', // Add any additional classes as needed
                     ]);
                     ?>					</div>
+
+<div class="form-group">
+                    <?php 
+                    echo $this->Form->control('parent_id', [
+                        'type' => 'select',
+                        // 'multiple' => 'checkbox',
+                        'options' => $othersurveyquestions,
+                        'id' => 'parent_id',
+                        'class' => 'form-control', // Add any additional classes as needed
+                    ]);
+                    ?>					</div>
                 
-					
+                <div class="form-group">
+                    <?php 
+                    echo $this->Form->control('show_if', [
+                        'type' => 'select',
+                        // 'multiple' => 'checkbox',
+                        'options' => $othersurveyquestions,
+                        'id' => 'show_if',
+                        'class' => 'form-control', // Add any additional classes as needed
+                    ]);
+                    ?>					</div>
 					<input type="submit" value="Submit" class="btn btn-success  bg-gradient-primary  btncompany""> <a href="javascript:history.back()" class="btn btn-secondary">Cancel</a>
 				</div>
 				<?php echo $this->Form->end ();?>
@@ -104,6 +124,10 @@ $(document).ready(function() {
         } else if (selectedOption === 'Text Box') {
             $('#text_field').show(); // Show the text field if 'Text Box' is selected
         }
+    });
+    $("#parent_id").on('change', function(){
+        var selectedOption = $(this).val();
+        $url = '';
     });
 });
 </script>

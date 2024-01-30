@@ -322,16 +322,16 @@ class AdminController extends AppController {
 	public function editsurveyqution($id = null, $ids = null)
 		{
 			$surveyedit = $this->SurveyQuestions->get($id);
-			$masterOptionData = $this->MasterMain->find('list',[
-					'keyField' => 'id',
-					'valueField' => 'name',
-				])->toArray();
+			$othersurveyquestions = $this->SurveyQuestions->find('list', [
+				'keyField' => 'id',
+				'valueField' => 'question',
+			])
+			->where(['survey_id' => $surveyedit->survey_id, 'option_type' => 'Dropdown'])->toArray();
+			
 
 			if ($this->request->is(['post', 'put'])) {
 				$data = $this->request->getdata();
-                //  debug($data);
-				//  die;
-				if($data['option_type'] === 'Text Box'){
+                if($data['option_type'] === 'Text Box'){
 					$masterID= 0;
 	
 				}else{
@@ -353,8 +353,14 @@ class AdminController extends AppController {
 				}
 				$this->Flash->error(__('The data could not be saved. Please, try again.'));
 			}
+			$masterOptionData = $this->MasterMain->find('list',[
+				'keyField' => 'id',
+				'valueField' => 'name',
+			])->toArray();
+
 			$this->set(compact('surveyedit'));
 			$this->set(compact('masterOptionData'));
+			$this->set(compact('othersurveyquestions'));
 			$this->set("active", "bbpsappsedit");
 	}
 
@@ -378,7 +384,7 @@ class AdminController extends AppController {
 		// echo "hello";
 		
 		$surveyquestiondata = $this->SurveyQuestions->find ( 'all' )
-		->order(['sort', 'SurveyQuestions.id'])
+		->order(['sort'=>'DESC', 'SurveyQuestions.id'])
 		->contain(['MasterMain'])
 		->where(['survey_id' => $id]);
 		$surveys = $this->paginate ( $surveyquestiondata);
