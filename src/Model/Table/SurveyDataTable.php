@@ -101,7 +101,7 @@ class SurveyDataTable extends Table
             ->scalar('option_data')
             ->maxLength('option_data', 255)
             ->requirePresence('option_data', 'create')
-            ->notEmptyString('option_data');
+            ->allowEmptyString('option_data');
 
         $validator
             ->dateTime('sync_time')
