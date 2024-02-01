@@ -420,8 +420,8 @@ public function patientdetails(){
             $final=[];
             foreach($sps as $question){
             //  debug($question);
-             // die;
-           
+            //  die;
+            $Partcipants =  @$question['partcipant' ];
            
              $tmpArray = [
                  'master_main_name' => @$question['survey_question']['master_main']['name'],
@@ -435,6 +435,7 @@ public function patientdetails(){
                  'survey'=>$question['survey'],
                  'unid'=>$question['unid'],
                  'option_data'=>$question['option_data'],
+                 'Partcipants'=> $Partcipants,
              ];    
              $final[$question['survey_question']['section']][] = $tmpArray;
         
