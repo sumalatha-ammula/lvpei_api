@@ -441,9 +441,26 @@ class AdminController extends AppController {
 
 	}
 	public function editmastermain(){
+		$data = $this->request->getData();
+		// debug($data['Name']);
+		$mastermindataRecord = $this->MasterMain->get($data['id']);
+		$mastermindataRecord->name = $data['Name'];
+		$this->MasterMain->save($mastermindataRecord);
+		$this->Flash->error(__('The Master_main data has been saved.'));
+		return $this->redirect(["controller" => "Admin", 'action' => 'mastermain']);
 		
 	}
-
+    public function getmastermain(){
+		$id = $this->request->getQuery('rowid');
+        $results = [];
+        $usersQuery = $this->MasterMain->find('all')
+            // ->contain(['Userdata', 'Country'])
+            ->where(['id' => $id]);
+        $results = $usersQuery->toArray();
+        // debug( $results); die;
+        $this->response = $this->response->withType('application/json')->withStringBody(json_encode(['data' => $results]));
+        return $this->response;
+	}
 	public function addmastermain(){
 		$data = $this->request->getData();
 		

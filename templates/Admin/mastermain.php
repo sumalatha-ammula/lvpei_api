@@ -13,6 +13,9 @@ a.fas.fa-poll-h {
 a.fas.fa-users {
     color: #007bff;
 }
+a.fas.fa-edit {
+    color: #007bff;
+}
 a.fas.fa-eye{
 	color: #007bff;
 }
@@ -71,7 +74,8 @@ a.fas.fa-eye{
                                 ], [
                                     'class' => 'fas fa-eye'
                                 ]);
-                                ?> 
+                                ?> | <a href="#"  class="preview" data_id="<?php echo $masterdata->id;?>"><i class="fas fa-edit" style="color: #1A89FF;"></i></a>
+
 						</td>
 					</tr>
                         <?php endforeach; ?>
@@ -167,7 +171,51 @@ a.fas.fa-eye{
     </div>
     <!-- /.modal -->
 </div>
+<!-- edit -->
+<div class="row">
+    <div class="modal fade" id="DescModal" role="dialog">
+        <div class="modal-dialog">
+            <div style="width: 800px;" class="modal-content">
+                <div class="modal-header bg-blue">
+                    <h5 class="modal-title">
+					Add Master Main <span id="memberaddrequests_id"></span>
+                    </h5>
+                    <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" id="modalbody">
+                    <?php
+                    echo $this->Form->create(null, array(
+                        'url' => array(
+                            'controller' => 'Admin', 'action' => 'editmastermain'
+                        ),
+                    ));
+					echo $this->Form->control('id', [
+						'type' => "hidden",'id' => 'id', 'class' => "form-control",
+						 ]);
+                    echo $this->Form->control('Name', [
+                        'type' => "text",
+                        //   'readonly' => true,
+                        'id' => 'name',
+                        'class' => "form-control ra_input",
+                    ]);
 
+                    ?>
+                    <?= $this->Form->button(__('Submit'), ['class' => "btn btn-primary bg-gradient-primary  btncompany"]) ?>
+					
+                    <a class="btn btn-danger" data-dismiss="modal">Cancel</a>
+                    <?= $this->Form->end() ?>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+    <!-- /.modal -->
+</div>
 <script>
 	var selectedQuestion = 0;
 // var csrfToken = $('meta[name="csrfToken"]').attr('content');
@@ -291,7 +339,7 @@ $(".viewsurveyquestions").on("click", function(e){
 <script>
     // $(document).ready(function() {
        
-        // var dataTable = $('#membersTable').DataTable({});
+    //     var dataTable = $('#membersTable').DataTable({});
         $('#company').on('click', function(event) {
             event.preventDefault();
 
@@ -299,6 +347,35 @@ $(".viewsurveyquestions").on("click", function(e){
             $('#edit_companyname').val();
             $('#updateadreqid').attr("value", '');
             $('#edit_countryname1').val();
+        });
+
+		$('.preview').on('click', function(e) {
+            e.preventDefault();
+
+            var rowid = $(this).attr("data_id");
+			console.log(rowid);
+            
+            // $('#DescModal').modal('show');
+            $.ajax({
+                url: "getmastermain",
+                data: {
+                    rowid: rowid
+                },
+                context: document.body,
+                success: function(response) {
+					console.log(response);
+                  
+
+                    $('#name').val(response.data[0].name);
+                    $('#id').attr("value", response.data[0].id);
+                 
+                    $('#DescModal').modal('show');
+                    
+                
+                    
+                }
+            });
+            
         });
        
 
