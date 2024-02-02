@@ -57,6 +57,11 @@ class SurveyDataTable extends Table
             'joinType' => 'INNER',
         ]);
 
+        $this->belongsTo('MasterOptions', [
+            'foreignKey' => 'option_data',
+            'joinType' => 'INNER',
+      ]);
+
         $this->belongsTo('FieldExecutive', [
             'foreignKey' => 'field_executive_id',
             'joinType' => 'INNER',

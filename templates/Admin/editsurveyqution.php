@@ -146,7 +146,7 @@ $(document).ready(function() {
                      
                      $.each(dt.data.master_main.master_options, function(i, op){
                         
-                        no += '<option value="'+op.master_main_id+'">'+op.option_value+'</option>';
+                        no += '<option value="'+op.id+'">'+op.option_value+'</option>';
                      });
                       $("#show_if").find('option')
                         .remove()

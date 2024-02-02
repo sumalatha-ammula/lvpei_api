@@ -209,7 +209,7 @@ public function surveyparticipantsdatarvapp(){
     $data = $this->request->getData();
     // debug($data);
     $result = $this->SurveyData->find ( 'all' )
-    ->contain(["Survey","SurveyQuestions", "FieldExecutive","Partcipants" ])
+    ->contain(["Survey","SurveyQuestions", "FieldExecutive","Partcipants", 'MasterOptions' ])
     ->where(['SurveyData.partcipants_id'=>$data['id'], 'SurveyData.survey_id' => $data['sid']]);
     }
     $this->set ("result", $result); 
