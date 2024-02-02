@@ -216,16 +216,14 @@ public function surveyparticipantsdatarvapp(){
 }
 
 public function editsavesurveydata(){
-    if($this->request->is('post')){
-
+    if($this->request->is('put','post')){
         $data = $this->request->getdata();         
         $pid=$data["pid"];
         $punid = $data['punid'];
         $data = json_decode($data['fdata']);
-        // debug( $data);
-        
+        // debug( $data);        
         foreach($data as $d){
-            $results = $this->SurveyData->get($d->question_id);            
+            $results = $this->SurveyData->get($pid,);            
             $surveydetails = [];
             $surveydetails['survey_id'] = $d->survey_id;
             $surveydetails['survey_questions_id'] = $d->question_id;
@@ -235,8 +233,8 @@ public function editsavesurveydata(){
             // $surveydetails['option_data'] = $d->answer;
             // $surveydetails['option_data'] = json_encode($d->answer);
             $surveydetails['option_data'] = is_array($d->answer) ? implode(',',$d->answer) : $d->answer ;
-            $surveydetails['partcipants_id'] = $pid;
-            $surveydetails['unid'] = $punid;
+            // $surveydetails['partcipants_id'] = $pid;
+            // $surveydetails['unid'] = $punid;
             // debug( $surveydetails);
             $sdata = $this->SurveyData->patchEntity($results, $surveydetails);
             // debug( $sdata);
