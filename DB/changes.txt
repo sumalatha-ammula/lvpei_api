@@ -1,0 +1,35 @@
+Remove DOB from Page 1
+Change Aadhar to ID number
+Add all from the provided list for occupation
+If Examined--- go to next Questions else should go to next participantList
+Change Examined -- Interested to Participate in the Survey
+
+
+-----
+Show Name, Age and ID in all Questions Pages
+
+
+Section C -- Split into 2 Sections
+
+1. Present Glasses
+2. Previous Glasses
+
+Present Glasses
+1. Using Glasses
+1. Using Glasses for first time?
+1. Glass Type
+2. Provider
+3. Amount paid
+4. Who Paid for Glasses
+5. Who Paid for Transportation
+6. Who Paid for Consulting
+
+Previous Glasses
+1. Previous use of Glasses
+2. Amount Paid
+3. Reason for Discontinuation
+4. How many years the glasses are discontinued
+
+
+Section - D
+Each section for Left Eye and Right Eye
