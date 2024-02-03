@@ -151,6 +151,7 @@ class PartcipantsTable extends Table
 
         $validator
             ->integer('idcode')
+            ->maxLength('education', 20)
             ->requirePresence('idcode', 'create')
             ->notEmptyString('idcode');
 
@@ -161,17 +162,20 @@ class PartcipantsTable extends Table
 
         $validator
             ->integer('clustercode')
+            ->maxLength('education', 20)
             ->requirePresence('clustercode', 'create')
             ->notEmptyString('clustercode');
 
         $validator
             ->integer('indiviadualcode')
+            ->maxLength('education', 20)
             ->requirePresence('indiviadualcode', 'create')
             ->notEmptyString('indiviadualcode');
 
         $validator
             ->integer('unid')
             ->requirePresence('unid', 'create')
+            ->maxLength('education', 100)
             ->notEmptyString('unid');
 
         $validator
