@@ -1,6 +1,6 @@
 
 <?php 
-//debug($surveys);
+// debug($surveydata);
 // debug($results);
  //echo $this->Html->meta('csrfToken', $this->request->getAttribute('csrfToken')); ?>
 <!-- Modal -->
@@ -31,14 +31,27 @@ a.fas.fa-users {
                 
                <?php $surveyname='';
                 $surveyqu="";
-               foreach ($surveys as $survey) {
+               foreach ($surveydata as $survey) {
                     $surveyname = $survey->survey->name;
                     $surveyqu = $survey->partcipant->name;
                     
                 }?>
                 <p style="margin-left:20px"><?php echo $surveyqu;?><br>
                 <?php echo $surveyname;?></p>
+                <span>
+                <?php
+                       echo $this->Html->link(
+                       'Export',
+                       [
+                       'controller' => 'Admin',
+                       'action' => 'participantexportdata',
+                       $id1, $id2,
+                         ],
+                       ['class' => 'btn btn-block bg-gradient-primary', // You can customize the button styles here
+                        // 'escape' => false // Allows rendering HTML in link content
+                         ]);?></span>
                 <a class="btn btn-secondary btn btn-block  btncompany" style="margin-right:6px" href="javascript:history.back()">Back</a>
+                
 
                 	</div>
 		</div>
@@ -47,21 +60,22 @@ a.fas.fa-users {
 		
                         
                         <?php 
+                        debug($surveydata);
                         $previousSection = null;
-                        foreach ($surveys as $index => $survey): ?>
+                        foreach ($surveydata as $index => $survey): ?>
                             <?php $currentSection = $survey->survey_question->section;?>
                           <?php if ($currentSection !== $previousSection): ?>
                             <div class="rvapp_sqa pl-3" style="margin-left:20px">
                             <!-- <label style="font-weight:normal;font-size:16px"><span style="font-weight:bold;font-size:16px">Section:</span> </label><br> -->
-                            <h3 id="server-side"><div><?php echo $currentSection;?></div></h3>
+                            <h3 id="server-side" style="font-weight:bold;font-size:21px"><div><?php echo $currentSection;?></div></h3>
                           </div>
                            <?php  $previousSection = $currentSection; ?>
                             <?php endif; ?>
 						
 						<div class="rvapp_qa p-3" style="margin-left:20px">
-						<label for="formGroupExampleInput" style="font-weight:bold;font-size:16px"> <?= h($survey->survey_question->question) ?></label><br>
+						<label for="formGroupExampleInput" style="font-weight:bold;font-size:13px">Question: <?= h($survey->survey_question->question) ?></label><br>
 						<!-- <label style="font-weight:normal;font-size:16px"><span style="font-weight:bold;font-size:16px">Anwser:</span> <?//= h($survey->option_data) ?></label><br> -->
-                        <input class="form-control" type="text" placeholder="<?= h($survey->option_data) ?>" readonly>
+                        <p>Anwser: <?= h($survey->master_option->option_value) ?></p>
                         </div>
 						
 				

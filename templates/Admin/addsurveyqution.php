@@ -47,6 +47,7 @@ a.fas.fa-trash{
                             'Dropdown'=>'Dropdown',
                             'Multiple'=> 'Multiple Select',
                             'Text Box'=>'Text Box',
+                            'Heading'=>'Heading'
                             ];
                            
                             echo $this->Form->create(null, array(
@@ -251,7 +252,7 @@ $(document).ready(function() {
 
         if (selectedOption === 'Dropdown' || selectedOption === 'Multiple') {
             $('#dropdown_field').show(); // Show the dropdown field if 'Dropdown' is selected
-        } else if (selectedOption === 'Text Box') {
+        } else if (selectedOption === 'Text Box' || selectedOption === 'Heading' ) {
             $('#text_field').show(); // Show the text field if 'Text Box' is selected
         }
     });

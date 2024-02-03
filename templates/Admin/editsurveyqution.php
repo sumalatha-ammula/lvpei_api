@@ -47,6 +47,7 @@
                         'Dropdown'=>'Dropdown',
                         'Multiple'=> 'Multiple Select',
                         'Text Box'=>'Text Box',
+                        'Heading'=>'Heading',
                         ];
                     
                         if($surveyedit->is_clinical === false){
@@ -122,7 +123,7 @@ $(document).ready(function() {
 
         if (selectedOption === 'Dropdown') {
             $('#dropdown_field').show(); // Show the dropdown field if 'Dropdown' is selected
-        } else if (selectedOption === 'Text Box') {
+        } else if (selectedOption === 'Text Box' || selectedOption === 'Heading') {
             $('#text_field').show(); // Show the text field if 'Text Box' is selected
         }
     });
