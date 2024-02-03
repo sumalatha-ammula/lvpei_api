@@ -125,7 +125,7 @@
 		            </li>
 		            <li class="nav-item">
 					<?php
-					echo $this->Html->link ( '<i class="nav-icon fas fa-user"></i><p>Master Main</p>', [ 
+					echo $this->Html->link ( '<i class="fas fa-cogs"></i><p> Master Main</p>', [ 
 							'controller' => "admin",
 							"action" => "mastermain" 
 					], [ 
@@ -134,9 +134,20 @@
 					] );
 					?>
 		            </li>
+					<li class="nav-item">
+					<?php
+					echo $this->Html->link ( '<i class="fas fa-download"></i><p>Export</p>', [ 
+							'controller' => "admin",
+							// "action" => "mastermain" 
+					], [ 
+							'escape' => false,
+							'class' => 'nav-link ' . (($action == 'mastermain') ? 'active' : '') 
+					] );
+					?>
+		            </li>
 		            <li class="nav-item">
 					<?php
-					echo $this->Html->link ( '<i class="nav-icon fas fa-user"></i><p>Survey</p>', [ 
+					echo $this->Html->link ( '<i class="nav-icon fas fa-users"></i><p>Survey</p>', [ 
 							'controller' => "admin",
 							"action" => "rvappsurveydata" 
 					], [ 
