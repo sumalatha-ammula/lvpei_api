@@ -22,7 +22,6 @@ use Cake\ORM\Entity;
  * @property string $gender
  * @property string $status
  * @property int $monthlyincome
- * @property \Cake\I18n\FrozenDate|null $dateofbirth
  * @property string $country
  * @property string $state
  * @property string $district
@@ -33,6 +32,8 @@ use Cake\ORM\Entity;
  * @property int $indiviadualcode
  * @property int $unid
  * @property int $is_examine
+ * @property string|null $occupation_others
+ * @property string|null $education_others
  *
  * @property \App\Model\Entity\Survey $survey
  */
@@ -61,7 +62,6 @@ class Partcipant extends Entity
         'gender' => true,
         'status' => true,
         'monthlyincome' => true,
-        'dateofbirth' => true,
         'country' => true,
         'state' => true,
         'district' => true,
@@ -72,6 +72,8 @@ class Partcipant extends Entity
         'indiviadualcode' => true,
         'unid' => true,
         'is_examine' => true,
+        'occupation_others' => true,
+        'education_others' => true,
         'survey' => true,
     ];
 }

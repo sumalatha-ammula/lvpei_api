@@ -89,7 +89,7 @@ class PartcipantsTable extends Table
 
         $validator
             ->scalar('mobile')
-            ->maxLength('mobile', 12)
+            ->maxLength('mobile', 20)
             ->requirePresence('mobile', 'create')
             ->notEmptyString('mobile');
 
@@ -122,10 +122,6 @@ class PartcipantsTable extends Table
             ->notEmptyString('monthlyincome');
 
         $validator
-            ->date('dateofbirth')
-            ->allowEmptyDate('dateofbirth');
-
-        $validator
             ->scalar('country')
             ->maxLength('country', 30)
             ->requirePresence('country', 'create')
@@ -151,35 +147,42 @@ class PartcipantsTable extends Table
 
         $validator
             ->integer('idcode')
-            ->maxLength('education', 20)
             ->requirePresence('idcode', 'create')
             ->notEmptyString('idcode');
 
         $validator
             ->scalar('landmark')
+            ->maxLength('landmark', 250)
             ->requirePresence('landmark', 'create')
             ->notEmptyString('landmark');
 
         $validator
             ->integer('clustercode')
-            ->maxLength('education', 20)
             ->requirePresence('clustercode', 'create')
             ->notEmptyString('clustercode');
 
         $validator
             ->integer('indiviadualcode')
-            ->maxLength('education', 20)
             ->requirePresence('indiviadualcode', 'create')
             ->notEmptyString('indiviadualcode');
 
         $validator
             ->integer('unid')
             ->requirePresence('unid', 'create')
-            ->maxLength('education', 100)
             ->notEmptyString('unid');
 
         $validator
             ->notEmptyString('is_examine');
+
+        $validator
+            ->scalar('occupation_others')
+            ->maxLength('occupation_others', 255)
+            ->allowEmptyString('occupation_others');
+
+        $validator
+            ->scalar('education_others')
+            ->maxLength('education_others', 255)
+            ->allowEmptyString('education_others');
 
         return $validator;
     }
