@@ -38,18 +38,7 @@ a.fas.fa-users {
                 }?>
                 <p style="margin-left:20px"><?php echo $surveyqu;?><br>
                 <?php echo $surveyname;?></p>
-                <span>
-                <?php
-                       echo $this->Html->link(
-                       'Export',
-                       [
-                       'controller' => 'Admin',
-                       'action' => 'participantexportdata',
-                       $id1, $id2,
-                         ],
-                       ['class' => 'btn btn-block bg-gradient-primary', // You can customize the button styles here
-                        // 'escape' => false // Allows rendering HTML in link content
-                         ]);?></span>
+               
                 <a class="btn btn-secondary btn btn-block  btncompany" style="margin-right:6px" href="javascript:history.back()">Back</a>
                 
 
@@ -60,7 +49,7 @@ a.fas.fa-users {
 		
                         
                         <?php 
-                        debug($surveydata);
+                        // debug($surveydata);
                         $previousSection = null;
                         foreach ($surveydata as $index => $survey): ?>
                             <?php $currentSection = $survey->survey_question->section;?>

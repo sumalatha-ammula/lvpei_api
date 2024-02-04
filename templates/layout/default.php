@@ -138,7 +138,7 @@
 					<?php
 					echo $this->Html->link ( '<i class="fas fa-download"></i><p>Export</p>', [ 
 							'controller' => "admin",
-							// "action" => "mastermain" 
+							"action" => "exportdata" ,
 					], [ 
 							'escape' => false,
 							'class' => 'nav-link ' . (($action == 'mastermain') ? 'active' : '') 

@@ -322,6 +322,8 @@ public function patientdetails(){
        $patientdetails->clustercode = $data["clustercode"];
        $patientdetails->indiviadualcode = $data["indiviadualcode"];
        $patientdetails->landmark = $data["landmark"];
+       $patientdetails->education_others = $data["education_others"];
+       $patientdetails->occupation_others = $data["occupation_others"];
        $patientdetails->unid =  intval($uniqID);
        $patientdetails->created_by = 1;
        $patientdata->save($patientdetails);
