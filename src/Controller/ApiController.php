@@ -83,13 +83,10 @@
             $result=[];
             $result['error'] = 1;
             if($this->request->is('post')){
-                $data = $this->request->getdata();  
-          
+                $data = $this->request->getdata();           
                 $Surveydat = $this->Survey->find ( 'all' )
-                ->contain(['Partcipants'])
-               
-                ->toArray();   
-                
+                ->contain(['Partcipants'])               
+                ->toArray();                  
                 $result = [
                     'error' => 0,'status' => 200, 'Surveydata'=> $Surveydat
                 ];          
@@ -99,8 +96,12 @@
             }
 
           public function participantupdate(){
+            $result=[];
             $result['error'] = 0;
-            $data = $this->request->getdata();
+            
+                $data = $this->request->getdata(); 
+                // debug($data); 
+                // die;             
         
             $pid= $this->Partcipants->find('all')
             ->select(['id'])
@@ -108,13 +109,17 @@
             ->toArray();
             if($pid != 0){
                 $partcipantsRecord = $this->Partcipants->get($pid[0]->id);
-                $partcipantsRecord->status = 'Examined';
+                $partcipantsRecord->status = $data['status'];
                 $partcipantsRecord->is_examine = 1;
                 $this->Partcipants->save($partcipantsRecord);
-                $result = ['error' => 0,'status' => 200,];
+                $result = ['error' => 0,'status' => 200,];          
+           
             }
-            $this->set ("result",   $result);
-          }
+           
+            
+         
+          $this->set ("result",   $result);
+        }
 public function surveyquestionsnc(){
     $result=[];
     $result['error'] = 1;
