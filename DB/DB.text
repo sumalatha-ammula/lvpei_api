@@ -241,3 +241,4 @@ ALTER TABLE `survey_data` CHANGE `option_data` `option_data` VARCHAR(255) CHARAC
 ALTER TABLE `partcipants` ADD `occupation_others` VARCHAR(255) NULL DEFAULT NULL AFTER `occupation_others`;
 ALTER TABLE `partcipants` ADD `education_others` VARCHAR(255) NULL DEFAULT NULL AFTER `education_others`;
 
+composer require phpoffice/phpspreadsheet Run This
