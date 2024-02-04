@@ -238,6 +238,6 @@ ALTER TABLE `survey_questions` ADD `sort` INT(10) NOT NULL DEFAULT '0' AFTER `is
 ALTER TABLE `survey_data` CHANGE `option_data` `option_data` VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL;
 
 =========================================================================================
-ALTER TABLE `partcipants` ADD `education_others` VARCHAR(255) NULL DEFAULT NULL AFTER `occupation_others`;
+ALTER TABLE `partcipants` ADD `occupation_others` VARCHAR(255) NULL DEFAULT NULL AFTER `occupation_others`;
 ALTER TABLE `partcipants` ADD `education_others` VARCHAR(255) NULL DEFAULT NULL AFTER `education_others`;
 
