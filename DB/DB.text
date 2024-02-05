@@ -242,3 +242,5 @@ ALTER TABLE `partcipants` ADD `occupation_others` VARCHAR(255) NULL DEFAULT NULL
 ALTER TABLE `partcipants` ADD `education_others` VARCHAR(255) NULL DEFAULT NULL AFTER `education_others`;
 
 composer require phpoffice/phpspreadsheet Run This
+
+ALTER TABLE `field_executive` ADD `mobile` VARCHAR(15) NOT NULL AFTER `status`;

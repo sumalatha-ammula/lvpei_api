@@ -11,6 +11,9 @@ use Cake\Validation\Validator;
 /**
  * FieldExecutive Model
  *
+ * @property \App\Model\Table\PartcipantsTable&\Cake\ORM\Association\HasMany $Partcipants
+ * @property \App\Model\Table\SurveyDataTable&\Cake\ORM\Association\HasMany $SurveyData
+ *
  * @method \App\Model\Entity\FieldExecutive newEmptyEntity()
  * @method \App\Model\Entity\FieldExecutive newEntity(array $data, array $options = [])
  * @method \App\Model\Entity\FieldExecutive[] newEntities(array $data, array $options = [])
@@ -82,10 +85,10 @@ class FieldExecutiveTable extends Table
             ->notEmptyString('status');
 
         $validator
-            ->scalar('phone')
-            ->maxLength('phone', 10)
-            ->requirePresence('phone', 'create')
-            ->notEmptyString('phone');
+            ->scalar('mobile')
+            ->maxLength('mobile', 15)
+            ->requirePresence('mobile', 'create')
+            ->notEmptyString('mobile');
 
         return $validator;
     }

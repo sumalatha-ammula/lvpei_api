@@ -13,9 +13,11 @@ use Cake\ORM\Entity;
  * @property string $email
  * @property string $password
  * @property int $status
- * @property string $phone
+ * @property string $mobile
  *
- * @property \App\Model\Entity\SurveyData $survey_data
+ * @property \App\Model\Entity\Partcipant[] $partcipants
+ * @property \App\Model\Entity\Survey[] $survey
+ * @property \App\Model\Entity\SurveyData[] $survey_data
  */
 class FieldExecutive extends Entity
 {
@@ -33,7 +35,9 @@ class FieldExecutive extends Entity
         'email' => true,
         'password' => true,
         'status' => true,
-        'phone' => true,
+        'mobile' => true,
+        'partcipants' => true,
+        'survey' => true,
         'survey_data' => true,
     ];
 
