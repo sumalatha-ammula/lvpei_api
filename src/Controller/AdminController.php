@@ -254,59 +254,70 @@ class AdminController extends AppController {
 		
 	}
 	public function exportdata(){
-		$surveydataex = $this->SurveyData->find ( 'all' )
+		$surveysqu = $this->SurveyData->find ( 'all' )
 		->contain(["Survey","SurveyQuestions", "FieldExecutive","Partcipants", "MasterOptions" ])
-		->toArray();
+		// ->toArray()
+		;
+		$surveydataex = $this->paginate ( $surveysqu);
 		$this->set ( "surveydataex", $surveydataex);
 
 	}
 	public function participantexportdata() {
 
-		$participants = $this->SurveyData->Partcipants->find('list')->toArray();
-	
-		$spreadsheet = new Spreadsheet();
-	    // debug($participants);
-		// die;
-		foreach ($participants as $participantId => $participantName) {
-			$surveydataex = $this->SurveyData->find('all')
-				->contain(["Survey", "SurveyQuestions", "FieldExecutive", "Partcipants", "MasterOptions"])
-				->where(['SurveyData.partcipants_id' => $participantId])
-				->toArray();
-	// debug($surveydataex);
-			$sheet = $spreadsheet->createSheet();
-			$sheet->setTitle($participantName);
-	
-			$sheet->setCellValue('A1', 'Section');
-			$sheet->setCellValue('B1', 'Question');
-			$sheet->setCellValue('C1', 'Answer');
-			$sheet->setCellValue('D1', 'Name');
-			$sheet->setCellValue('E1', 'Age');
-			$sheet->setCellValue('F1', 'Unid');
-			$sheet->setCellValue('G1', 'Created');
-	
-			$ir = 2;
-			foreach ($surveydataex as $row) {
-				$sheet->setCellValue('A' . $ir, $row['survey_question']->section);
-				$sheet->setCellValue('B' . $ir, $row->question);
-				$sheet->setCellValue('C' . $ir, $row['master_option']->option_value);
-				$sheet->setCellValue('D' . $ir, $row['partcipant']->name);
-				$sheet->setCellValue('E' . $ir, $row['partcipant']->age);
-				$sheet->setCellValue('F' . $ir, $row['partcipant']->unid);
-				$sheet->setCellValue('G' . $ir, date_format($row['partcipant']->created_on, "d-m-Y H:i:s A"));
-				$ir++;
+
+			$participants = $this->SurveyData->Partcipants->find('list')->toArray();
+		
+			$spreadsheet = new Spreadsheet();
+		
+			foreach ($participants as $participantId => $participantName) {
+				$sheet = $spreadsheet->createSheet();
+				$sheet->setTitle($participantName);
+		
+				// Get participant information only once
+				$participantInfo = $this->SurveyData->Partcipants->get($participantId);
+				$sheet->setCellValue('A1', 'Participant ID');
+				$sheet->setCellValue('B1', 'Name');
+				$sheet->setCellValue('C1', 'Age');
+				$sheet->setCellValue('D1', 'Unid');
+				$sheet->setCellValue('E1', 'Created');
+				$sheet->setCellValue('A2', $participantInfo->id);
+				$sheet->setCellValue('B2', $participantInfo->name);
+				$sheet->setCellValue('C2', $participantInfo->age);
+				$sheet->setCellValue('D2', $participantInfo->unid);
+				$sheet->setCellValue('E2', date_format($participantInfo->created_on, "d-m-Y H:i:s A"));
+		
+				$sheet->setCellValue('A4', 'Section');
+				$sheet->setCellValue('B4', 'Question');
+				$sheet->setCellValue('C4', 'Answer');
+				$sheet->setCellValue('D4', 'Created');
+		
+				$surveydataex = $this->SurveyData->find('all')
+					->contain(["Survey", "SurveyQuestions", "FieldExecutive", "Partcipants", "MasterOptions"])
+					->where(['SurveyData.partcipants_id' => $participantId])
+					->toArray();
+		
+				$ir = 5;
+				foreach ($surveydataex as $row) {
+					$sheet->setCellValue('A' . $ir, $row['survey_question']->section);
+					$sheet->setCellValue('B' . $ir, $row->question);
+					$sheet->setCellValue('C' . $ir, $row['master_option']->option_value);
+					$sheet->setCellValue('D' . $ir, date_format($row['partcipant']->created_on, "d-m-Y H:i:s A"));
+					$ir++;
+				}
 			}
-		}
-	
-		$fileName = "ParticipantData-" . date('Y-m-d h_i_s') . '.xlsx';
-	
-		header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-		header('Content-Disposition: attachment;filename="' . $fileName . '"');
-		header('Cache-Control: max-age=0');
-	
-		$writer = new Xlsx($spreadsheet);
-		$writer->save('php://output');
-	
-		die;
+		
+			$fileName = "ParticipantData-" . date('Y-m-d h_i_s') . '.xlsx';
+		
+			header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+			header('Content-Disposition: attachment;filename="' . $fileName . '"');
+			header('Cache-Control: max-age=0');
+		
+			$writer = new Xlsx($spreadsheet);
+			$writer->save('php://output');
+		
+			die;
+		
+		
 	}
 	
 	public function surveyparticipantsdata($id1 = null, $id2=null){

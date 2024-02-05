@@ -114,7 +114,7 @@
 					</a></li>
 					<li class="nav-item">
 					<?php
-					echo $this->Html->link ( '<i class="nav-icon fas fa-user"></i><p>Field Executive</p>', [ 
+					echo $this->Html->link ('<i class="nav-icon fas fa-user"></i><p>Field Executive</p>', [ 
 							'controller' => "admin",
 							"action" => "fieldexecutive" 
 					], [ 
@@ -125,7 +125,7 @@
 		            </li>
 		            <li class="nav-item">
 					<?php
-					echo $this->Html->link ( '<i class="fas fa-cogs"></i><p> Master Main</p>', [ 
+					echo $this->Html->link  ( '<i class="fas fa-cogs"></i><p> Master Main</p>', [ 
 							'controller' => "admin",
 							"action" => "mastermain" 
 					], [ 
@@ -136,12 +136,12 @@
 		            </li>
 					<li class="nav-item">
 					<?php
-					echo $this->Html->link ( '<i class="fas fa-download"></i><p>Export</p>', [ 
+					echo $this->Html->link  ( '<i class="fas fa-download"></i><p> Export</p>', [ 
 							'controller' => "admin",
 							"action" => "exportdata" ,
 					], [ 
 							'escape' => false,
-							'class' => 'nav-link ' . (($action == 'mastermain') ? 'active' : '') 
+							'class' => 'nav-link ' . (($action == 'exportdata') ? 'active' : '') 
 					] );
 					?>
 		            </li>
