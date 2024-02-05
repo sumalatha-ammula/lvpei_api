@@ -42,6 +42,8 @@
             $this->loadModel("MasterMain");
             $this->loadModel("Partcipants");
             $this->loadModel("SurveyData");
+            $this->loadModel("Onetimepassword");
+            $this->loadComponent("Email");
         }        
         private function generatetoken() {
             $token = bin2hex(random_bytes(16));
@@ -495,6 +497,57 @@ public function patientdetails(){
             
         }
         $this->set ("result",$result);
+    }
+    public function sendotpresetpwd(){
+        $result = [];
+        $data = $this->request->getData();
+        // debug($data);
+        // die;
+        $useremail = $this->FieldExecutive->find('all')
+        ->select(['email','id'])
+        ->where(['email'=>$data['email'] ])->toArray();
+         debug( $useremail);
+        //  die;
+       if(count($useremail) == 1){
+           
+            $otp = random_int(000001,999999);
+           
+            $currentTime = FrozenTime::now();
+            debug($otp);
+           $newOtpEntity = $this->Onetimepassword->newEmptyEntity();
+           $newOtpEntity->email = $useremail[0]['email'];
+           $newOtpEntity->otp = $otp;
+           $newOtpEntity->createdon = date("Y-m-d");
+       if ($this->Onetimepassword->save($newOtpEntity)) {
+              $result['message'] = "OTP saved successfully";
+
+           } 
+    } 
+    
+        $conf=[];
+        $conf['host'] = 'ssl://smtp.gmail.com';
+        $conf['port'] = 465;
+        $conf['username'] = 'yenibhavya0508@gmail.com';
+        $conf['password'] = 'tpqujcgroydpzloc';
+        $conf['fromemail'] = "yenibhavya0508@gmail.com";
+        $conf['sender'] = "Raviapp";
+        if(!empty($useremail)){
+            // debug($useremail[0]['email']);
+        $emailsend['email'] = $useremail[0]->email;
+        $mailtext['otp'] = $otp;
+        }else{
+            $emailsend['email']='test12@gmail.com';
+            $mailtext['otp']= 1234;
+        }
+  
+
+        $this->Email->sendotpmail($conf, $emailsend['email'], " Your OTP for reset password",$mailtext);
+     
+        $result['email'] = $emailsend ? $emailsend['email'] : null;
+        $result['OTP'] = $mailtext;
+        $this->response = $this->response->withType('application/json')->withStringBody(json_encode(['data' => $result]));
+        return $this->response;
+
     }
     
 }
