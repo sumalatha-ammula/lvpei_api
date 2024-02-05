@@ -221,7 +221,7 @@ public function surveyparticipantsdatarvapp(){
 }
 
 public function editsavesurveydata(){
-  
+    if($this->request->is('put','post')){
         $data = $this->request->getdata();         
         $pid=$data["pid"];
         $punid = $data['punid'];
@@ -249,7 +249,7 @@ public function editsavesurveydata(){
                 'error' => 0,'status' => 200
             ]; 
 
-      
+        }
         
     }
     $this->set ("result", $result); 
@@ -322,8 +322,8 @@ public function patientdetails(){
        $patientdetails->clustercode = $data["clustercode"];
        $patientdetails->indiviadualcode = $data["indiviadualcode"];
        $patientdetails->landmark = $data["landmark"];
-       $patientdetails->education_others = $data["othersed"];
-       $patientdetails->occupation_others = $data["othersoc"];
+       $patientdetails->education_others = $data["education_others"];
+       $patientdetails->occupation_others = $data["occupation_others"];
        $patientdetails->unid =  intval($uniqID);
        $patientdetails->created_by = 1;
        $patientdata->save($patientdetails);
@@ -468,14 +468,32 @@ public function patientdetails(){
             'error'=>0, 'status'=> 200, 'fieldexecutive'=> $results
        ];
 
-
-
-
-
         // $result = $this->FieldExecutive->find ( 'all' )
         // ->where(['id' => $data['id']])->toArray();
         // debug($data['id']) ;
         // debug($result) ;
+        $this->set ("result",$result);
+    }
+    public function changepassword(){
+        $result = [];
+        $result = ['error' => 1,];
+        $this->request->is('post');
+        $data = $this->request->getData(); 
+        // debug($data);
+        if($data['newpassword'] === $data['confirmpwd']){
+            $participants = $this->FieldExecutive->find('all')
+            ->select(['id'])
+            ->where(['password' => $data['curpassword'] ])
+            ->toArray();
+          
+            $fielddataRecord = $this->MasterMain->get( $participants[0]['id']);
+            $fielddataRecord->password = $data['newpassword'];
+            $this->FieldExecutive->save($fielddataRecord);
+            $result = [
+                'error'=>0, 'status'=> 200,
+           ];
+            
+        }
         $this->set ("result",$result);
     }
     
