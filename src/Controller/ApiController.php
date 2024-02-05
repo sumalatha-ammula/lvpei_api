@@ -506,14 +506,14 @@ public function patientdetails(){
         $useremail = $this->FieldExecutive->find('all')
         ->select(['email','id'])
         ->where(['email'=>$data['email'] ])->toArray();
-         debug( $useremail);
+        //  debug( $useremail);
         //  die;
        if(count($useremail) == 1){
            
             $otp = random_int(000001,999999);
            
             $currentTime = FrozenTime::now();
-            debug($otp);
+            // debug($otp);
            $newOtpEntity = $this->Onetimepassword->newEmptyEntity();
            $newOtpEntity->email = $useremail[0]['email'];
            $newOtpEntity->otp = $otp;
