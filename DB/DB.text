@@ -244,3 +244,11 @@ ALTER TABLE `partcipants` ADD `education_others` VARCHAR(255) NULL DEFAULT NULL 
 composer require phpoffice/phpspreadsheet Run This
 
 ALTER TABLE `field_executive` ADD `mobile` VARCHAR(15) NOT NULL AFTER `status`;
+
+CREATE TABLE `lvpeiravi`.`onetimepassword` (
+  `id` INT(32) NOT NULL AUTO_INCREMENT , 
+  `email` VARCHAR(200) NOT NULL , 
+  `otp` VARCHAR(200) NOT NULL , 
+  `createdon` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP , 
+  PRIMARY KEY (`id`)
+  ) ENGINE = InnoDB;
