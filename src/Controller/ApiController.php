@@ -221,7 +221,7 @@ public function surveyparticipantsdatarvapp(){
 }
 
 public function editsavesurveydata(){
-    if($this->request->is('put','post')){
+  
         $data = $this->request->getdata();         
         $pid=$data["pid"];
         $punid = $data['punid'];
@@ -249,7 +249,7 @@ public function editsavesurveydata(){
                 'error' => 0,'status' => 200
             ]; 
 
-        }
+      
         
     }
     $this->set ("result", $result); 
@@ -322,8 +322,8 @@ public function patientdetails(){
        $patientdetails->clustercode = $data["clustercode"];
        $patientdetails->indiviadualcode = $data["indiviadualcode"];
        $patientdetails->landmark = $data["landmark"];
-       $patientdetails->education_others = $data["education_others"];
-       $patientdetails->occupation_others = $data["occupation_others"];
+       $patientdetails->education_others = $data["othersed"];
+       $patientdetails->occupation_others = $data["othersoc"];
        $patientdetails->unid =  intval($uniqID);
        $patientdetails->created_by = 1;
        $patientdata->save($patientdetails);
