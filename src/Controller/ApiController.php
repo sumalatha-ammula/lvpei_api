@@ -549,7 +549,8 @@ public function patientdetails(){
         return $this->response;
 
     }
-    
+    public function sendingresetotp(){
+
+    }
 }
 
-   
