@@ -545,11 +545,25 @@ public function patientdetails(){
      
         $result['email'] = $emailsend ? $emailsend['email'] : null;
         $result['OTP'] = $mailtext;
-        $this->response = $this->response->withType('application/json')->withStringBody(json_encode(['data' => $result]));
-        return $this->response;
+        $this->set ("result",$result);
 
     }
     public function sendingresetotp(){
+        $result = [];
+        $result ['error'] = 1;
+        $data = $this->request->getData();
+        $sendOtp = $this->Onetimepassword->find('all')
+        ->select(['otp'])
+        ->where(['otp'=>$data['otp'] ])->toArray();
+        // debug( $sendOtp);
+        if(isset($sendOtp[0]['otp'])){
+            $value = $sendOtp[0]['otp'];
+        $result = ['error'=>0, 'status'=> 200,'otp'=>$value ];
+       }else{
+        $value = null;
+        $result ['error'] = 1;
+       }
+        $this->set ("result",$result);
 
     }
 }
