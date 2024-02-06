@@ -488,7 +488,7 @@ public function patientdetails(){
             ->where(['password' => $data['curpassword'] ])
             ->toArray();
           
-            $fielddataRecord = $this->MasterMain->get( $participants[0]['id']);
+            $fielddataRecord = $this->FieldExecutive->get( $participants[0]['id']);
             $fielddataRecord->password = $data['newpassword'];
             $this->FieldExecutive->save($fielddataRecord);
             $result = [
@@ -565,6 +565,26 @@ public function patientdetails(){
        }
         $this->set ("result",$result);
 
+    }
+
+    public function resetpassword(){
+        $result = [];
+        $result ['error'] = 1;
+        $data = $this->request->getData();
+        debug($data);
+        $useremail = $this->FieldExecutive->find('all')
+        ->select(['id'])
+        ->where(['email'=>$data['email'] ])->toArray();
+        debug($useremail);
+        if($useremail!=0){
+        $fielddataRecord = $this->FieldExecutive->get( $useremail[0]['id']);
+        $fielddataRecord->password = $data['newpassword'];
+        $this->FieldExecutive->save($fielddataRecord);
+        $result = [
+            'error'=>0, 'status'=> 200,
+       ];
+    }
+    $this->set ("result",$result);
     }
 }
 
