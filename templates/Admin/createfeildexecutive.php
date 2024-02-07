@@ -41,10 +41,11 @@
 					<div class="form-group">
 						<label for="inputClientCompany">Password</label> <input type="password" name="password" id="inputClientCompany" class="form-control">
 					</div>
-					<!-- <div class="form-group">
-						<label for="inputClientCompany">Re-Enter Password</label> <input type="password" name="reenterpassword" id="inputClientCompany" class="form-control">
-					</div> -->
-					<input type="submit" value="Add new Executive" class="btn btn-success  bg-gradient-primary  btncompany""> <a href="javascript:history.back()" class="btn btn-secondary">Cancel</a>
+					<div class="form-group">
+						<label for="inputClientCompany">Mobile Number</label> 
+						<input type="text" name="mobilenumber" id="inputClientCompany" class="form-control">
+					</div>
+					<input type="submit" value="Add new Executive" class="btn btn-success  bg-gradient-primary  btncompany"> <a href="javascript:history.back()" class="btn btn-secondary">Cancel</a>
 				</div>
 				<?php echo $this->Form->end ();?>
 			</div>

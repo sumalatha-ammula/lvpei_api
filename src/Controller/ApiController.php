@@ -324,8 +324,8 @@ public function patientdetails(){
        $patientdetails->clustercode = $data["clustercode"];
        $patientdetails->indiviadualcode = $data["indiviadualcode"];
        $patientdetails->landmark = $data["landmark"];
-       $patientdetails->education_others = $data["education_others"];
-       $patientdetails->occupation_others = $data["occupation_others"];
+       $patientdetails->education_others = $data["othersed"];
+       $patientdetails->occupation_others = $data["othersoc"];
        $patientdetails->unid =  intval($uniqID);
        $patientdetails->created_by = 1;
        $patientdata->save($patientdetails);
@@ -571,11 +571,11 @@ public function patientdetails(){
         $result = [];
         $result ['error'] = 1;
         $data = $this->request->getData();
-        debug($data);
+        // debug($data);
         $useremail = $this->FieldExecutive->find('all')
         ->select(['id'])
         ->where(['email'=>$data['email'] ])->toArray();
-        debug($useremail);
+        // debug($useremail);
         if($useremail!=0){
         $fielddataRecord = $this->FieldExecutive->get( $useremail[0]['id']);
         $fielddataRecord->password = $data['newpassword'];

@@ -496,6 +496,7 @@ class AdminController extends AppController {
                 $adUpdr_Data->email = $data['email'];
                 $adUpdr_Data->password =  $data['password'];
                 $adUpdr_Data->username = $data['username'];
+				$adUpdr_Data->mobile = $data['mobilenumber'];
                 $addrT_Data->save($adUpdr_Data); 
                 $result = 'The register Data has been saved.';
 				return $this->redirect ( [
