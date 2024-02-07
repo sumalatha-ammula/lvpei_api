@@ -59,7 +59,7 @@ class SurveyDataTable extends Table
 
         $this->belongsTo('MasterOptions', [
             'foreignKey' => 'option_data',
-            'joinType' => 'INNER',
+            'joinType' => 'LEFT',
       ]);
 
         $this->belongsTo('FieldExecutive', [

@@ -215,9 +215,9 @@ public function surveyparticipantsdatarvapp(){
     if($this->request->is('post')){
     $data = $this->request->getData();
     // debug($data);
-    $result = $this->SurveyData->find ( 'all' )
-    ->contain(["Survey","SurveyQuestions", "FieldExecutive","Partcipants", 'MasterOptions' ])
-    ->where(['SurveyData.partcipants_id'=>$data['id'], 'SurveyData.survey_id' => $data['sid']]);
+    $result = $this->SurveyData->find( 'all' )
+    ->contain(["Survey","SurveyQuestions", "FieldExecutive","Partcipants", "MasterOptions"])
+    ->where(['SurveyData.partcipants_id'=>$data['id'], 'SurveyData.survey_id' => $data['sid']] );
     }
     $this->set ("result", $result); 
 }
