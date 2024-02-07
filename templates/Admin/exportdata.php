@@ -34,7 +34,7 @@
                         //$mastermaind= "Null";
                         // debug($surveydataex);
                         foreach ($surveydataex as $survey): ?>
-                        <?php //$mastermaind = $survey->master_main->name?? "Null"; ?>
+                        <?php $mastermaind = $survey->master_option->option_value?? "Null"; ?>
                         <tr>
                             <td><?php echo $survey->id ?></td>
 						<td>
@@ -44,7 +44,7 @@
 						
 						</td>
 						<td><?= h($survey->question) ?></td>
-						<td><?= h($survey->master_option->option_value) ?></td>
+						<td><?= h($mastermaind) ?></td>
 						
                         
 					   

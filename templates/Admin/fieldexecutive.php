@@ -23,6 +23,7 @@
                         <th>User Name</th>
                         <th>Password</th>
 						<th>Email</th>
+						<th>Mobile Number</th>
 						<th>Status</th>
 						
 				
@@ -34,6 +35,7 @@
 						<td><?= h($agent->username) ?></td>
 						<td><?= h($agent->password) ?></td>
 						<td><?= h($agent->email) ?></td>
+						<td><?= h($agent->mobile) ?></td>
 						<td><?= h($agent->status) ?></td>
 						
 						
