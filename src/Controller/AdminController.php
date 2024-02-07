@@ -298,9 +298,12 @@ class AdminController extends AppController {
 		
 				$ir = 5;
 				foreach ($surveydataex as $row) {
+					$optionValue = isset($row['master_option']->option_value) ? $row['master_option']->option_value : "Null";
+
+					
 					$sheet->setCellValue('A' . $ir, $row['survey_question']->section);
 					$sheet->setCellValue('B' . $ir, $row->question);
-					$sheet->setCellValue('C' . $ir, $row['master_option']->option_value);
+					$sheet->setCellValue('C' . $ir, $optionValue);
 					$sheet->setCellValue('D' . $ir, date_format($row['partcipant']->created_on, "d-m-Y H:i:s A"));
 					$ir++;
 				}
