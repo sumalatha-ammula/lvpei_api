@@ -222,15 +222,60 @@ public function surveyparticipantsdatarvapp(){
     $this->set ("result", $result); 
 }
 
+public function editsurveyquestions(){
+    if($this->request->is('post')){
+        $data = $this->request->getData();
+        $sps = $this->SurveyData->find ( 'all' )
+        ->contain(["Survey","SurveyQuestions", "FieldExecutive","Partcipants","SurveyQuestions.MasterMain.MasterOptions","SurveyQuestions.MasterMain","MasterOptions" ])
+        ->where(['SurveyData.partcipants_id'=>$data['id'], 'SurveyData.survey_id' => $data['sid']])->toArray();
+       
+        $final=[];
+        foreach($sps as $question){
+        //  debug($question);
+        //  die;
+        $Partcipants =  @$question['partcipant' ];
+       
+         $tmpArray = [
+             'master_main_name' => @$question['survey_question']['master_main']['name'],
+            //  'options' =>@$question['survey_question']['master_main']['master_options'][0]['option_value'],
+             'options'=>@$question['survey_question']['master_main']['master_options'],
+             'option_type' => @$question['survey_question']['option_type'], 
+             'section'=>@$question['survey_question']['section'] ,
+             'question'=>@$question['survey_question']['question'] ,
+             'question_id'=> $question['survey_question']['id'],
+             'survey_id' => $question['survey_id'],
+             'survey'=>$question['survey'],
+
+             'unid'=>$question['unid'],
+             'option_data'=>$question['option_data'],
+             'Partcipants'=> $Partcipants,
+             'option_value'=> @$question['master_option']['option_value'],
+             'surveydataid'=>  @$question['id']
+         ];    
+         $final[$question['survey_question']['section']][] = $tmpArray;
+    
+    
+      }
+    }
+
+   $this->set ("result",   array_values($final));
+}
+
 public function editsavesurveydata(){
-    if($this->request->is('put','post')){
-        $data = $this->request->getdata();         
-        $pid=$data["pid"];
+    $result=[];   
+    if($this->request->is('post')){
+        $data = $this->request->getdata();
+        // debug($data); 
+        // die;                    
+        $pid=$data["pid"];        
         $punid = $data['punid'];
         $data = json_decode($data['fdata']);
-        // debug( $data);        
+        // debug($data); 
+        // die;   
         foreach($data as $d){
-            $results = $this->SurveyData->get($pid,);            
+            // debug($d->surveyid);
+            // die;
+            $results = $this->SurveyData->get($d->surveyid);            
             $surveydetails = [];
             $surveydetails['survey_id'] = $d->survey_id;
             $surveydetails['survey_questions_id'] = $d->question_id;
@@ -417,41 +462,7 @@ public function patientdetails(){
         $this->set ("result",$result);
     }
 
-    public function editsurveyquestions(){
-        if($this->request->is('post')){
-            $data = $this->request->getData();
-            $sps = $this->SurveyData->find ( 'all' )
-            ->contain(["Survey","SurveyQuestions", "FieldExecutive","Partcipants","SurveyQuestions.MasterMain.MasterOptions","SurveyQuestions.MasterMain" ])
-            ->where(['SurveyData.partcipants_id'=>$data['id'], 'SurveyData.survey_id' => $data['sid']])->toArray();
-            // debug($sps);
-            $final=[];
-            foreach($sps as $question){
-            //  debug($question);
-            //  die;
-            $Partcipants =  @$question['partcipant' ];
-           
-             $tmpArray = [
-                 'master_main_name' => @$question['survey_question']['master_main']['name'],
-                //  'options' =>@$question['survey_question']['master_main']['master_options'][0]['option_value'],
-                 'options'=>@$question['survey_question']['master_main']['master_options'],
-                 'option_type' => @$question['survey_question']['option_type'], 
-                 'section'=>@$question['survey_question']['section'] ,
-                 'question'=>@$question['survey_question']['question'] ,
-                 'question_id'=> $question['survey_question']['id'],
-                 'survey_id' => $question['survey_id'],
-                 'survey'=>$question['survey'],
-                 'unid'=>$question['unid'],
-                 'option_data'=>$question['option_data'],
-                 'Partcipants'=> $Partcipants,
-             ];    
-             $final[$question['survey_question']['section']][] = $tmpArray;
-        
-        
-          }
-        }
-
-       $this->set ("result",   array_values($final));
-    }
+   
     public function editprofile(){
         $result = [];
         $result = ['error' => 1,];
