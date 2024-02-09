@@ -473,7 +473,7 @@ public function patientdetails(){
         if (!empty($data['username'])){
             $fielddata ['username'] = $data['username'];
             $fielddata ['email'] = $data['email'];
-            $fielddata ['phone'] = $data['phone'];
+            $fielddata ['mobile'] = $data['phone'];
             $profiledata = $this->FieldExecutive->patchEntity($results,$fielddata);
             $this->FieldExecutive->save( $profiledata);
         }
