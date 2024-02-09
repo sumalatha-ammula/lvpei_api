@@ -328,9 +328,6 @@ class AdminController extends AppController {
 		->contain(["Survey","SurveyQuestions", "FieldExecutive","Partcipants", "MasterOptions"])
 		->where(['SurveyData.partcipants_id'=>$id1,'SurveyData.survey_id'=>$id2 ])
 		->toArray();
-		// debug($surveydata);
-		// die;
-		// $surveys = $this->paginate ( $surveydata);
 		// debug($surveys);
 		$this->set ( "surveydata", $surveydata);
 		$this->set ("id1", $id1);

@@ -64,7 +64,7 @@ a.fas.fa-users {
 						<div class="rvapp_qa p-3" style="margin-left:20px">
 						<label for="formGroupExampleInput" style="font-weight:bold;font-size:13px">Question: <?= h($survey->survey_question->question) ?></label><br>
 						<!-- <label style="font-weight:normal;font-size:16px"><span style="font-weight:bold;font-size:16px">Anwser:</span> <?//= h($survey->option_data) ?></label><br> -->
-                        <p>Anwser: <?= h($survey->master_option->option_value) ?></p>
+                        <p>Anwser: <?= h($survey->master_option->option_value?? "Null");?></p>
                         </div>
 						
 				
