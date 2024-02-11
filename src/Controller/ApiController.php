@@ -227,14 +227,19 @@ public function editsurveyquestions(){
         $data = $this->request->getData();
         $sps = $this->SurveyData->find ( 'all' )
         ->contain(["Survey","SurveyQuestions", "FieldExecutive","Partcipants","SurveyQuestions.MasterMain.MasterOptions","SurveyQuestions.MasterMain","MasterOptions" ])
-        ->where(['SurveyData.partcipants_id'=>$data['id'], 'SurveyData.survey_id' => $data['sid']])->toArray();
+        ->where(['SurveyData.partcipants_id'=>$data['id'], 'SurveyData.survey_id' => $data['sid'], ])->toArray();
        
         $final=[];
         foreach($sps as $question){
         //  debug($question);
         //  die;
         $Partcipants =  @$question['partcipant' ];
-       
+        if(@$question['survey_question']['option_type'] === "Dropdown"){
+            $optionData = @$question['master_option']['option_value'];
+        }else{
+            $optionData = @$question['option_data'];
+        }
+
          $tmpArray = [
              'master_main_name' => @$question['survey_question']['master_main']['name'],
             //  'options' =>@$question['survey_question']['master_main']['master_options'][0]['option_value'],
@@ -247,9 +252,9 @@ public function editsurveyquestions(){
              'survey'=>$question['survey'],
 
              'unid'=>$question['unid'],
-             'option_data'=>$question['option_data'],
+             'option_data'=> $optionData,
              'Partcipants'=> $Partcipants,
-             'option_value'=> @$question['master_option']['option_value'],
+             'option_value'=> $optionData,
              'surveydataid'=>  @$question['id']
          ];    
          $final[$question['survey_question']['section']][] = $tmpArray;
