@@ -122,7 +122,7 @@
          
           $this->set ("result",   $result);
         }
-public function surveyquestionsnc(){
+public function surveyquestions(){
     $result=[];
     $result['error'] = 1;
     if($this->request->is('post')){
@@ -132,7 +132,7 @@ public function surveyquestionsnc(){
         // ->select(['SurveyQuestions.section'])
        ->contain(['MasterMain','MasterMain.MasterOptions','survey'])->
        group(['SurveyQuestions.section','SurveyQuestions.id'])->
-       where(['SurveyQuestions.survey_id'=> $data['id'], 'SurveyQuestions.is_clinical'=> '0' ])->toArray();
+       where(['SurveyQuestions.survey_id'=> $data['id'], 'SurveyQuestions.is_clinical'=> $data['is_clinical'] ])->toArray();
        $final=[];
        foreach($sqs as $question){
         // print_r($question);die;
