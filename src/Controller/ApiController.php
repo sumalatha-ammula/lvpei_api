@@ -82,39 +82,72 @@
             $this->set("result", $result);
         }
         public function survey() { 
-            $result=[];
+            $resultc=[];
+            $resultnc=[];         
+            $result = [];
             $result['error'] = 1;
 
                  
-                $Surveydat = $this->Survey->find ( 'all' )
-                ->contain(['Partcipants','SurveyQuestions'])               
-                ->toArray(); 
-            //     $surveyqutionc = $this->SurveyQuestions->find('all')
-            //     ->contain(['MasterMain','MasterMain.MasterOptions','survey'])
-            //     ->group(['SurveyQuestions.section','SurveyQuestions.id'])
-            //     ->where(['SurveyQuestions.is_clinical'=> 1, ])
-            //     ->toArray();
-       
-            //    $surveyqutionnc = $this->SurveyQuestions->find('all')
-            //    ->contain(['MasterMain','MasterMain.MasterOptions','survey'])
-            //    ->group(['SurveyQuestions.section','SurveyQuestions.id'])
-            //    ->where(['SurveyQuestions.is_clinical'=> 0, ])
-            //    ->toArray();
-               
-            //    debug($surveyqutionc);
-            //    die;                 
-                $result = [
-                    'error' => 0,'status' => 200, 
-                    'Surveydata'=> $Surveydat, 
-                    // "SurveyQuestionsclinical"=>$surveyqutionc, 
-                    // "SurveyQuestionnonsclinical"=>$surveyqutionnc
-                ];          
-            
-        
-            $this->set ("result",   $result);           
-            }
+          
+               $participants = $this->Survey->find('list')->toArray();
+               foreach ($participants as $participantId => $participantName) {
+                $sqs =[];
+                $sqs = $this->SurveyQuestions->find('all')
+                ->contain(['MasterMain','MasterMain.MasterOptions','survey','survey.Partcipants'])
+                ->group(['SurveyQuestions.section','SurveyQuestions.id'])
+                ->where(['SurveyQuestions.survey_id'=> $participantId ])->toArray();
+    
+                foreach($sqs as $question){
+                    debug($question);
+                    die;
+                    if($question['is_clinical']!=0){
+                    $tmpArray = [
+                   'master_main_namec' => @$question['master_main']['name'], 
+                   'options' =>@$question['master_main']['master_options'],
+                   'option_type' => @$question['option_type'], 
+                   'section'=>@$question['section'] ,
+                   'question'=>@$question['question'] ,
+                   'question_id'=> $question['id'],
+                   'survey_id' => $question['survey_id'],
+                   'parent_id'=> @$question['parent_id'],
+                   'show_if'=> @$question['show_if'],
+                   'survey'=>$question['survey']
+                    ];    
+                    // debug($tmpArray);
+                    $resultc[$question['section']][] = $tmpArray;
+                    
 
-          public function participantupdate(){
+
+                }else{
+                    $tmpArrayn = [
+                        'master_main_namenc' => @$question['master_main']['name'], 
+                        'options' =>@$question['master_main']['master_options'],
+                        'option_type' => @$question['option_type'], 
+                        'section'=>@$question['section'] ,
+                        'question'=>@$question['question'] ,
+                        'question_id'=> $question['id'],
+                        'survey_id' => $question['survey_id'],
+                        'parent_id'=> @$question['parent_id'],
+                        'show_if'=> @$question['show_if'],
+                        'survey'=>$question['survey']
+                         ];    
+                         // debug($tmpArray);
+                         $resultnc[$question['section']][] = $tmpArrayn;
+                        
+
+                }
+                $result = [
+                    'error' => 0,'status' => 200, "SurveyQuestionsnonis_clinical"=>$resultnc, "SurveyQuestionsis_clinical"=>$resultc
+                ];
+              
+                }
+        
+            }
+                       
+            $this->set ("result", $result);           
+       }
+
+        public function participantupdate(){
             $result=[];
             $result['error'] = 0;
             
@@ -139,10 +172,11 @@
          
           $this->set ("result",   $result);
         }
-public function surveyquestions(){
-    $result=[];
-    $result['error'] = 1;
-    if($this->request->is('post')){
+
+        public function surveyquestions(){
+          $result=[];
+          $result['error'] = 1;
+         if($this->request->is('post')){
         $data = $this->request->getdata();        
         $sqs =[];
         $sqs = $this->SurveyQuestions->find('all')
