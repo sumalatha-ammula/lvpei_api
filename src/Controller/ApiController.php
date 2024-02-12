@@ -215,11 +215,46 @@ public function surveyparticipantsdatarvapp(){
     if($this->request->is('post')){
     $data = $this->request->getData();
     // debug($data);
-    $result = $this->SurveyData->find( 'all' )
+    $sps = $this->SurveyData->find( 'all' )
     ->contain(["Survey","SurveyQuestions", "FieldExecutive","Partcipants", "MasterOptions"])
     ->where(['SurveyData.partcipants_id'=>$data['id'], 'SurveyData.survey_id' => $data['sid']] );
+
+    $final=[];
+    foreach($sps as $question){
+    //  debug($question);
+    //  die;
+    $Partcipants =  @$question['partcipant' ];
+    if(@$question['survey_question']['option_type'] === "Dropdown"){
+        $optionData = @$question['master_option']['option_value'];
+    }else{
+        $optionData = @$question['option_data'];
     }
-    $this->set ("result", $result); 
+
+     $tmpArray = [
+         'master_main_name' => @$question['survey_question']['master_main']['name'],
+        //  'options' =>@$question['survey_question']['master_main']['master_options'][0]['option_value'],
+         'options'=>@$question['survey_question']['master_main']['master_options'],
+         'option_type' => @$question['survey_question']['option_type'], 
+         'section'=>@$question['survey_question']['section'] ,
+         'question'=>@$question['survey_question']['question'] ,
+         'question_id'=> $question['survey_question']['id'],
+         'survey_id' => $question['survey_id'],
+         'survey'=>$question['survey'],
+
+         'unid'=>$question['unid'],
+         'option_data'=> $optionData,
+         'Partcipants'=> $Partcipants,
+        //  'option_value'=> $optionData,
+         'surveydataid'=>  @$question['id']
+     ];    
+     $final[$question['survey_question']['section']][] = $tmpArray;
+
+
+  }
+
+    }
+  
+    $this->set ("result",   array_values($final));
 }
 
 public function editsurveyquestions(){
@@ -254,7 +289,7 @@ public function editsurveyquestions(){
              'unid'=>$question['unid'],
              'option_data'=> $optionData,
              'Partcipants'=> $Partcipants,
-             'option_value'=> $optionData,
+            //  'option_value'=> $optionData,
              'surveydataid'=>  @$question['id']
          ];    
          $final[$question['survey_question']['section']][] = $tmpArray;
