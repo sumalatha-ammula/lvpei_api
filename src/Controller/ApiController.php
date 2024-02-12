@@ -87,24 +87,27 @@
 
                  
                 $Surveydat = $this->Survey->find ( 'all' )
-                ->contain(['Partcipants'])               
+                ->contain(['Partcipants','SurveyQuestions'])               
                 ->toArray(); 
-                $surveyqutionc = $this->SurveyQuestions->find('all')
-                ->contain(['MasterMain','MasterMain.MasterOptions','survey'])
-                ->group(['SurveyQuestions.section','SurveyQuestions.id'])
-                ->where(['SurveyQuestions.is_clinical'=> 1, ])
-                ->toArray();
+            //     $surveyqutionc = $this->SurveyQuestions->find('all')
+            //     ->contain(['MasterMain','MasterMain.MasterOptions','survey'])
+            //     ->group(['SurveyQuestions.section','SurveyQuestions.id'])
+            //     ->where(['SurveyQuestions.is_clinical'=> 1, ])
+            //     ->toArray();
        
-               $surveyqutionnc = $this->SurveyQuestions->find('all')
-               ->contain(['MasterMain','MasterMain.MasterOptions','survey'])
-               ->group(['SurveyQuestions.section','SurveyQuestions.id'])
-               ->where(['SurveyQuestions.is_clinical'=> 0, ])
-               ->toArray();
+            //    $surveyqutionnc = $this->SurveyQuestions->find('all')
+            //    ->contain(['MasterMain','MasterMain.MasterOptions','survey'])
+            //    ->group(['SurveyQuestions.section','SurveyQuestions.id'])
+            //    ->where(['SurveyQuestions.is_clinical'=> 0, ])
+            //    ->toArray();
                
             //    debug($surveyqutionc);
             //    die;                 
                 $result = [
-                    'error' => 0,'status' => 200, 'Surveydata'=> $Surveydat, "SurveyQuestionsclinical"=>$surveyqutionc, "SurveyQuestionnonsclinical"=>$surveyqutionnc
+                    'error' => 0,'status' => 200, 
+                    'Surveydata'=> $Surveydat, 
+                    // "SurveyQuestionsclinical"=>$surveyqutionc, 
+                    // "SurveyQuestionnonsclinical"=>$surveyqutionnc
                 ];          
             
         
