@@ -84,16 +84,30 @@
         public function survey() { 
             $result=[];
             $result['error'] = 1;
-            if($this->request->is('post')){
-                $data = $this->request->getdata();           
+
+                 
                 $Surveydat = $this->Survey->find ( 'all' )
                 ->contain(['Partcipants'])               
-                ->toArray();                  
+                ->toArray(); 
+                $surveyqutionc = $this->SurveyQuestions->find('all')
+                ->contain(['MasterMain','MasterMain.MasterOptions','survey'])
+                ->group(['SurveyQuestions.section','SurveyQuestions.id'])
+                ->where(['SurveyQuestions.is_clinical'=> 1, ])
+                ->toArray();
+       
+               $surveyqutionnc = $this->SurveyQuestions->find('all')
+               ->contain(['MasterMain','MasterMain.MasterOptions','survey'])
+               ->group(['SurveyQuestions.section','SurveyQuestions.id'])
+               ->where(['SurveyQuestions.is_clinical'=> 0, ])
+               ->toArray();
+               
+            //    debug($surveyqutionc);
+            //    die;                 
                 $result = [
-                    'error' => 0,'status' => 200, 'Surveydata'=> $Surveydat
+                    'error' => 0,'status' => 200, 'Surveydata'=> $Surveydat, "SurveyQuestionsclinical"=>$surveyqutionc, "SurveyQuestionnonsclinical"=>$surveyqutionnc
                 ];          
             
-            }
+        
             $this->set ("result",   $result);           
             }
 
@@ -436,7 +450,8 @@ public function patientdetails(){
         $data = $this->request->getData();  
               
         $results = $this->Partcipants->find ( 'all' )
-         ->where(['survey_id' => $data['id']])->toArray();  
+         ->where(['survey_id' => $data['id']])->toArray(); 
+
         
         $surveys = $this->Survey->find ( 'all' )
         ->where(['id' => $data['id']])->toArray(); 
