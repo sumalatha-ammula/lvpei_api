@@ -129,10 +129,12 @@ a.fas.fa-trash{
 			<div class="card-tools">
             <a href="#" class="btn btn-block bg-gradient-primary  btncompany addsurveyquestions" data-question="<?php //echo $survey->id;?>" id="id">Create Survey Question</a>     
                 	</div>
+                    <input type="text" id="searchInput" onkeyup="searchTable()" placeholder="Search for Question...">
+
 		</div>
 		<!-- /card-header -->
 		<div class="card-body table-responsive p-0">
-			<table class="table table-hover">
+			<table id="surveyTable" class="table table-hover">
 				<thead>
 					<tr>
                         <th>Id</th>
@@ -196,6 +198,34 @@ a.fas.fa-trash{
 	</div>
 	<!-- /.card -->
 </div>
+<script>
+function searchTable() {
+  // Declare variables
+  var input, filter, table, tr, td, i, txtValue;
+  input = document.getElementById("searchInput");
+  filter = input.value.toUpperCase();
+  table = document.getElementById("surveyTable");
+  tr = table.getElementsByTagName("tr");
+
+  // Loop through all table rows, and hide those that don't match the search query
+  for (i = 0; i < tr.length; i++) {
+    td = tr[i].getElementsByTagName("td");
+    let found = false;
+    for (let j = 1; j <= 5; j++) {
+      let columnContent = td[j]; // Index 2 represents the Question column, 3 represents Option Type, 4 represents Master Main ID, 5 represents Created On
+      if (columnContent) {
+        txtValue = columnContent.textContent || columnContent.innerText;
+        if (txtValue.toUpperCase().indexOf(filter) > -1) {
+          found = true;
+          break; // If found in any of the columns, break the loop
+        }
+      }
+    }
+    tr[i].style.display = found ? "" : "none";
+  }
+}
+</script>
+
 
 
 
