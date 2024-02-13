@@ -87,7 +87,7 @@
 
                  
                 $Surveydat = $this->Survey->find ( 'all' )
-                ->contain(['Partcipants','SurveyQuestions'])               
+                ->contain(['Partcipants'])               
                 ->toArray(); 
             //     $surveyqutionc = $this->SurveyQuestions->find('all')
             //     ->contain(['MasterMain','MasterMain.MasterOptions','survey'])
