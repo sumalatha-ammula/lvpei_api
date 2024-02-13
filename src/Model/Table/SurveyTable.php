@@ -50,6 +50,16 @@ class SurveyTable extends Table
         $this->hasMany('SurveyQuestions', [
             'foreignKey' => 'survey_id',
         ]);
+        $this->hasMany('ClinicalSurveyQuestions', [
+            'className' => 'SurveyQuestions',
+            'foreignKey' => 'survey_id',
+        ]);
+        $this->hasMany('NonClinicalSurveyQuestions', [
+            'className' => 'SurveyQuestions',
+            'foreignKey' => 'survey_id',
+        ]);
+
+        
     }
 
     /**
