@@ -24,7 +24,7 @@ class PartcipantsFixture extends TestFixture
                 'field_executive_id' => 1,
                 'survey_id' => 1,
                 'is_survey' => 'Lorem ipsum dolor sit amet',
-                'created_on' => 1706094190,
+                'created_on' => 1706113367,
                 'created_by' => 1,
                 'age' => 'Lorem ipsum dolor sit amet',
                 'mobile' => 'Lorem ipsu',
@@ -43,6 +43,7 @@ class PartcipantsFixture extends TestFixture
                 'clustercode' => 1,
                 'indiviadualcode' => 1,
                 'unid' => 1,
+                'is_examine' => 1,
             ],
         ];
         parent::init();
