@@ -84,29 +84,69 @@
         public function survey() { 
                   
             $result = [];
-            $result['error'] = 1;
-
-                
+            $result['error'] = 1;                
                 $Surveydat = $this->Survey->find ( 'all' )
-                ->contain(['Partcipants', 'ClinicalSurveyQuestions' => function($q){return $q->where(['is_clinical' => 0]);}, 'NonClinicalSurveyQuestions' => function($q){return $q->where(['is_clinical' => 1]);}]) 
+                ->contain(['Partcipants', 'ClinicalSurveyQuestions' => 
+                function($q){return $q->contain(['MasterMain','MasterMain.MasterOptions'])
+                    ->where(['is_clinical' => 1])->group(['section','ClinicalSurveyQuestions.id']);}, 
+                    'NonClinicalSurveyQuestions' => function($q){return $q->contain(['MasterMain','MasterMain.MasterOptions'])
+                        ->where(['is_clinical' => 0])->group(['section','NonClinicalSurveyQuestions.id']);}]) 
                 ->toArray(); 
-            //     $surveyqutionc = $this->SurveyQuestions->find('all')
-            //     ->contain(['MasterMain','MasterMain.MasterOptions','survey'])
-            //     ->group(['SurveyQuestions.section','SurveyQuestions.id'])
-            //     ->where(['SurveyQuestions.is_clinical'=> 1, ])
-            //     ->toArray();
-       
-            //    $surveyqutionnc = $this->SurveyQuestions->find('all')
-            //    ->contain(['MasterMain','MasterMain.MasterOptions','survey'])
-            //    ->group(['SurveyQuestions.section','SurveyQuestions.id'])
-            //    ->where(['SurveyQuestions.is_clinical'=> 0, ])
-            //    ->toArray();
-               
-            //    debug($surveyqutionc);
-            //    die;                 
+
+
+                $final=[];
+                foreach($Surveydat as $data){
+                    foreach($data['clinical_survey_questions'] as $question){
+                 // print_r($question);die;
+                 $tmpArray = [
+                     'master_main_name' => @$question['master_main']['name'], 
+                     'options' =>@$question['master_main']['master_options'],
+                     'option_type' => @$question['option_type'], 
+                     'section'=>@$question['section'] ,
+                     'question'=>@$question['question'] ,
+                     'question_id'=> $question['id'],
+                     'survey_id' => $question['survey_id'],
+                     'parent_id'=> @$question['parent_id'],
+                     'show_if'=> @$question['show_if'],
+                     'survey'=>$question['survey']
+                 ];    
+                 $final[$question['section']][] = $tmpArray;
+
+                }
+                $data['clinical_survey_questions'] = array_values($final);
+             
+             }
+
+             $final=[];
+             foreach($Surveydat as $data){
+                 foreach($data['non_clinical_survey_questions'] as $question){
+              // print_r($question);die;
+              $tmpArray = [
+                  'master_main_name' => @$question['master_main']['name'], 
+                  'options' =>@$question['master_main']['master_options'],
+                  'option_type' => @$question['option_type'], 
+                  'section'=>@$question['section'] ,
+                  'question'=>@$question['question'] ,
+                  'question_id'=> $question['id'],
+                  'survey_id' => $question['survey_id'],
+                  'parent_id'=> @$question['parent_id'],
+                  'show_if'=> @$question['show_if'],
+                  'survey'=>$question['survey']
+              ];    
+              $final[$question['section']][] = $tmpArray;
+
+             }
+             $data['non_clinical_survey_questions'] = array_values($final);
+          
+          }
+      
+         
+              
+                       
                 $result = [
                     'error' => 0,'status' => 200, 
-                    'Surveydata'=> $Surveydat, 
+                    $Surveydat, 
+                    // 'final'=>  $final
                     // "SurveyQuestionsclinical"=>$surveyqutionc, 
                     // "SurveyQuestionnonsclinical"=>$surveyqutionnc
                 ];          
