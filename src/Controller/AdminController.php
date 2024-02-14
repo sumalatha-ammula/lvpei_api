@@ -255,11 +255,35 @@ class AdminController extends AppController {
 	}
 	public function exportdata(){
 		$surveysqu = $this->SurveyData->find ( 'all' )
-		->contain(["Survey","SurveyQuestions", "FieldExecutive","Partcipants", "MasterOptions" ])
-		// ->toArray()
-		;
-		$surveydataex = $this->paginate ( $surveysqu);
-		$this->set ( "surveydataex", $surveydataex);
+		->contain(["Survey","SurveyQuestions", "FieldExecutive","Partcipants", "MasterOptions","SurveyQuestions.MasterMain"]);
+		// ->toArray();
+		// debug($surveysqu);
+		$final=[];
+		foreach($surveysqu as $question){
+			// debug($question);
+			if(@$question['survey_question']['option_type'] === "Dropdown"){
+				$optionData = @$question['master_option']['option_value'];
+			}else{
+				$optionData = @$question['option_data'];
+			}
+			$tmpArray = [
+				'master_main_name' => @$question['survey_question']['master_main']['name'],
+			   //  'options' =>@$question['survey_question']['master_main']['master_options'][0]['option_value'],
+				'option_type' => @$question['survey_question']['option_type'], 
+				'section'=>@$question['survey_question']['section'] ,
+				'question'=>@$question['survey_question']['question'] ,
+				'option_data'=> $optionData,
+				'id'=>@$question['id']
+
+				
+	
+			];
+			// debug($tmpArray);
+			$final[]= $tmpArray;
+		}
+		// if()
+		// $surveydataex = $this->paginate ( $tmpArray);
+		$this->set ( "surveydataex", $final);
 
 	}
 	public function participantexportdata() {
@@ -298,12 +322,19 @@ class AdminController extends AppController {
 		
 				$ir = 5;
 				foreach ($surveydataex as $row) {
+				  // debug($question);
+			      if(@$row['survey_question']['option_type'] === "Dropdown"){
+				  $optionData = @$row['master_option']['option_value'];
+			      }else{
+				  $optionData = @$row['option_data'];
+			      }
+
 					$optionValue = isset($row['master_option']->option_value) ? $row['master_option']->option_value : "Null";
 
 					
 					$sheet->setCellValue('A' . $ir, $row['survey_question']->section);
 					$sheet->setCellValue('B' . $ir, $row->question);
-					$sheet->setCellValue('C' . $ir, $optionValue);
+					$sheet->setCellValue('C' . $ir, $optionData);
 					$sheet->setCellValue('D' . $ir, date_format($row['partcipant']->created_on, "d-m-Y H:i:s A"));
 					$ir++;
 				}
