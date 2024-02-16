@@ -129,7 +129,7 @@ a.fas.fa-trash{
 			<div class="card-tools">
             <a href="#" class="btn btn-block bg-gradient-primary  btncompany addsurveyquestions" data-question="<?php //echo $survey->id;?>" id="id">Create Survey Question</a>     
                 	</div>
-                    <input type="text" id="searchInput" onkeyup="searchTable()" placeholder="Search for Question...">
+                    <input type="text" id="searchInput" onkeyup="searchTable()" placeholder="Search Here...">
 
 		</div>
 		<!-- /card-header -->
@@ -183,16 +183,16 @@ a.fas.fa-trash{
                        
                     </tbody>
 			</table>
-			<div class="paginator">
+			<!-- <div class="paginator">
 				<ul class="pagination">
-                        <?= $this->Paginator->first('<< ' . __('first')) ?>
-                        <?= $this->Paginator->prev('< ' . __('previous')) ?>
-                        <?= $this->Paginator->numbers() ?>
-                        <?= $this->Paginator->next(__('next') . ' >') ?>
-                        <?= $this->Paginator->last(__('last') . ' >>') ?>
+                        <?//= $this->Paginator->first('<< ' . __('first')) ?>
+                        <?//= $this->Paginator->prev('< ' . __('previous')) ?>
+                        <?//= $this->Paginator->numbers() ?>
+                        <?//= $this->Paginator->next(__('next') . ' >') ?>
+                        <?//= $this->Paginator->last(__('last') . ' >>') ?>
                     </ul>
-				<p><?= $this->Paginator->counter(__('Page {{page}} of {{pages}}, showing {{current}} record(s) out of {{count}} total')) ?></p>
-			</div>
+				<p><?//= $this->Paginator->counter(__('Page {{page}} of {{pages}}, showing {{current}} record(s) out of {{count}} total')) ?></p>
+			</div> -->
 		</div>
 		<!-- /.card-body -->
 	</div>

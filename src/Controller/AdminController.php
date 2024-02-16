@@ -495,7 +495,7 @@ class AdminController extends AppController {
 		->order(['sort'=>'DESC', 'SurveyQuestions.id'])
 		->contain(['MasterMain'])
 		->where(['survey_id' => $id]);
-		$surveys = $this->paginate ( $surveyquestiondata);
+		// $surveys = $this->paginate ( $surveyquestiondata);
 		$masterOptionData = $this->MasterMain->find(
             'list',
             [
@@ -506,7 +506,7 @@ class AdminController extends AppController {
             ->toArray();
 			// debug($masterOptionData);die;
 			$this->set(compact('masterOptionData'));
-			$this->set ( "surveys", $surveys);
+			$this->set ( "surveys", $surveyquestiondata);
 			$this->set('id', $id);
 	}
 	
