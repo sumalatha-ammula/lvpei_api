@@ -73,27 +73,31 @@
                 $ld->deviceinfo = isset($data['deviceinfo']) ? $data['deviceinfo'] : '';
                 $fielddata[0]->token = $ld->token;
                 $lt->save($ld);
+                $Surveydat = $this->surveydata();
                 $result = [
-                    'error' => 0,'member' => $fielddata[0],'status' => 200
+                    'error' => 0,
+                    'member' => $fielddata[0],
+                    'status' => 200,
+                    'survey' => $Surveydat
                 ];
 
                 }                 
             }
             $this->set("result", $result);
         }
-        public function survey() { 
-                  
-            $result = [];
-            $result['error'] = 1;                
-                $Surveydat = $this->Survey->find ( 'all' )
+        private function surveydata(){
+            $Surveydata = $this->Survey->find ( 'all' )
                 ->contain(['Partcipants', 'ClinicalSurveyQuestions' => 
                 function($q){return $q->contain(['MasterMain','MasterMain.MasterOptions'])
                     ->where(['is_clinical' => 1])->group(['section','ClinicalSurveyQuestions.id']);}, 
                     'NonClinicalSurveyQuestions' => function($q){return $q->contain(['MasterMain','MasterMain.MasterOptions'])
                         ->where(['is_clinical' => 0])->group(['section','NonClinicalSurveyQuestions.id']);}]) 
                 ->toArray(); 
-
-
+                $Surveydat = [];
+                foreach($Surveydata as $data){
+                    $Surveydat[$data->id] = $data;
+                };
+                $Surveydat = (object)$Surveydat;
                 $final=[];
                 foreach($Surveydat as $data){
                     foreach($data['clinical_survey_questions'] as $question){
@@ -139,16 +143,23 @@
              $data['non_clinical_survey_questions'] = array_values($final);
           
           }
+          return $Surveydat;
+        }
+        public function survey() { 
+                  
+            $result = [];
+            $result['error'] = 1; 
+            $data = $this->request->getdata(); 
+                          
+            $Surveydat = $this->surveydata();
       
          
               
                        
                 $result = [
                     'error' => 0,'status' => 200, 
-                    $Surveydat, 
-                    // 'final'=>  $final
-                    // "SurveyQuestionsclinical"=>$surveyqutionc, 
-                    // "SurveyQuestionnonsclinical"=>$surveyqutionnc
+                    'survey' => $Surveydat, 
+                    
                 ];          
             
         
