@@ -395,13 +395,12 @@ class AdminController extends AppController {
 			$data = $this->request->getdata();
 			// debug($data);
 			// die;
-			if($data['Option_Type'] === 'Text Box' || $data['option_type'] === 'Heading'){
+			if($data['Option_Type'] === 'Text Box' ){
 				$masterID= 0;
 
 			}else{
 				$masterID = $data['Select_Survey_Question'];
-			}
-			
+			}		
 			if (!empty($data['Question'])) {
 				$adsurveyQuT = TableRegistry::get('SurveyQuestions');
 				$adsurveyQuUpdData = $this->SurveyQuestions->newEmptyEntity();
