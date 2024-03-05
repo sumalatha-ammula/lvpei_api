@@ -148,6 +148,21 @@
 
              }
              $data['non_clinical_survey_questions'] = array_values($final);
+             $defaultvalues = [];             
+             $defaultvalues['78'] = [];
+             $defaultvalues['78']['220'] = [];
+             $defaultvalues['78']['220']['80'] = 28;
+             $defaultvalues['78']['220']['84'] = 28;
+             $defaultvalues['78']['220']['88'] = 28;
+             $defaultvalues['78']['220']['92'] = 28;
+             $defaultvalues['78']['220']['96'] = 28;
+             $defaultvalues['79']['220'] = [];
+             $defaultvalues['79']['220']['81'] = 28;
+             $defaultvalues['79']['220']['85'] = 28;
+             $defaultvalues['79']['220']['89'] = 28;
+             $defaultvalues['79']['220']['93'] = 28;
+             $defaultvalues['79']['220']['97'] = 28;
+             $data['defaultvalues'] = $defaultvalues;
           
           }
           return $Surveydat;
