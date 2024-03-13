@@ -2,3 +2,9 @@ ALTER TABLE `master_main` CHANGE `status` `status` TINYINT(1) NOT NULL DEFAULT '
 ALTER TABLE `survey` CHANGE `status` `status` TINYINT(1) NOT NULL DEFAULT '1';
 ALTER TABLE `survey_questions` CHANGE `created_by` `created_by` INT(32) NOT NULL;
 
+ALTER TABLE `survey_data` ADD `is_clinical` TINYINT(1) NOT NULL DEFAULT '0' AFTER `unid`, ADD `section_id` INT(10) NOT NULL DEFAULT '0' AFTER `is_clinical`;
+ALTER TABLE `survey_data` ADD `answer` VARCHAR(255) NOT NULL AFTER `option_data`, ADD `optionvalue` VARCHAR(255) NOT NULL AFTER `answer`;
+ALTER TABLE `survey_data` CHANGE `answer` `answer` VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL;
+ALTER TABLE `survey_data` CHANGE `optionvalue` `optionvalue` VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL;
+
+ALTER TABLE `survey_data` CHANGE `survey_questions_id` `question_id` BIGINT(20) NOT NULL;

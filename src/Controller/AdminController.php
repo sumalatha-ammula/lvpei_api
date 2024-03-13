@@ -169,7 +169,7 @@ class AdminController extends AppController {
 				foreach($data['answers'] as $ans){
 					$so = $this->SurveyOptions->newEmptyEntity ();
 					$sodata = [];
-					$sodata['survey_questions_id'] = $sqinsert->id;
+					$sodata['question_id'] = $sqinsert->id;
 					$sodata['answer'] = $ans;
 					$sop = $this->SurveyOptions->patchEntity ( $so, $sodata);
 					if(!$this->SurveyOptions->save ( $sop)){
@@ -284,6 +284,60 @@ class AdminController extends AppController {
 		// if()
 		// $surveydataex = $this->paginate ( $tmpArray);
 		$this->set ( "surveydataex", $final);
+
+	}
+	public function exportdatabyparticipant(){
+		$participants = $this->Partcipants->find("all")
+		->contain(['SurveyData', 'Survey'])
+		->where(['survey_id' => 1])
+		->toArray();
+		$pid = 0;
+		$spreadsheet = new Spreadsheet();
+		foreach($participants as $p){
+			$sheet = $spreadsheet->createSheet();
+			$sheet->setTitle($p->name);
+			$sheet->setCellValue('B2', 'Participant ID'); $sheet->setCellValue('B3', $p->id);
+			$sheet->setCellValue('C2', 'Participant Name'); $sheet->setCellValue('C3', $p->name);
+			$sheet->setCellValue('D2', 'Age'); $sheet->setCellValue('D3', $p->age);
+			$sheet->setCellValue('E2', 'Mobile'); $sheet->setCellValue('E3', $p->mobile);
+			$sheet->setCellValue('F2', 'Aadhar'); $sheet->setCellValue('F3', $p->adharnumber);
+
+			$sheet->setCellValue('G2', 'Cccupation'); $sheet->setCellValue('G3', $p->occupation);
+			$sheet->setCellValue('H2', 'Gender'); $sheet->setCellValue('H3', $p->gender);
+			$sheet->setCellValue('I2', 'Monthly Income'); $sheet->setCellValue('I3', $p->monthlyincome);
+			$sheet->setCellValue('J2', 'Education'); $sheet->setCellValue('J3', $p->education);
+			$sheet->setCellValue('K2', 'Landmark'); $sheet->setCellValue('K3', $p->landmark);
+			$sheet->setCellValue('L2', 'Code'); $sheet->setCellValue('L3', $p->idcode."-".$p->clustercode."-".$p->indiviadualcode);
+			$sheet->setCellValue('M2', 'Survey'); $sheet->setCellValue('M3', $p->survey->name);
+			$sheet->setCellValue('N2', 'Executive'); $sheet->setCellValue('M3', "TEST");
+
+			$sheet->setCellValue('B6', 'Question'); 
+			$sheet->setCellValue('C6', 'Answer'); 
+			$sheet->setCellValue('D6', 'Sync Time'); 
+			$sheet->setCellValue('E6', 'Is Clinical'); 
+			$i = 7;
+			foreach($p->survey_data as $sd){
+				$sheet->setCellValue('B'.$i, $sd->question); 
+				$sheet->setCellValue('C'.$i, $sd->option_data); 
+				$sheet->setCellValue('D'.$i, $sd->sync_time); 
+				$sheet->setCellValue('E'.$i, ($sd->is_clinical == 1)?"True":"False"); 
+				$i++;
+			}
+			
+
+
+		}
+
+		$fileName = "ParticipantData-" . date('Y-m-d h_i_s') . '.xlsx';
+		
+		header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+		header('Content-Disposition: attachment;filename="' . $fileName . '"');
+		header('Cache-Control: max-age=0');
+	
+		$writer = new Xlsx($spreadsheet);
+		$writer->save('php://output');
+	
+		die;
 
 	}
 	public function participantexportdata() {

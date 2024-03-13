@@ -9,7 +9,7 @@
                        'Export',
                        [
                        'controller' => 'Admin',
-                       'action' => 'participantexportdata',
+                       'action' => 'exportdatabyparticipant',
                        
                          ],
                        ['class' => 'btn btn-block bg-gradient-primary', // You can customize the button styles here

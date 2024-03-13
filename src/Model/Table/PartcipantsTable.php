@@ -44,7 +44,12 @@ class PartcipantsTable extends Table
         $this->belongsTo('Survey', [
             'foreignKey' => 'survey_id',
             'joinType'=>'INNER',
-]);
+        ]);
+
+        $this->hasMany('SurveyData', [
+            'foreignKey' => 'partcipants_id',
+            'joinType'=>'INNER',
+        ]);
     }
 
     /**

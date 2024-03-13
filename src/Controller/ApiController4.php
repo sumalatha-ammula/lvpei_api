@@ -135,7 +135,7 @@ public function savesurveydata(){
             $surveydata = $this->SurveyData->newEmptyEntity();
             $surveydetails = [];
             $surveydetails['survey_id'] = $d->survey_id;
-            $surveydetails['survey_questions_id'] = $d->question_id;
+            $surveydetails['question_id'] = $d->question_id;
             $surveydetails['field_executive_id'] = $d->executive_id;
             $surveydetails['geo_location'] = '23.23,34,8';
             $surveydetails['question'] = $d->question;

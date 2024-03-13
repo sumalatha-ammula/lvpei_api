@@ -10,7 +10,7 @@ use Cake\ORM\Entity;
  *
  * @property int $id
  * @property int $survey_id
- * @property int $survey_questions_id
+ * @property int $question_id
  * @property int $field_executive_id
  * @property \Cake\I18n\FrozenTime $datetime
  * @property string $geo_location
@@ -38,12 +38,14 @@ class SurveyData extends Entity
      */
     protected $_accessible = [
         'survey_id' => true,
-        'survey_questions_id' => true,
+        'question_id' => true,
         'field_executive_id' => true,
         'datetime' => true,
         'geo_location' => true,
         'question' => true,
         'option_data' => true,
+        'answer' => true,
+        'option_value'=>true,
         'sync_time' => true,
         'partcipants_id' => true,
         'unid' => true,
@@ -51,5 +53,7 @@ class SurveyData extends Entity
         'partcipant' => true,
         'survey' => true,
         'field_executive' => true,
+        'section_id' => true,
+        'is_clinical' => true,
     ];
 }

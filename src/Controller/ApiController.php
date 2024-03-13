@@ -85,19 +85,49 @@
             }
             $this->set("result", $result);
         }
+        public function getsurvey(){
+            debug($this->surveydata());
+            die;
+        }
         private function surveydata(){
             $Surveydata = $this->Survey->find ( 'all' )
-                ->contain(['Partcipants', 'ClinicalSurveyQuestions' => 
+                ->contain(['Partcipants', 'Partcipants.SurveyData' ,'ClinicalSurveyQuestions' => 
                 function($q){return $q->contain(['MasterMain','MasterMain.MasterOptions'])
                     ->where(['is_clinical' => 1])->group(['section','ClinicalSurveyQuestions.id']);}, 
                     'NonClinicalSurveyQuestions' => function($q){return $q->contain(['MasterMain','MasterMain.MasterOptions'])
                         ->where(['is_clinical' => 0])->group(['section','NonClinicalSurveyQuestions.id']);}]) 
                 ->toArray(); 
+
+                
+
                 $Surveydat = [];
-                foreach($Surveydata as $data){
-                    $Surveydat[$data->id] = $data;
-                };
-                $Surveydat = (object)$Surveydat;
+                //optionvalue = 13
+                //optionvalue == value
+
+            /*$ns = [];
+            foreach($Surveydata as $sd){
+                $np = [];
+                foreach($sd->partcipants as $p){
+                    $nssd = [];
+                    foreach($p->survey_data as $ssd){
+                        $ssd->question_id = $ssd->question_id;
+                        $ssd->answer = 13;
+                        $ssd->optionvalue = "Test";
+                        $nssd[] = $ssd;
+                    }
+                    $p->survey_data = $nssd;
+                    $np[] = $p;
+                }
+                $sd->partcipants = $np;
+                $ns[] = $sd;
+                
+            }*/
+           
+
+
+
+                $Surveydat = $Surveydata;
+                //$Surveydat->partcipants = array_values($Surveydat->partcipants);
                 $final=[];
                 foreach($Surveydat as $data){
                     foreach($data['clinical_survey_questions'] as $question){
@@ -138,9 +168,15 @@
                   'survey'=>$question['survey']
               ];    
               $final[$question['section']][] = $tmpArray;
-
              }
              $data['non_clinical_survey_questions'] = array_values($final);
+
+             
+             
+
+
+
+
              $defaultvalues = [];             
              $defaultvalues['78'] = [];
              $defaultvalues['78'][220] = [];
@@ -164,14 +200,133 @@
                   
             $result = [];
             $result['error'] = 1; 
+            if ($this->request->is ( 'post' )) {
             $data = $this->request->getdata(); 
-                          
+            
+             $appdata = json_decode($data['appdata']);
+             foreach($appdata as $apdata){
+                $surveryid = $apdata->id;
+                foreach($apdata->partcipants as $lapdata){
+                    
+                    $isuser = 1;
+                    if(isset($lapdata->id)){
+                        $checkuser = $this->Partcipants->find('all')
+                        ->where(['id' => $lapdata->id])
+                        ->count();
+                        if($checkuser == 0){
+                            $isuser = 0;
+                        }
+                    }
+
+                    if($isuser == 1){
+                        $uniqID = $lapdata->idcode . $lapdata->clustercode . $lapdata->indiviadualcode;
+                        $patientdata = TableRegistry::get('Partcipants');
+                        $patientdetails = $this->Partcipants->newEmptyEntity();
+    
+                        if(isset($lapdata->id)){
+                            $patientdetails = $patientdata->get($lapdata->id);
+                        }else{
+                            $patientdetails->created_on = date("Y-m-d");
+                        }
+                        
+    
+                        
+                        $patientdetails->name =$lapdata->name;
+                        $patientdetails->survey_id =$lapdata->survey_id;
+                        
+                        $patientdetails->age =$lapdata->age;
+                        $patientdetails->mobile =$lapdata->mobile;
+                        $patientdetails->adharnumber =$lapdata->adharnumber;
+                        $patientdetails->occupation =$lapdata->occupation;
+                        $patientdetails->education =$lapdata->education;
+                        $patientdetails->gender =$lapdata->gender;
+                        $patientdetails->status =$lapdata->status;
+                        $patientdetails->is_survey = $lapdata->is_survey;
+                        $patientdetails->monthlyincome =$lapdata->monthlyincome;
+                        $patientdetails->country = $lapdata->country;
+                        $patientdetails->state = $lapdata->state;
+                        $patientdetails->district = $lapdata->district;
+                        $patientdetails->idcode = $lapdata->idcode;
+                        $patientdetails->clustercode = $lapdata->clustercode;
+                        $patientdetails->indiviadualcode = $lapdata->indiviadualcode;
+                        $patientdetails->landmark = $lapdata->landmark;
+                        
+                        $patientdetails->unid =  intval($uniqID);
+                        $patientdetails->created_by = 1;
+                        //if(1==2){
+                        if($psave = $patientdata->save($patientdetails)){
+                            $pid = $psave->id;
+
+                            if(isset($lapdata->additionalData)){
+                                
+                                foreach($lapdata->additionalData as $ds){
+                                    foreach($ds as $d){
+                                        if(isset($d->answer)){
+                                            $surveydata = TableRegistry::get('SurveyData');
+                                            $surveydetails = $this->SurveyData->newEmptyEntity();
+                        
+                                            if(isset($d->id) and $d->id != 0){
+                                                $surveydetails = $surveydata->get($lapdata->id);
+                                            }
+                                            $punid = 82528;
+                                            $surveydetails->question_id = isset($d->question_id)?$d->question_id:0;
+
+                                            $surveydetails->survey_id = $d->survey_id;
+                                            $surveydetails->field_executive_id = isset($d->field_executive_id)?$d->field_executive_id:0;
+                                            $surveydetails->partcipants_id = $pid;
+                                            $surveydetails->geo_location = '23.23,34,8';
+                                            $surveydetails->question = $d->question;
+                                            $surveydetails->section_id = $d->section_id;
+                                            $surveydetails->is_clinical = $d->is_clinical;
+                                            
+                                            $qstype = $this->SurveyQuestions->find('all')
+                                            ->where(['id' => $d->section_id])
+                                            ->toArray();
+                                            $surveydetails->option_value = '0';
+                                            $surveydetails->answer = '0';
+                                            if(count($qstype) > 0){
+                                                $qstype = $qstype[0];
+                                                if($qstype->option_type == "Text Box" ){
+                                                    $surveydetails->option_value = $d->answer;
+                                                    $surveydetails->answer = $d->answer;
+                                                    $surveydetails->option_data = $d->answer;
+                                                }else if($qstype->option_type == "Dropdown" ){
+                                                    $surveydetails->option_value = $d->optionvalue;
+                                                    $surveydetails->answer = $d->answer;
+                                                    $surveydetails->option_data = $d->optionvalue;
+                                                }else if($qstype->option_type == "Multiple" ){
+                                                    $surveydetails->option_value = implode(',',$d->answer);
+                                                    $surveydetails->answer = implode(',',$d->answer);
+                                                    $surveydetails->option_data = implode(',',$d->answer);
+                                                }
+                                            }
+
+                                            //$surveydetails->option_data = is_array($d->answer) ? implode(',',$d->answer) : $d->answer ;
+                                            
+                                            
+                                            $surveydetails->unid = $punid;
+                                            //$sdata = $this->SurveyData->patchEntity($surveydata, $surveydetails);
+                                              
+                                            if( !$this->SurveyData->save($surveydetails)){
+                                                debug($surveydata->getErrors());
+                                                debug($d);
+                                                echo "Not Saved";die;
+                                            }
+                                        }
+                                    }
+                                   
+                                    
+                                    
+                                }
+                            }
+                        } 
+                    }
+                                       
+                }
+             }     
+            }    
             $Surveydat = $this->surveydata();
-      
-         
-              
-                       
-                $result = [
+            $result = [
                     'error' => 0,'status' => 200, 
                     'survey' => $Surveydat, 
                     
@@ -179,7 +334,7 @@
             
         
             $this->set ("result",   $result);           
-            }
+    }
 
           
               
@@ -406,7 +561,7 @@ public function editsavesurveydata(){
             $results = $this->SurveyData->get($d->surveyid);            
             $surveydetails = [];
             $surveydetails['survey_id'] = $d->survey_id;
-            $surveydetails['survey_questions_id'] = $d->question_id;
+            $surveydetails['question_id'] = $d->question_id;
             $surveydetails['field_executive_id'] = $d->executive_id;
             $surveydetails['geo_location'] = '23.23,34,8';
             $surveydetails['question'] = $d->question;
@@ -446,7 +601,7 @@ public function savesurveydata(){
             $surveydata = $this->SurveyData->newEmptyEntity();
             $surveydetails = [];
             $surveydetails['survey_id'] = $d->survey_id;
-            $surveydetails['survey_questions_id'] = $d->question_id;
+            $surveydetails['question_id'] = $d->question_id;
             $surveydetails['field_executive_id'] = $d->executive_id;
             $surveydetails['geo_location'] = '23.23,34,8';
             $surveydetails['question'] = $d->question;

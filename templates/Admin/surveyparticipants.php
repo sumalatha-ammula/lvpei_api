@@ -39,6 +39,8 @@ a.fas.fa-users {
                ?></h6>
                <p><?= $this->Paginator->counter(__(' Total Participant  {{count}}')) ?></p>
                <a class="btn btn-secondary btn btn-block  btncompany" href="javascript:history.back()">Back</a>
+               <a class="btn btn-secondary btn btn-block btncompany  export" style="margin-top:0px; margin-right:10px;" href="#">Export</a> &nbsp;
+               
 
                 
 

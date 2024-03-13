@@ -30,7 +30,7 @@ SET time_zone = "+00:00";
 CREATE TABLE `survey_data` (
   `id` bigint(255) NOT NULL,
   `survey_id` bigint(33) NOT NULL,
-  `survey_questions_id` bigint(33) NOT NULL,
+  `question_id` bigint(33) NOT NULL,
   `field_executive_id` bigint(33) NOT NULL,
   `datetime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `geo_location` varchar(255) NOT NULL,

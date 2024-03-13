@@ -45,7 +45,7 @@ class SurveyDataTable extends Table
         $this->setPrimaryKey('id');
 
         $this->belongsTo('SurveyQuestions', [
-            'foreignKey' => 'survey_questions_id',
+            'foreignKey' => 'question_id',
             'joinType' => 'INNER',
         ]);
         $this->belongsTo('Partcipants', [
@@ -81,7 +81,7 @@ class SurveyDataTable extends Table
             ->notEmptyString('survey_id');
 
         $validator
-            ->notEmptyString('survey_questions_id');
+            ->notEmptyString('question_id');
 
         $validator
             ->requirePresence('field_executive_id', 'create')
@@ -108,6 +108,20 @@ class SurveyDataTable extends Table
             ->requirePresence('option_data', 'create')
             ->allowEmptyString('option_data');
 
+            $validator
+            ->scalar('option_value')
+            ->maxLength('option_value', 255)
+            ->requirePresence('option_value', 'create')
+            ->allowEmptyString('option_value');
+
+            $validator
+            ->scalar('answer')
+            ->maxLength('answer', 255)
+            ->requirePresence('answer', 'create')
+            ->allowEmptyString('answer');
+
+
+
         $validator
             ->dateTime('sync_time')
             ->notEmptyDateTime('sync_time');
@@ -120,6 +134,16 @@ class SurveyDataTable extends Table
             ->integer('unid')
             ->requirePresence('unid', 'create')
             ->notEmptyString('unid');
+        
+            $validator
+            ->integer('section_id')
+            ->requirePresence('section_id', 'create')
+            ->notEmptyString('section_id');
+
+            $validator
+            ->integer('is_clinical')
+            ->requirePresence('is_clinical', 'create')
+            ->notEmptyString('is_clinical');
 
         return $validator;
     }
@@ -133,7 +157,7 @@ class SurveyDataTable extends Table
      */
     public function buildRules(RulesChecker $rules): RulesChecker
     {
-        $rules->add($rules->existsIn('survey_questions_id', 'SurveyQuestions'), ['errorField' => 'survey_questions_id']);
+        $rules->add($rules->existsIn('question_id', 'SurveyQuestions'), ['errorField' => 'question_id']);
         $rules->add($rules->existsIn('partcipants_id', 'Partcipants'), ['errorField' => 'partcipants_id']);
 
         return $rules;
