@@ -45,9 +45,18 @@ class SurveyDataTable extends Table
         $this->setPrimaryKey('id');
 
         $this->belongsTo('SurveyQuestions', [
-            'foreignKey' => 'question_id',
+            'foreignKey' => 'survey_questions_id',
             'joinType' => 'INNER',
         ]);
+        // $this->belongsTo('Partcipants', [
+        //     'foreignKey' => 'partcipants_id',
+        //     'joinType' => 'INNER',
+        // ]);
+
+        // $this->belongsTo('SurveyQuestions', [
+        //     'foreignKey' => 'question_id',
+        //     'joinType' => 'INNER',
+        // ]);
         $this->belongsTo('Partcipants', [
             'foreignKey' => 'partcipants_id',
             'joinType' => 'INNER',
@@ -81,7 +90,7 @@ class SurveyDataTable extends Table
             ->notEmptyString('survey_id');
 
         $validator
-            ->notEmptyString('question_id');
+            ->notEmptyString('survey_questions_id');
 
         $validator
             ->requirePresence('field_executive_id', 'create')
@@ -99,51 +108,32 @@ class SurveyDataTable extends Table
 
         $validator
             ->scalar('question')
-            ->maxLength('question', 255)
             ->allowEmptyString('question');
 
         $validator
             ->scalar('option_data')
             ->maxLength('option_data', 255)
-            ->requirePresence('option_data', 'create')
             ->allowEmptyString('option_data');
-
-            $validator
-            ->scalar('option_value')
-            ->maxLength('option_value', 255)
-            ->requirePresence('option_value', 'create')
-            ->allowEmptyString('option_value');
-
-            $validator
-            ->scalar('answer')
-            ->maxLength('answer', 255)
-            ->requirePresence('answer', 'create')
-            ->allowEmptyString('answer');
-
-
 
         $validator
             ->dateTime('sync_time')
             ->notEmptyDateTime('sync_time');
 
         $validator
-            ->scalar('partcipants_id')
             ->notEmptyString('partcipants_id');
 
         $validator
             ->integer('unid')
             ->requirePresence('unid', 'create')
             ->notEmptyString('unid');
-        
-            $validator
-            ->integer('section_id')
-            ->requirePresence('section_id', 'create')
-            ->notEmptyString('section_id');
 
-            $validator
-            ->integer('is_clinical')
-            ->requirePresence('is_clinical', 'create')
+        $validator
+            ->boolean('is_clinical')
             ->notEmptyString('is_clinical');
+
+        $validator
+            ->integer('section_id')
+            ->notEmptyString('section_id');
 
         return $validator;
     }
@@ -157,7 +147,7 @@ class SurveyDataTable extends Table
      */
     public function buildRules(RulesChecker $rules): RulesChecker
     {
-        $rules->add($rules->existsIn('question_id', 'SurveyQuestions'), ['errorField' => 'question_id']);
+        $rules->add($rules->existsIn('survey_questions_id', 'SurveyQuestions'), ['errorField' => 'survey_questions_id']);
         $rules->add($rules->existsIn('partcipants_id', 'Partcipants'), ['errorField' => 'partcipants_id']);
 
         return $rules;

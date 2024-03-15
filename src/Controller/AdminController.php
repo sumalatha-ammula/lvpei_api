@@ -449,7 +449,7 @@ class AdminController extends AppController {
 			$data = $this->request->getdata();
 			// debug($data);
 			// die;
-			if($data['Option_Type'] === 'Text Box' || $data['option_type'] === 'Heading'){
+			if($data['Option_Type'] === 'Text Box' ){
 				$masterID= 0;
 
 			}else{

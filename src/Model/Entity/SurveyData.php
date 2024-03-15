@@ -10,20 +10,20 @@ use Cake\ORM\Entity;
  *
  * @property int $id
  * @property int $survey_id
- * @property int $question_id
+ * @property int $survey_questions_id
  * @property int $field_executive_id
  * @property \Cake\I18n\FrozenTime $datetime
  * @property string $geo_location
  * @property string|null $question
- * @property string $option_data
+ * @property string|null $option_data
  * @property \Cake\I18n\FrozenTime $sync_time
- * @property string $partcipants_id
+ * @property int $partcipants_id
  * @property int $unid
+ * @property bool $is_clinical
+ * @property int $section_id
  *
  * @property \App\Model\Entity\SurveyQuestion $survey_question
  * @property \App\Model\Entity\Partcipant $partcipant
- * @property \App\Model\Entity\Survey $survey
- * @property \App\Model\Entity\FieldExecutive $field_executive
  */
 class SurveyData extends Entity
 {
@@ -38,22 +38,18 @@ class SurveyData extends Entity
      */
     protected $_accessible = [
         'survey_id' => true,
-        'question_id' => true,
+        'survey_questions_id' => true,
         'field_executive_id' => true,
         'datetime' => true,
         'geo_location' => true,
         'question' => true,
         'option_data' => true,
-        'answer' => true,
-        'option_value'=>true,
         'sync_time' => true,
         'partcipants_id' => true,
         'unid' => true,
+        'is_clinical' => true,
+        'section_id' => true,
         'survey_question' => true,
         'partcipant' => true,
-        'survey' => true,
-        'field_executive' => true,
-        'section_id' => true,
-        'is_clinical' => true,
     ];
 }
