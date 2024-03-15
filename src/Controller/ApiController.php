@@ -124,11 +124,15 @@
             }*/
            
 
+            foreach($Surveydata as $data){
+                $Surveydat[$data->id] =$data;
+                
+            }
 
-
-                $Surveydat = $Surveydata;
+                $Surveydat = (object)$Surveydat;
                 //$Surveydat->partcipants = array_values($Surveydat->partcipants);
                 $final=[];
+               
                 foreach($Surveydat as $data){
                     foreach($data['clinical_survey_questions'] as $question){
                  // print_r($question);die;
