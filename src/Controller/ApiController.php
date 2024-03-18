@@ -800,28 +800,21 @@ public function patientdetails(){
     public function sendotpresetpwd(){
         $result = [];
         $data = $this->request->getData();
-        // debug($data);
-        // die;
+        
         $useremail = $this->FieldExecutive->find('all')
         ->select(['email','id'])
         ->where(['email'=>$data['email'] ])->toArray();
-        //  debug( $useremail);
-        //  die;
        if(count($useremail) == 1){
-           
             $otp = random_int(000001,999999);
-           
             $currentTime = FrozenTime::now();
-            // debug($otp);
            $newOtpEntity = $this->Onetimepassword->newEmptyEntity();
            $newOtpEntity->email = $useremail[0]['email'];
            $newOtpEntity->otp = $otp;
            $newOtpEntity->createdon = date("Y-m-d");
-       if ($this->Onetimepassword->save($newOtpEntity)) {
-              $result['message'] = "OTP saved successfully";
-
+           if ($this->Onetimepassword->save($newOtpEntity)) {
+             $result['message'] = "OTP saved successfully";
            } 
-    } 
+       } 
     
         $conf=[];
         $conf['host'] = 'ssl://smtp.gmail.com';
@@ -831,19 +824,18 @@ public function patientdetails(){
         $conf['fromemail'] = "yenibhavya0508@gmail.com";
         $conf['sender'] = "Raviapp";
         if(!empty($useremail)){
-            // debug($useremail[0]['email']);
         $emailsend['email'] = $useremail[0]->email;
         $mailtext['otp'] = $otp;
+        $result = [
+            'error'=>0, 'status'=> 200, 'OTP' => $mailtext, 'email' =>$emailsend ? $emailsend['email'] : null
+       ];
         }else{
-            $emailsend['email']='test12@gmail.com';
-            $mailtext['otp']= 1234;
+            
+            $result = [
+                'error'=>1, 
+           ];
         }
-  
-
         $this->Email->sendotpmail($conf, $emailsend['email'], " Your OTP for reset password",$mailtext);
-     
-        $result['email'] = $emailsend ? $emailsend['email'] : null;
-        $result['OTP'] = $mailtext;
         $this->set ("result",$result);
 
     }
