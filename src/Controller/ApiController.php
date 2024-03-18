@@ -826,6 +826,7 @@ public function patientdetails(){
         if(!empty($useremail)){
         $emailsend['email'] = $useremail[0]->email;
         $mailtext['otp'] = $otp;
+        $this->Email->sendotpmail($conf, $emailsend['email'], " Your OTP for reset password",$mailtext);
         $result = [
             'error'=>0, 'status'=> 200, 'OTP' => $mailtext, 'email' =>$emailsend ? $emailsend['email'] : null
        ];
@@ -835,7 +836,6 @@ public function patientdetails(){
                 'error'=>1, 
            ];
         }
-        $this->Email->sendotpmail($conf, $emailsend['email'], " Your OTP for reset password",$mailtext);
         $this->set ("result",$result);
 
     }
