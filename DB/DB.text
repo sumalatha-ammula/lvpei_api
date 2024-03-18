@@ -252,3 +252,8 @@ CREATE TABLE `lvpeiravi`.`onetimepassword` (
   `createdon` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP , 
   PRIMARY KEY (`id`)
   ) ENGINE = InnoDB;
+
+
+
+  =====================================================
+  DROP TABLE `feild_executive`
