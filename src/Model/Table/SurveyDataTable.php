@@ -11,7 +11,6 @@ use Cake\Validation\Validator;
 /**
  * SurveyData Model
  *
- * @property \App\Model\Table\SurveyQuestionsTable&\Cake\ORM\Association\BelongsTo $SurveyQuestions
  * @property \App\Model\Table\PartcipantsTable&\Cake\ORM\Association\BelongsTo $Partcipants
  *
  * @method \App\Model\Entity\SurveyData newEmptyEntity()
@@ -44,21 +43,12 @@ class SurveyDataTable extends Table
         $this->setDisplayField('geo_location');
         $this->setPrimaryKey('id');
 
-        $this->belongsTo('SurveyQuestions', [
-            'foreignKey' => 'survey_questions_id',
-            'joinType' => 'INNER',
-        ]);
-        // $this->belongsTo('Partcipants', [
-        //     'foreignKey' => 'partcipants_id',
-        //     'joinType' => 'INNER',
-        // ]);
-
-        // $this->belongsTo('SurveyQuestions', [
-        //     'foreignKey' => 'question_id',
-        //     'joinType' => 'INNER',
-        // ]);
         $this->belongsTo('Partcipants', [
             'foreignKey' => 'partcipants_id',
+            'joinType' => 'INNER',
+        ]);
+        $this->belongsTo('SurveyQuestions', [
+            'foreignKey' => 'question_id',
             'joinType' => 'INNER',
         ]);
         $this->belongsTo('Survey', [
@@ -90,7 +80,8 @@ class SurveyDataTable extends Table
             ->notEmptyString('survey_id');
 
         $validator
-            ->notEmptyString('survey_questions_id');
+            ->requirePresence('question_id', 'create')
+            ->notEmptyString('question_id');
 
         $validator
             ->requirePresence('field_executive_id', 'create')
@@ -114,6 +105,16 @@ class SurveyDataTable extends Table
             ->scalar('option_data')
             ->maxLength('option_data', 255)
             ->allowEmptyString('option_data');
+
+        $validator
+            ->scalar('answer')
+            ->maxLength('answer', 255)
+            ->allowEmptyString('answer');
+
+        $validator
+            ->scalar('optionvalue')
+            ->maxLength('optionvalue', 255)
+            ->allowEmptyString('optionvalue');
 
         $validator
             ->dateTime('sync_time')
@@ -147,7 +148,6 @@ class SurveyDataTable extends Table
      */
     public function buildRules(RulesChecker $rules): RulesChecker
     {
-        $rules->add($rules->existsIn('survey_questions_id', 'SurveyQuestions'), ['errorField' => 'survey_questions_id']);
         $rules->add($rules->existsIn('partcipants_id', 'Partcipants'), ['errorField' => 'partcipants_id']);
 
         return $rules;
