@@ -230,7 +230,7 @@ class AdminController extends AppController {
 // newdata
 
     public function rvappsurveydata(){
-		$surveydata = $this->Survey->find ( 'all' );
+		$surveydata = $this->Survey->find ( 'all' )->where(['status' => 1]);
 		$surveys = $this->paginate ( $surveydata);
 		// $fieldexecutive = $this->FieldExecutive->find(
         //     'list',
@@ -674,11 +674,11 @@ class AdminController extends AppController {
     }
 
 	public function deletesurvey($id = null){
-        $this->request->allowMethod(['post', 'delete']);
+        $this->request->allowMethod(['post',]);
         $data = $this->Survey->get($id);
-        // debug($data);
-		// die;
-        if ($this->Survey->delete($data)) {
+		$dsdata['status'] = 0 ;
+		$surveyedit = $this->Survey->patchEntity( $data,$dsdata);
+        if ($this->Survey->save($surveyedit)) {
             $this->Flash->success(__('The record has been deleted.'));
         } else {
             $this->Flash->error(__('The record could not be deleted. Please, try again.'));
