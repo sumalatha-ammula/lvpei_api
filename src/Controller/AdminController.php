@@ -673,6 +673,19 @@ class AdminController extends AppController {
         return $this->redirect(['action' => 'addsurveyqution',$ids]);
     }
 
+	public function deletesurvey($id = null){
+        $this->request->allowMethod(['post', 'delete']);
+        $data = $this->Survey->get($id);
+        // debug($data);
+		// die;
+        if ($this->Survey->delete($data)) {
+            $this->Flash->success(__('The record has been deleted.'));
+        } else {
+            $this->Flash->error(__('The record could not be deleted. Please, try again.'));
+        }
+        return $this->redirect(['action' => 'rvappsurveydata']);
+    }
+
 	public function addsurveyqution($id = null){
 		
 		// debug($id);

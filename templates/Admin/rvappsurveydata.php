@@ -19,6 +19,10 @@ a.fas.fa-poll-h {
 a.fas.fa-users {
     color: #007bff;
 }
+
+a.fas.fa-trash{
+    color: #007bff;
+}
 </style>
 
 
@@ -74,6 +78,13 @@ a.fas.fa-users {
                                     'class' => 'fas fa-users'
                                 ]);
                                 ?> 
+                                 | 
+                                 <?= $this->Form->postLink(__(''), ['action' => 'deletesurvey', 
+                                 $survey->id,
+                                //  $id
+                                ], ['class' => 'fas fa-trash','confirm' => __('Are you sure you want to delete # {0}?', 
+                                 $survey->id
+                                )]) ?>
 						</td>
 					</tr>
                         <?php endforeach; ?>
