@@ -314,7 +314,7 @@ class AdminController extends AppController {
 			$sheet = $spreadsheet->createSheet();
 			$sheet->setTitle($s->name);
 			$participants = $this->Partcipants->find("all")
-				->contain(['SurveyData', 'Survey'])
+				->contain(['SurveyData', 'Survey', 'SurveyData.MasterOptions'])
 				->where(['survey_id' => $s->id])
 				->toArray();
 			
@@ -362,7 +362,11 @@ class AdminController extends AppController {
 				foreach($participants as $p){
 					$sd = [];
 					foreach($p->survey_data as $sddata){
-						$sd[$sddata->question_id] = $sddata->answer; 
+						//$sd[$sddata->question_id] = $sddata->answer; 
+						if(isset($sddata->master_option)){
+							$sd[$sddata->question_id] = $sddata->master_option->option_value;
+						}
+						
 					}
 					
 					$col=1;
