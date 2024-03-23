@@ -286,16 +286,142 @@ class AdminController extends AppController {
 		$this->set ( "surveydataex", $final);
 
 	}
+
+	private function columnFromIndex($number){
+		if($number === 0)
+			return "A";
+		$name='';
+		while($number>0){
+			$name=chr(65+$number%26).$name;
+			$number=intval($number/26)-1;
+			if($number === 0){
+				$name="A".$name;
+				break;
+			}
+		}
+		return $name;
+	}
+
+
 	public function exportdatabyparticipant(){
-		$participants = $this->Partcipants->find("all")
-		->contain(['SurveyData', 'Survey'])
-		->where(['survey_id' => 1])
+
+		$surveys = $this->Survey->find("all")
 		->toArray();
-		$pid = 0;
+		
 		$spreadsheet = new Spreadsheet();
-		foreach($participants as $p){
+		
+		foreach($surveys as $s){
 			$sheet = $spreadsheet->createSheet();
-			$sheet->setTitle($p->name);
+			$sheet->setTitle($s->name);
+			$participants = $this->Partcipants->find("all")
+				->contain(['SurveyData', 'Survey'])
+				->where(['survey_id' => $s->id])
+				->toArray();
+			
+			
+			$surveyquestions = $this->SurveyQuestions->find("all")
+			->where(['survey_id'=>$s->id])
+			->toArray();
+
+
+
+				$col=1;
+				$row = 2;
+				$column = $this->columnFromIndex($col);
+				$sheet->setCellValue($column.$row, 'Participant ID');
+				$column = $this->columnFromIndex(++$col);
+				$sheet->setCellValue($column.$row, 'Participant Name');
+				$column = $this->columnFromIndex(++$col);
+				$sheet->setCellValue($column.$row, 'Age');
+				$column = $this->columnFromIndex(++$col);
+				$sheet->setCellValue($column.$row, 'Mobile');
+				$column = $this->columnFromIndex(++$col);
+				$sheet->setCellValue($column.$row, 'Aadhar');
+				$column = $this->columnFromIndex(++$col);
+				$sheet->setCellValue($column.$row, 'Occupation');
+				$column = $this->columnFromIndex(++$col);
+				$sheet->setCellValue($column.$row, 'Gender');
+				$column = $this->columnFromIndex(++$col);
+				$sheet->setCellValue($column.$row, 'Monthly Income');
+				$column = $this->columnFromIndex(++$col);
+				$sheet->setCellValue($column.$row, 'Education');
+				$column = $this->columnFromIndex(++$col);
+				$sheet->setCellValue($column.$row, 'Landmark');
+				$column = $this->columnFromIndex(++$col);
+				$sheet->setCellValue($column.$row, 'Code');
+				$column = $this->columnFromIndex(++$col);
+				$sheet->setCellValue($column.$row, 'Survey');
+				$column = $this->columnFromIndex(++$col);
+				$sheet->setCellValue($column.$row, 'Executive');
+				
+				foreach($surveyquestions as $sq){
+					$column = $this->columnFromIndex(++$col);
+					$sheet->setCellValue($column.$row, $sq->question);
+				}
+			
+				foreach($participants as $p){
+					$sd = [];
+					foreach($p->survey_data as $sddata){
+						$sd[$sddata->question_id] = $sddata->answer; 
+					}
+					
+					$col=1;
+					$row = ++$row;
+	
+					$column = $this->columnFromIndex($col);
+					$sheet->setCellValue($column.$row, $p->id);
+					$column = $this->columnFromIndex(++$col);
+					$sheet->setCellValue($column.$row, $p->name);
+					$column = $this->columnFromIndex(++$col);
+					$sheet->setCellValue($column.$row, $p->age);
+					$column = $this->columnFromIndex(++$col);
+					$sheet->setCellValue($column.$row, $p->mobile);
+					$column = $this->columnFromIndex(++$col);
+					$sheet->setCellValue($column.$row, $p->adharnumber);
+					$column = $this->columnFromIndex(++$col);
+					$sheet->setCellValue($column.$row, $p->occupation);
+					$column = $this->columnFromIndex(++$col);
+					$sheet->setCellValue($column.$row, $p->gender);
+					$column = $this->columnFromIndex(++$col);
+					$sheet->setCellValue($column.$row, $p->monthlyincome);
+					$column = $this->columnFromIndex(++$col);
+					$sheet->setCellValue($column.$row, $p->education);
+					$column = $this->columnFromIndex(++$col);
+					$sheet->setCellValue($column.$row, $p->landmark);
+					$column = $this->columnFromIndex(++$col);
+					$sheet->setCellValue($column.$row, $p->idcode."-".$p->clustercode."-".$p->indiviadualcode);
+					$column = $this->columnFromIndex(++$col);
+					$sheet->setCellValue($column.$row, $p->survey->name);
+					$column = $this->columnFromIndex(++$col);
+					$sheet->setCellValue($column.$row, "TEST");
+
+					foreach($surveyquestions as $sq){
+						$column = $this->columnFromIndex(++$col);
+						if(isset($sd[$sq->id])){
+							$sheet->setCellValue($column.$row, $sd[$sq->id]);
+						}
+						
+					}
+				}
+
+		}
+
+
+		
+		
+		
+			
+
+
+
+
+
+			
+
+
+
+		/*foreach($participants as $p){
+			
 			$sheet->setCellValue('B2', 'Participant ID'); $sheet->setCellValue('B3', $p->id);
 			$sheet->setCellValue('C2', 'Participant Name'); $sheet->setCellValue('C3', $p->name);
 			$sheet->setCellValue('D2', 'Age'); $sheet->setCellValue('D3', $p->age);
@@ -315,6 +441,9 @@ class AdminController extends AppController {
 			$sheet->setCellValue('C6', 'Answer'); 
 			$sheet->setCellValue('D6', 'Sync Time'); 
 			$sheet->setCellValue('E6', 'Is Clinical'); 
+
+
+
 			$i = 7;
 			foreach($p->survey_data as $sd){
 				$sheet->setCellValue('B'.$i, $sd->question); 
@@ -326,7 +455,7 @@ class AdminController extends AppController {
 			
 
 
-		}
+		}*/
 
 		$fileName = "ParticipantData-" . date('Y-m-d h_i_s') . '.xlsx';
 		
