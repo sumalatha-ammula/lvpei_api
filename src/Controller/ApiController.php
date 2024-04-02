@@ -366,6 +366,7 @@
                                             
                                             if($isp == 1){
                                                 $lt = TableRegistry::get('SurveyData');
+                                               
                                                 $sdata = $lt->get($sdetailsdata->id);
                                                 $sdata->question_id = isset($d->question_id)?$d->question_id:0;
                                                 $sdata->unid = $punid;
@@ -374,7 +375,7 @@
                                                 $sdata->partcipants_id = $pid;
                                                 $sdata->geo_location = '23.23,34,8';
                                                 $sdata->question = $d->question;
-                                                $sdata->is_clinical = 1;
+                                                $sdata->is_clinical = $d->is_clinical;
                                                 $sdata->section_id = $d->section_id;
                                                 $sdata->option_value = $option_value;
                                                 $sdata->answer = $answer;
@@ -393,7 +394,7 @@
                                                 $sdata['geo_location'] = '23.23,34,8';
                                                 $sdata['question'] = $d->question;
                                                 $sdata['section_id'] = $d->section_id;
-                                                $sdata['is_clinical'] = 1;
+                                                $sdata['is_clinical'] = $d->is_clinical;
 
                                                 $sdata['option_value'] = $option_value;
                                                 $sdata['answer'] = $answer;
