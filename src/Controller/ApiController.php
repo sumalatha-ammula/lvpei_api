@@ -43,6 +43,7 @@
             $this->loadModel("Partcipants");
             $this->loadModel("SurveyData");
             $this->loadModel("Onetimepassword");
+            $this->loadModel('MasterOptions');
             $this->loadComponent("Email");
         }        
         private function generatetoken() {
@@ -91,7 +92,7 @@
         }
         private function surveydata(){
             $Surveydata = $this->Survey->find ( 'all' )
-                ->contain(['Partcipants', 'Partcipants.SurveyData' ,'ClinicalSurveyQuestions' => 
+                ->contain(['Partcipants', 'Partcipants.SurveyData' => function($q){return $q->contain(['SurveyQuestions']);} , 'ClinicalSurveyQuestions' => 
                 function($q){return $q->contain(['MasterMain','MasterMain.MasterOptions'])
                     ->where(['is_clinical' => 1])->group(['section','ClinicalSurveyQuestions.id']);}, 
                     'NonClinicalSurveyQuestions' => function($q){return $q->contain(['MasterMain','MasterMain.MasterOptions'])
@@ -101,27 +102,7 @@
                 
 
                 $Surveydat = [];
-                //optionvalue = 13
-                //optionvalue == value
-
-            /*$ns = [];
-            foreach($Surveydata as $sd){
-                $np = [];
-                foreach($sd->partcipants as $p){
-                    $nssd = [];
-                    foreach($p->survey_data as $ssd){
-                        $ssd->question_id = $ssd->question_id;
-                        $ssd->answer = 13;
-                        $ssd->optionvalue = "Test";
-                        $nssd[] = $ssd;
-                    }
-                    $p->survey_data = $nssd;
-                    $np[] = $p;
-                }
-                $sd->partcipants = $np;
-                $ns[] = $sd;
                 
-            }*/
            
 
             foreach($Surveydata as $data){
@@ -129,91 +110,135 @@
                 
             }
 
-                $Surveydat = (object)$Surveydat;
+                
                 //$Surveydat->partcipants = array_values($Surveydat->partcipants);
-                $final=[];
-               
+                
                 foreach($Surveydat as $data){
-                    foreach($data['clinical_survey_questions'] as $question){
-                 // print_r($question);die;
-                 $tmpArray = [
-                     'master_main_name' => @$question['master_main']['name'], 
-                     'options' =>@$question['master_main']['master_options'],
-                     'option_type' => @$question['option_type'], 
-                     'section'=>@$question['section'] ,
-                     'question'=>@$question['question'] ,
-                     'question_id'=> $question['id'],
-                     'survey_id' => $question['survey_id'],
-                     'parent_id'=> @$question['parent_id'],
-                     'show_if'=> @$question['show_if'],
-                     'survey'=>$question['survey']
-                 ];    
-                 $final[$question['section']][] = $tmpArray;
+                   
+                    foreach($data->partcipants as $participantsk => $participantsv){
+                        $Surveydat[$data->id]['partcipants'][$participantsk]['additionalData'] = [];
+                        $tmpArray = [];
+                        foreach($participantsv->survey_data as $par){
+                            $opval = $par->option_value;
+                            $opans = $par->answer;
+                            if($par->survey_question->option_type == 'Multiple'){
+                                $opval = explode(',', $par->option_value);
+                            }
+                            if($par->survey_question->option_type == 'Dropdown'){
+                                $opans = (int)$par->answer;
+                            }
+                            $tmpArray['id'] = $par->id;
+                            $tmpArray['survey_id'] = $par->survey_id;
+                            $tmpArray['question_id'] = $par->question_id;
+                            $tmpArray['field_executive_id'] = $par->field_executive_id;
+                            $tmpArray['datetime'] = $par->datetime;
+                            $tmpArray['geo_location'] = $par->geo_location;
+                            $tmpArray['question'] = $par->question;
+                            $tmpArray['option_data'] = $par->option_data;
+                            $tmpArray['answer'] = $opans;
+                            $tmpArray['option_value'] = $opval;
+                            $tmpArray['sync_time'] = $par->sync_time;
+                            $tmpArray['partcipants_id'] = $par->partcipants_id;
+                            $tmpArray['option_type'] = $par->survey_question->option_type;
+                            $tmpArray['unid'] = $par->unid;
+                            $tmpArray['is_clinical'] = $par->is_clinical;
+                            $tmpArray['section_id'] = $par->section_id;
+                            
+                            
+
+                            if(!isset($Surveydat[$data->id]['partcipants'][$participantsk]['additionalData'][$par->is_clinical. '_' . $par->section_id])){
+                                $Surveydat[$data->id]['partcipants'][$participantsk]['additionalData'][$par->is_clinical. '_' . $par->section_id] = [];
+                            }
+
+                            $Surveydat[$data->id]['partcipants'][$participantsk]['additionalData'][$par->is_clinical. '_' . $par->section_id][$par->question_id] = $tmpArray;
+                            
+                        }
+
+                    }
+                    
+
 
                 }
-                $data['clinical_survey_questions'] = array_values($final);
-             
-             }
+               
+                foreach($Surveydat as $data){
+                    $tmpArray = [];
+                    $final=[];
+                    foreach($data['clinical_survey_questions'] as $question){
+                        $tmpArray = [
+                        'master_main_name' => @$question['master_main']['name'], 
+                        'options' =>@$question['master_main']['master_options'],
+                        'option_type' => @$question['option_type'], 
+                        'section'=>@$question['section'] ,
+                        'question'=>@$question['question'] ,
+                        'question_id'=> $question['id'],
+                        'survey_id' => $question['survey_id'],
+                        'parent_id'=> @$question['parent_id'],
+                        'show_if'=> @$question['show_if'],
+                        'survey'=>$question['survey'],
+                        ];    
+                        $final[$question['section']][] = $tmpArray;
 
-             $final=[];
+                    }
+                    $Surveydat[$data->id]['clinical_survey_questions'] =array_values($final);
+               }
+
              foreach($Surveydat as $data){
-                 foreach($data['non_clinical_survey_questions'] as $question){
-              // print_r($question);die;
-              $tmpArray = [
-                  'master_main_name' => @$question['master_main']['name'], 
-                  'options' =>@$question['master_main']['master_options'],
-                  'option_type' => @$question['option_type'], 
-                  'section'=>@$question['section'] ,
-                  'question'=>@$question['question'] ,
-                  'question_id'=> $question['id'],
-                  'survey_id' => $question['survey_id'],
-                  'parent_id'=> @$question['parent_id'],
-                  'show_if'=> @$question['show_if'],
-                  'survey'=>$question['survey']
-              ];    
-              $final[$question['section']][] = $tmpArray;
-             }
-             $data['non_clinical_survey_questions'] = array_values($final);
+                $tmpArray = [];
+                $final=[];
+                foreach($data['non_clinical_survey_questions'] as $question){
+                    $tmpArray = [
+                        'master_main_name' => @$question['master_main']['name'], 
+                        'options' =>@$question['master_main']['master_options'],
+                        'option_type' => @$question['option_type'], 
+                        'section'=>@$question['section'] ,
+                        'question'=>@$question['question'] ,
+                        'question_id'=> $question['id'],
+                        'survey_id' => $question['survey_id'],
+                        'parent_id'=> @$question['parent_id'],
+                        'show_if'=> @$question['show_if'],
+                        'survey'=>$question['survey']
+                    ];    
+                    $final[$question['section']][] = $tmpArray;
+                }
+                $data['non_clinical_survey_questions'] = array_values($final);
 
-             
-             
-
-
-
-
-             $defaultvalues = [];             
-             $defaultvalues['78'] = [];
-             $defaultvalues['78'][220] = [];
-             $defaultvalues['78'][220][80] = 28;
-             $defaultvalues['78'][220][84] = 28;
-             $defaultvalues['78'][220][88] = 28;
-             $defaultvalues['78'][220][92] = 28;
-             $defaultvalues['78'][220][96] = 28;
-             $defaultvalues['79'][220] = [];
-             $defaultvalues['79'][220][81] = 28;
-             $defaultvalues['79'][220][85] = 28;
-             $defaultvalues['79'][220][89] = 28;
-             $defaultvalues['79'][220][93] = 28;
-             $defaultvalues['79'][220][97] = 28;
-             $data['defaultvalues'] = ($defaultvalues);
-          
-          }
+                $defaultvalues = [];             
+                $defaultvalues['78'] = [];
+                $defaultvalues['78'][220] = [];
+                $defaultvalues['78'][220][80] = 28;
+                $defaultvalues['78'][220][84] = 28;
+                $defaultvalues['78'][220][88] = 28;
+                $defaultvalues['78'][220][92] = 28;
+                $defaultvalues['78'][220][96] = 28;
+                $defaultvalues['79'][220] = [];
+                $defaultvalues['79'][220][81] = 28;
+                $defaultvalues['79'][220][85] = 28;
+                $defaultvalues['79'][220][89] = 28;
+                $defaultvalues['79'][220][93] = 28;
+                $defaultvalues['79'][220][97] = 28;
+                $data['defaultvalues'] = ($defaultvalues);
+            }
+          $Surveydat = (object)$Surveydat;
           return $Surveydat;
         }
         public function survey() { 
                   
             $result = [];
             $result['error'] = 1; 
-            if ($this->request->is ( 'post' )) {
-            $data = $this->request->getdata(); 
+            $data = $this->request->getdata();
+            if ($this->request->is ( 'post' ) and isset($data['appdata']) ) {
+             
             
              $appdata = json_decode($data['appdata']);
+             
              foreach($appdata as $apdata){
                 $surveryid = $apdata->id;
+                
                 foreach($apdata->partcipants as $lapdata){
                     
-                    $isuser = 1;
+                    $isuser = 0;
                     if(isset($lapdata->id)){
+                        $isuser = 1;
                         $checkuser = $this->Partcipants->find('all')
                         ->where(['id' => $lapdata->id])
                         ->count();
@@ -221,13 +246,13 @@
                             $isuser = 0;
                         }
                     }
+                    
 
-                    if($isuser == 1){
                         $uniqID = $lapdata->idcode . $lapdata->clustercode . $lapdata->indiviadualcode;
                         $patientdata = TableRegistry::get('Partcipants');
                         $patientdetails = $this->Partcipants->newEmptyEntity();
     
-                        if(isset($lapdata->id)){
+                        if($isuser == 1){
                             $patientdetails = $patientdata->get($lapdata->id);
                         }else{
                             $patientdetails->created_on = date("Y-m-d");
@@ -257,65 +282,137 @@
                         
                         $patientdetails->unid =  intval($uniqID);
                         $patientdetails->created_by = 1;
+                        
                         //if(1==2){
                         if($psave = $patientdata->save($patientdetails)){
                             $pid = $psave->id;
-
+                            
                             if(isset($lapdata->additionalData)){
                                 
                                 foreach($lapdata->additionalData as $ds){
                                     foreach($ds as $d){
+                                        
+                                        $sdetailsdata = '';
                                         if(isset($d->answer)){
-                                            $surveydata = TableRegistry::get('SurveyData');
-                                            $surveydetails = $this->SurveyData->newEmptyEntity();
-                        
-                                            if(isset($d->id) and $d->id != 0){
-                                                $surveydetails = $surveydata->get($lapdata->id);
-                                            }
                                             $punid = 82528;
-                                            $surveydetails->question_id = isset($d->question_id)?$d->question_id:0;
 
-                                            $surveydetails->survey_id = $d->survey_id;
-                                            $surveydetails->field_executive_id = isset($d->field_executive_id)?$d->field_executive_id:0;
-                                            $surveydetails->partcipants_id = $pid;
-                                            $surveydetails->geo_location = '23.23,34,8';
-                                            $surveydetails->question = $d->question;
-                                            $surveydetails->section_id = $d->section_id;
-                                            $surveydetails->is_clinical = $d->is_clinical;
+                                            $isp = 0;
+                                            $sdetailsdata =  $this->SurveyData->find('all')
+                                                ->where(['survey_id' => $d->survey_id, 'question_id' => $d->question_id, 'partcipants_id' => $pid])
+                                                ;
+                                            
+                                            
+                                            if($sdetailsdata->count() > 0){
+                                                $isp = 1;
+                                                $sdetailsdata = $sdetailsdata->toArray();
+                                                $sdetailsdata = $sdetailsdata[0];
+                                            }
+                                            
                                             
                                             $qstype = $this->SurveyQuestions->find('all')
-                                            ->where(['id' => $d->section_id])
+                                            ->where(['id' => $d->question_id])
                                             ->toArray();
-                                            $surveydetails->option_value = '0';
-                                            $surveydetails->answer = '0';
+                                            $answer = '';
+                                            $option_data = "";
+                                            $option_value = '';
+                                            
                                             if(count($qstype) > 0){
                                                 $qstype = $qstype[0];
+                                               
                                                 if($qstype->option_type == "Text Box" ){
-                                                    $surveydetails->option_value = $d->answer;
-                                                    $surveydetails->answer = $d->answer;
-                                                    $surveydetails->option_data = $d->answer;
+                                                    $answer = $d->answer;
+                                                    $option_data = $d->answer;
+                                                    $option_value = $d->answer;
+                                                    
+                                                    
                                                 }else if($qstype->option_type == "Dropdown" ){
-                                                    $surveydetails->option_value = $d->optionvalue;
-                                                    $surveydetails->answer = $d->answer;
-                                                    $surveydetails->option_data = $d->optionvalue;
+                                                    $answer = $d->answer;
+                                                    $moval = '';
+                                                    if($answer != '' and $answer != 0){
+                                                        $modata = $this->MasterOptions->find('all')
+                                                        ->where(['id' => $d->answer])
+                                                        ->toArray();
+                                                        if(count($modata) == 1){
+                                                            $moval =  $modata[0]->option_value;
+                                                        }
+                                                    }
+                                                   
+
+                                                    $option_data = $moval;
+                                                    $option_value = $moval;
+
+                                                    
                                                 }else if($qstype->option_type == "Multiple" ){
-                                                    $surveydetails->option_value = implode(',',$d->answer);
-                                                    $surveydetails->answer = implode(',',$d->answer);
-                                                    $surveydetails->option_data = implode(',',$d->answer);
+                                                    if(is_array($d->answer)){
+                                                        $answer = implode(',',$d->answer);
+                                                        $option_data = implode(',',$d->answer);
+                                                        $option_value = implode(',',$d->answer);
+                                                    }else{
+
+                                                        $answer = '';
+                                                        $option_data = '';
+                                                        $option_value = '';
+                                                        if(isset($d->answer)){
+                                                            $answer = $d->answer;
+                                                            $option_data = $d->answer;
+                                                            $option_value = $d->answer;
+                                                        }
+                                                        
+                                                    }
+
                                                 }
                                             }
+                                            
+                                            
+                                            if($isp == 1){
+                                                $lt = TableRegistry::get('SurveyData');
+                                                $sdata = $lt->get($sdetailsdata->id);
+                                                $sdata->question_id = isset($d->question_id)?$d->question_id:0;
+                                                $sdata->unid = $punid;
+                                                $sdata->survey_id = $d->survey_id;
+                                                $sdata->field_executive_id = isset($d->field_executive_id)?$d->field_executive_id:0;
+                                                $sdata->partcipants_id = $pid;
+                                                $sdata->geo_location = '23.23,34,8';
+                                                $sdata->question = $d->question;
+                                                $sdata->is_clinical = 1;
+                                                $sdata->section_id = $d->section_id;
+                                                $sdata->option_value = $option_value;
+                                                $sdata->answer = $answer;
+                                                $sdata->option_data = $option_data;
+                                                $lt->save($sdata);
+                                                
+                                               
+                                            }else{
+                                                $nsurveydetails = $this->SurveyData->newEmptyEntity();
+                                                $sdata = [];
+                                                $sdata['question_id'] = isset($d->question_id)?$d->question_id:0;
+                                                $sdata['unid'] = $punid;
+                                                $sdata['survey_id'] = $d->survey_id;
+                                                $sdata['field_executive_id'] = isset($d->field_executive_id)?$d->field_executive_id:0;
+                                                $sdata['partcipants_id'] = $pid;
+                                                $sdata['geo_location'] = '23.23,34,8';
+                                                $sdata['question'] = $d->question;
+                                                $sdata['section_id'] = $d->section_id;
+                                                $sdata['is_clinical'] = 1;
 
-                                            //$surveydetails->option_data = is_array($d->answer) ? implode(',',$d->answer) : $d->answer ;
-                                            
-                                            
-                                            $surveydetails->unid = $punid;
-                                            //$sdata = $this->SurveyData->patchEntity($surveydata, $surveydetails);
-                                              
-                                            if( !$this->SurveyData->save($surveydetails)){
-                                                debug($surveydata->getErrors());
-                                                debug($d);
-                                                echo "Not Saved";die;
+                                                $sdata['option_value'] = $option_value;
+                                                $sdata['answer'] = $answer;
+                                                $sdata['option_data'] = $option_data;
+
+                                                $sppatch = $this->SurveyData->patchEntity($nsurveydetails, $sdata);
+                                                
+                                                if(!$this->SurveyData->save($sppatch)){
+                                                    debug($surveydetails->getErrors());die;
+                                                }
+                                                
                                             }
+                                            
+                                            
+                                            
+
+                                            
+                                            
+                                            
                                         }
                                     }
                                    
@@ -323,12 +420,16 @@
                                     
                                 }
                             }
-                        } 
-                    }
+                        } else{
+                            debug($patientdata->getErrors());
+                           // die;
+                        }
+                    
                                        
                 }
              }     
-            }    
+            }  
+             
             $Surveydat = $this->surveydata();
             $result = [
                     'error' => 0,'status' => 200, 

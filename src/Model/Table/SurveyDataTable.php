@@ -102,19 +102,16 @@ class SurveyDataTable extends Table
             ->allowEmptyString('question');
 
         $validator
-            ->scalar('option_data')
-            ->maxLength('option_data', 255)
+            
             ->allowEmptyString('option_data');
 
         $validator
-            ->scalar('answer')
-            ->maxLength('answer', 255)
+            
             ->allowEmptyString('answer');
 
         $validator
-            ->scalar('optionvalue')
-            ->maxLength('optionvalue', 255)
-            ->allowEmptyString('optionvalue');
+            
+            ->allowEmptyString('option_value');
 
         $validator
             ->dateTime('sync_time')

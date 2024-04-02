@@ -8,3 +8,10 @@ ALTER TABLE `survey_data` CHANGE `answer` `answer` VARCHAR(255) CHARACTER SET ut
 ALTER TABLE `survey_data` CHANGE `optionvalue` `optionvalue` VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL;
 
 ALTER TABLE `survey_data` CHANGE `survey_questions_id` `question_id` BIGINT(20) NOT NULL;
+
+
+ALTER TABLE `survey_data` CHANGE `option_data` `option_data` VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL;
+
+ALTER TABLE `partcipants` CHANGE `idcode` `idcode` VARCHAR(110) NOT NULL;
+ALTER TABLE `partcipants` CHANGE `clustercode` `clustercode` VARCHAR(30) NOT NULL, CHANGE `indiviadualcode` `indiviadualcode` VARCHAR(30) NOT NULL, CHANGE `unid` `unid` VARCHAR(30) NOT NULL;
+ALTER TABLE `partcipants` CHANGE `clustercode` `clustercode` VARCHAR(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL, CHANGE `indiviadualcode` `indiviadualcode` VARCHAR(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL, CHANGE `unid` `unid` VARCHAR(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL;

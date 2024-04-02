@@ -50,7 +50,7 @@ class SurveyData extends Entity
         'question' => true,
         'option_data' => true,
         'answer' => true,
-        'optionvalue' => true,
+        'option_value' => true,
         'sync_time' => true,
         'partcipants_id' => true,
         'unid' => true,
