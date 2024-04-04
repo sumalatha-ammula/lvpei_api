@@ -143,6 +143,7 @@
                             $tmpArray['unid'] = $par->unid;
                             $tmpArray['is_clinical'] = $par->is_clinical;
                             $tmpArray['section_id'] = $par->section_id;
+                            $tmpArray['section'] = $par->section;
                             
                             
 
@@ -230,6 +231,8 @@
              
             
              $appdata = json_decode($data['appdata']);
+            //  debug($appdata);
+            //  die;
              
              foreach($appdata as $apdata){
                 $surveryid = $apdata->id;
@@ -278,12 +281,9 @@
                         $patientdetails->idcode = $lapdata->idcode;
                         $patientdetails->clustercode = $lapdata->clustercode;
                         $patientdetails->indiviadualcode = $lapdata->indiviadualcode;
-                        $patientdetails->landmark = $lapdata->landmark;
-                        
+                        $patientdetails->landmark = $lapdata->landmark;                        
                         $patientdetails->unid =  intval($uniqID);
-                        $patientdetails->created_by = 1;
-                        
-                        //if(1==2){
+                        $patientdetails->created_by = 1;                        
                         if($psave = $patientdata->save($patientdetails)){
                             $pid = $psave->id;
                             
@@ -380,6 +380,7 @@
                                                 $sdata->option_value = $option_value;
                                                 $sdata->answer = $answer;
                                                 $sdata->option_data = $option_data;
+                                                $sdata->section = $d->section;                                                
                                                 $lt->save($sdata);
                                                 
                                                
@@ -395,7 +396,7 @@
                                                 $sdata['question'] = $d->question;
                                                 $sdata['section_id'] = $d->section_id;
                                                 $sdata['is_clinical'] = $d->is_clinical;
-
+                                                $sdata['section']= $d->section;                                                ;
                                                 $sdata['option_value'] = $option_value;
                                                 $sdata['answer'] = $answer;
                                                 $sdata['option_data'] = $option_data;

@@ -47,6 +47,7 @@ class SurveyDataTable extends Table
             'foreignKey' => 'partcipants_id',
             'joinType' => 'INNER',
         ]);
+
         $this->belongsTo('SurveyQuestions', [
             'foreignKey' => 'question_id',
             'joinType' => 'INNER',
@@ -65,6 +66,9 @@ class SurveyDataTable extends Table
             'foreignKey' => 'field_executive_id',
             'joinType' => 'INNER',
       ]);
+
+
+
     }
 
     /**
@@ -102,16 +106,19 @@ class SurveyDataTable extends Table
             ->allowEmptyString('question');
 
         $validator
-            
+            ->scalar('option_data')
+            ->maxLength('option_data', 255)
             ->allowEmptyString('option_data');
 
         $validator
-            
+            ->scalar('answer')
+            ->maxLength('answer', 255)
             ->allowEmptyString('answer');
 
         $validator
-            
-            ->allowEmptyString('option_value');
+            ->scalar('optionvalue')
+            ->maxLength('optionvalue', 255)
+            ->allowEmptyString('optionvalue');
 
         $validator
             ->dateTime('sync_time')
@@ -132,6 +139,12 @@ class SurveyDataTable extends Table
         $validator
             ->integer('section_id')
             ->notEmptyString('section_id');
+
+        $validator
+            ->scalar('section')
+            ->maxLength('section', 200)
+            ->requirePresence('section', 'create')
+            ->notEmptyString('section');
 
         return $validator;
     }

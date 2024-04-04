@@ -257,3 +257,6 @@ CREATE TABLE `lvpeiravi`.`onetimepassword` (
 
   =====================================================
   DROP TABLE `feild_executive`
+
+  =============================================================
+  ALTER TABLE `survey_data` ADD `section` VARCHAR(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL;

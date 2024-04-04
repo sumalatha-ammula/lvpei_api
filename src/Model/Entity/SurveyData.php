@@ -23,9 +23,10 @@ use Cake\ORM\Entity;
  * @property int $unid
  * @property bool $is_clinical
  * @property int $section_id
+ * @property string $section
  *
- * @property \App\Model\Entity\SurveyQuestion $survey_question
  * @property \App\Model\Entity\Partcipant $partcipant
+ * @property \App\Model\Entity\SurveyQuestion $survey_question
  * @property \App\Model\Entity\Survey $survey
  * @property \App\Model\Entity\MasterOption $master_option
  * @property \App\Model\Entity\FieldExecutive $field_executive
@@ -50,14 +51,15 @@ class SurveyData extends Entity
         'question' => true,
         'option_data' => true,
         'answer' => true,
-        'option_value' => true,
+        'optionvalue' => true,
         'sync_time' => true,
         'partcipants_id' => true,
         'unid' => true,
         'is_clinical' => true,
         'section_id' => true,
-        'survey_question' => true,
+        'section' => true,
         'partcipant' => true,
+        'survey_question' => true,
         'survey' => true,
         'master_option' => true,
         'field_executive' => true,
