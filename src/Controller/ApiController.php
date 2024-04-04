@@ -404,7 +404,7 @@
                                                 $sppatch = $this->SurveyData->patchEntity($nsurveydetails, $sdata);
                                                 
                                                 if(!$this->SurveyData->save($sppatch)){
-                                                    debug($surveydetails->getErrors());die;
+                                                    debug($nsurveydetails->getErrors());die;
                                                 }
                                                 
                                             }
