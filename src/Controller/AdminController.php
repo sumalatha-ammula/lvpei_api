@@ -29,6 +29,7 @@ use Cake\ORM\TableRegistry;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use PhpOffice\PhpSpreadsheet\IOFactory;
+use Cake\Datasource\ConnectionManager;
 
 /**
  * Static content controller
@@ -255,30 +256,32 @@ class AdminController extends AppController {
 	}
 	public function exportdata(){
 		$surveysqu = $this->SurveyData->find ( 'all' )
-		->contain(["Survey","SurveyQuestions", "FieldExecutive","Partcipants", "MasterOptions","SurveyQuestions.MasterMain"]);
-		// ->toArray();
+		->contain(["Survey","SurveyQuestions", "FieldExecutive","Partcipants", "MasterOptions","SurveyQuestions.MasterMain"])
+		->toArray();
 		// debug($surveysqu);
+		// die;
 		$final=[];
 		foreach($surveysqu as $question){
 			// debug($question);
-			if(@$question['survey_question']['option_type'] === "Dropdown"){
-				$optionData = @$question['master_option']['option_value'];
-			}else{
-				$optionData = @$question['option_data'];
-			}
+			// if(@$question['survey_question']['option_type'] === "Dropdown"){
+			// 	$optionData = @$question['master_option']['option_value'];
+			// }else{
+			// 	$optionData = @$question['option_data'];
+			// }
 			$tmpArray = [
 				'master_main_name' => @$question['survey_question']['master_main']['name'],
 			   //  'options' =>@$question['survey_question']['master_main']['master_options'][0]['option_value'],
 				'option_type' => @$question['survey_question']['option_type'], 
 				'section'=>@$question['survey_question']['section'] ,
 				'question'=>@$question['survey_question']['question'] ,
-				'option_data'=> $optionData,
+				'option_data'=> @$question['option_data'],
 				'id'=>@$question['id']
 
 				
 	
 			];
 			// debug($tmpArray);
+			// die;
 			$final[]= $tmpArray;
 		}
 		// if()
@@ -305,11 +308,12 @@ class AdminController extends AppController {
 
 	public function exportdatabyparticipant(){
 
+		
 		$surveys = $this->Survey->find("all")
 		->toArray();
 		
 		$spreadsheet = new Spreadsheet();
-		
+
 		foreach($surveys as $s){
 			$sheet = $spreadsheet->createSheet();
 			$sheet->setTitle($s->name);
@@ -362,10 +366,11 @@ class AdminController extends AppController {
 				foreach($participants as $p){
 					$sd = [];
 					foreach($p->survey_data as $sddata){
+					
 						//$sd[$sddata->question_id] = $sddata->answer; 
-						if(isset($sddata->master_option)){
-							$sd[$sddata->question_id] = $sddata->master_option->option_value;
-						}
+						// if(isset($sddata->master_option)){
+							$sd[$sddata->question_id] = $sddata->option_data;
+						// }
 						
 					}
 					
