@@ -318,7 +318,7 @@ class AdminController extends AppController {
 			$sheet = $spreadsheet->createSheet();
 			$sheet->setTitle($s->name);
 			$participants = $this->Partcipants->find("all")
-				->contain(['SurveyData', 'Survey', 'SurveyData.MasterOptions'])
+				->contain(['SurveyData', 'Survey','FieldExecutive', 'SurveyData.MasterOptions'])
 				->where(['survey_id' => $s->id])
 				->toArray();
 			
@@ -402,7 +402,7 @@ class AdminController extends AppController {
 					$column = $this->columnFromIndex(++$col);
 					$sheet->setCellValue($column.$row, $p->survey->name);
 					$column = $this->columnFromIndex(++$col);
-					$sheet->setCellValue($column.$row, "TEST");
+					$sheet->setCellValue($column.$row, $p->field_executive->username);
 
 					foreach($surveyquestions as $sq){
 						$column = $this->columnFromIndex(++$col);

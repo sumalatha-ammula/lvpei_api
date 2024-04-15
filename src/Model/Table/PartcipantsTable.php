@@ -45,6 +45,10 @@ class PartcipantsTable extends Table
             'foreignKey' => 'survey_id',
             'joinType'=>'INNER',
         ]);
+        $this->belongsTo('FieldExecutive', [
+            'foreignKey' => 'field_executive_id',
+            'joinType'=>'INNER',
+        ]);
 
         $this->hasMany('SurveyData', [
             'foreignKey' => 'partcipants_id',
