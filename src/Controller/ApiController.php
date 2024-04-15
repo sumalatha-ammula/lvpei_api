@@ -69,6 +69,9 @@
                 }else{
                 $lt = TableRegistry::get('FieldExecutive');
                 $ld = $lt->get($fielddata[0]->id);
+                $loggedUserId = $fielddata[0]->id; // Get the logged-in user's ID
+                $this->request->getSession()->write('Auth.User.id', $loggedUserId); // Save it in the session
+
                 $ld->token = $this->generatetoken();
                 $ld->deviceid = isset($data['deviceid']) ? $data['deviceid'] : '';
                 $ld->deviceinfo = isset($data['deviceinfo']) ? $data['deviceinfo'] : '';
@@ -87,12 +90,19 @@
             $this->set("result", $result);
         }
         public function getsurvey(){
-            debug($this->surveydata());
+            
+           $this->surveydata();
             die;
         }
         private function surveydata(){
+        //    $userId  = $this->Auth->user ();
+        //    print_r($this->userdt['id']);
+            $userId=$this->request->getSession()->read('Auth.User.id'); // Save it in the session
+  
+            // print_r($userId);
+
             $Surveydata = $this->Survey->find ( 'all' )
-                ->contain(['Partcipants', 'Partcipants.SurveyData' => function($q){return $q->contain(['SurveyQuestions']);} , 'ClinicalSurveyQuestions' => 
+                ->contain(['Partcipants' ,'Partcipants.SurveyData' => function($q) {return $q->contain(['SurveyQuestions']);} , 'ClinicalSurveyQuestions' => 
                 function($q){return $q->contain(['MasterMain','MasterMain.MasterOptions'])
                     ->where(['is_clinical' => 1])->group(['section','ClinicalSurveyQuestions.id']);}, 
                     'NonClinicalSurveyQuestions' => function($q){return $q->contain(['MasterMain','MasterMain.MasterOptions'])
@@ -238,12 +248,13 @@
                 $surveryid = $apdata->id;
                 
                 foreach($apdata->partcipants as $lapdata){
+
                     
                     $isuser = 0;
                     if(isset($lapdata->id)){
                         $isuser = 1;
                         $checkuser = $this->Partcipants->find('all')
-                        ->where(['id' => $lapdata->id])
+                        ->where(['id' => $lapdata->id,'field_executive_id' => $lapdata->field_executive_id,'survey_id'=> $lapdata->survey_id])
                         ->count();
                         if($checkuser == 0){
                             $isuser = 0;
@@ -278,6 +289,7 @@
                         $patientdetails->country = $lapdata->country;
                         $patientdetails->state = $lapdata->state;
                         $patientdetails->district = $lapdata->district;
+                        $patientdetails->field_executive_id = $lapdata->field_executive_id;
                         $patientdetails->idcode = $lapdata->idcode;
                         $patientdetails->clustercode = $lapdata->clustercode;
                         $patientdetails->indiviadualcode = $lapdata->indiviadualcode;
@@ -669,7 +681,7 @@ public function editsavesurveydata(){
             $surveydetails = [];
             $surveydetails['survey_id'] = $d->survey_id;
             $surveydetails['question_id'] = $d->question_id;
-            $surveydetails['field_executive_id'] = $d->executive_id;
+            $surveydetails['field_executive_id'] = $d->field_executive_id;
             $surveydetails['geo_location'] = '23.23,34,8';
             $surveydetails['question'] = $d->question;
             // $surveydetails['option_data'] = $d->answer;
@@ -709,7 +721,7 @@ public function savesurveydata(){
             $surveydetails = [];
             $surveydetails['survey_id'] = $d->survey_id;
             $surveydetails['question_id'] = $d->question_id;
-            $surveydetails['field_executive_id'] = $d->executive_id;
+            $surveydetails['field_executive_id'] = $d->field_executive_id;
             $surveydetails['geo_location'] = '23.23,34,8';
             $surveydetails['question'] = $d->question;
             // $surveydetails['option_data'] = $d->answer;           
