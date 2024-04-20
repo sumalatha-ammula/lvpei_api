@@ -277,20 +277,16 @@ $(".viewsurveyquestions").on("click", function(e){
 			option_sort[i]=opvalue_sort;
 		}
 		
-		if(qcount == "" || qcount <= 1 ){
-			err = 1;
-			errmsg = "Should have atleast two option"; 
-			}
+		// if(qcount == "" || qcount <= 1 ){
+		// 	err = 1;
+		// 	errmsg = "Should have atleast two option"; 
+		// 	}
 		if($("#question").val() == ""){
 			err = 1;
 			errmsg = "Question can't be empty"; 
 			}
 		
-		// $.ajaxSetup({
-	    //     headers: {
-	    //         'X-CSRF-TOKEN': csrfToken // this is defined in app.php as a js variable
-	    //     }
-	    // });
+		
 		if(err == 0){
 				
 		 $.ajax( {
