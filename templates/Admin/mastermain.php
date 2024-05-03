@@ -114,7 +114,7 @@ a.fas.fa-eye{
 				<div class="card-body">
 					
 					<div class="form-group" style="padding-top: 10px;">
-						<label for="inputStatus">Option_Value</label> <input type="number" id="noans" class="noans  form-control">
+						<label for="inputStatus">Option Count</label> <input type="number" id="noans" class="noans  form-control">
 					</div>
 					<div class="surveyoptions" id="surveyoptions"></div>
 				</div>
@@ -325,7 +325,7 @@ $(".viewsurveyquestions").on("click", function(e){
 		if($(this).val() > 0){
 			var temp="<h5>Options</h5>";
 			for(var i=0; i<c; i++){
-				temp = temp + "<div class='form-group'style='padding-top: 10px;'><input type='text' class='form-control ra_inputW' id='soptions-"+i+"' /> - <input type='text' class='form-control ra_inputW' id='soptionssort-"+i+"' /></div>";
+				temp = temp + "<div class='form-group'style='padding-top: 10px;'><input type='text' placeholder='Option' class='form-control ra_inputW' id='soptions-"+i+"' /> - <input type='text' placeholder='Sort Order' class='form-control ra_inputW' id='soptionssort-"+i+"' /></div>";
 			}
 			
 			$(".surveyoptions").html(temp);

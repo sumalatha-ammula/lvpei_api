@@ -307,7 +307,7 @@ class AdminController extends AppController {
 
 
 	public function exportdatabyparticipant(){
-
+		
 		
 		$surveys = $this->Survey->find("all")
 		->toArray();
@@ -318,10 +318,11 @@ class AdminController extends AppController {
 			$sheet = $spreadsheet->createSheet();
 			$sheet->setTitle($s->name);
 			$participants = $this->Partcipants->find("all")
-				->contain(['SurveyData', 'Survey','FieldExecutive', 'SurveyData.MasterOptions'])
+				//->contain(['SurveyData', 'Survey','FieldExecutive', 'SurveyData.MasterOptions'])
+				->contain(['SurveyData', 'SurveyData.FieldExecutive', 'Survey', 'SurveyData.MasterOptions'])
 				->where(['survey_id' => $s->id])
 				->toArray();
-			
+				
 			
 			$surveyquestions = $this->SurveyQuestions->find("all")
 			->where(['survey_id'=>$s->id])
@@ -362,18 +363,23 @@ class AdminController extends AppController {
 					$column = $this->columnFromIndex(++$col);
 					$sheet->setCellValue($column.$row, $sq->question);
 				}
-			
+				
+				//debug($participants);die;
 				foreach($participants as $p){
 					$sd = [];
+					
 					foreach($p->survey_data as $sddata){
-					
-						//$sd[$sddata->question_id] = $sddata->answer; 
-						// if(isset($sddata->master_option)){
-							$sd[$sddata->question_id] = $sddata->option_data;
-						// }
-						
+						$dd = $odd = $sddata->option_data;
+						$exd = explode(".", $dd);
+						$exd2 = explode(" ", $dd);
+						if(isset($exd[0]) and is_numeric($exd[0])){
+							$dd = $exd[0];
+						}elseif(isset($exd2[0]) and is_numeric($exd2[0])){
+							$dd = $exd2[0];
+						}
+
+						$sd[$sddata->question_id] = $dd ;
 					}
-					
 					$col=1;
 					$row = ++$row;
 	
@@ -402,7 +408,7 @@ class AdminController extends AppController {
 					$column = $this->columnFromIndex(++$col);
 					$sheet->setCellValue($column.$row, $p->survey->name);
 					$column = $this->columnFromIndex(++$col);
-					$sheet->setCellValue($column.$row, $p->field_executive->username);
+					$sheet->setCellValue($column.$row, isset($p->survey_data[0]->field_executive->username)?$p->survey_data[0]->field_executive->username:'');
 
 					foreach($surveyquestions as $sq){
 						$column = $this->columnFromIndex(++$col);
@@ -416,55 +422,6 @@ class AdminController extends AppController {
 		}
 
 
-		
-		
-		
-			
-
-
-
-
-
-			
-
-
-
-		/*foreach($participants as $p){
-			
-			$sheet->setCellValue('B2', 'Participant ID'); $sheet->setCellValue('B3', $p->id);
-			$sheet->setCellValue('C2', 'Participant Name'); $sheet->setCellValue('C3', $p->name);
-			$sheet->setCellValue('D2', 'Age'); $sheet->setCellValue('D3', $p->age);
-			$sheet->setCellValue('E2', 'Mobile'); $sheet->setCellValue('E3', $p->mobile);
-			$sheet->setCellValue('F2', 'Aadhar'); $sheet->setCellValue('F3', $p->adharnumber);
-
-			$sheet->setCellValue('G2', 'Cccupation'); $sheet->setCellValue('G3', $p->occupation);
-			$sheet->setCellValue('H2', 'Gender'); $sheet->setCellValue('H3', $p->gender);
-			$sheet->setCellValue('I2', 'Monthly Income'); $sheet->setCellValue('I3', $p->monthlyincome);
-			$sheet->setCellValue('J2', 'Education'); $sheet->setCellValue('J3', $p->education);
-			$sheet->setCellValue('K2', 'Landmark'); $sheet->setCellValue('K3', $p->landmark);
-			$sheet->setCellValue('L2', 'Code'); $sheet->setCellValue('L3', $p->idcode."-".$p->clustercode."-".$p->indiviadualcode);
-			$sheet->setCellValue('M2', 'Survey'); $sheet->setCellValue('M3', $p->survey->name);
-			$sheet->setCellValue('N2', 'Executive'); $sheet->setCellValue('M3', "TEST");
-
-			$sheet->setCellValue('B6', 'Question'); 
-			$sheet->setCellValue('C6', 'Answer'); 
-			$sheet->setCellValue('D6', 'Sync Time'); 
-			$sheet->setCellValue('E6', 'Is Clinical'); 
-
-
-
-			$i = 7;
-			foreach($p->survey_data as $sd){
-				$sheet->setCellValue('B'.$i, $sd->question); 
-				$sheet->setCellValue('C'.$i, $sd->option_data); 
-				$sheet->setCellValue('D'.$i, $sd->sync_time); 
-				$sheet->setCellValue('E'.$i, ($sd->is_clinical == 1)?"True":"False"); 
-				$i++;
-			}
-			
-
-
-		}*/
 
 		$fileName = "ParticipantData-" . date('Y-m-d h_i_s') . '.xlsx';
 		
@@ -474,7 +431,7 @@ class AdminController extends AppController {
 	
 		$writer = new Xlsx($spreadsheet);
 		$writer->save('php://output');
-	
+		
 		die;
 
 	}
