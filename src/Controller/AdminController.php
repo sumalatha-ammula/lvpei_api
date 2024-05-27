@@ -286,7 +286,7 @@ class AdminController extends AppController {
 		}
 		// if()
 		// $surveydataex = $this->paginate ( $tmpArray);
-		$this->set ( "surveydataex", $final);
+		$this->set ("surveydataex", $final);
 
 	}
 
@@ -325,7 +325,7 @@ class AdminController extends AppController {
 				
 			
 			$surveyquestions = $this->SurveyQuestions->find("all")
-			->where(['survey_id'=>$s->id])
+			->where(['survey_id'=>$s->id])->order(['section' => 'ASC','is_clinical' => 'ASC'])
 			->toArray();
 
 
@@ -369,9 +369,13 @@ class AdminController extends AppController {
 					$sd = [];
 					
 					foreach($p->survey_data as $sddata){
+						// debug($sddata->option_data);
 						$dd = $odd = $sddata->option_data;
+					
 						$exd = explode(".", $dd);
+						
 						$exd2 = explode(" ", $dd);
+					
 						if(isset($exd[0]) and is_numeric($exd[0])){
 							$dd = $exd[0];
 						}elseif(isset($exd2[0]) and is_numeric($exd2[0])){
@@ -703,10 +707,10 @@ class AdminController extends AppController {
 		$masterdata = $this->MasterMain->find('all')
           
 		->contain(["Userdata"]);
-		$master = $this->paginate($masterdata);
+		// $master = $this->paginate($masterdata);
 		// debug($master);
 		
-		$this->set ( "master", $master);
+		$this->set ( "master", $masterdata);
 
 	}
 	public function editmastermain(){

@@ -37,6 +37,8 @@ a.fas.fa-eye{
 			// 										] );
 												?>        
                 	</div>
+                    <input type="text" id="searchInput" onkeyup="searchTable()" placeholder="Search Here...">
+
 		</div>
 		<!-- /card-header -->
 		<div class="card-body table-responsive p-0">
@@ -71,6 +73,7 @@ a.fas.fa-eye{
                                     'controller' => "Admin",
                                     'action' => 'masteroptionsdata',
                                     $masterdata->id
+                                    
                                 ], [
                                     'class' => 'fas fa-eye'
                                 ]);
@@ -82,16 +85,7 @@ a.fas.fa-eye{
                        
                     </tbody>
 			</table>
-			<div class="paginator">
-					<ul class="pagination">
-                        <?= $this->Paginator->first('<< ' . __('first')) ?>
-                        <?= $this->Paginator->prev('< ' . __('previous')) ?>
-                        <?= $this->Paginator->numbers() ?>
-                        <?= $this->Paginator->next(__('next') . ' >') ?>
-                        <?= $this->Paginator->last(__('last') . ' >>') ?>
-                    </ul>
-					<p><?= $this->Paginator->counter(__('Page {{page}} of {{pages}}, showing {{current}} record(s) out of {{count}} total')) ?></p>
-				</div>
+			
 		</div>
 		<!-- /.card-body -->
 	</div>
@@ -380,4 +374,38 @@ $(".viewsurveyquestions").on("click", function(e){
 
 
     // });
+</script>
+
+<script>
+function searchTable() {
+    // console.log("hello");
+  // Declare variables
+  var input, filter, table, tr, td, i, txtValue;
+  input = document.getElementById("searchInput");
+ 
+  filter = input.value.toUpperCase();
+  table = document.getElementById("membersTable");
+
+  tr = table.getElementsByTagName("tr");
+  
+
+  // Loop through all table rows, and hide those that don't match the search query
+  for (i = 0; i < tr.length; i++) {
+    td = tr[i].getElementsByTagName("td");
+
+    let found = false;
+    for (let j = 0; j <= 3; j++) {
+      let columnContent = td[j]; // Index 2 represents the Question column, 3 represents Option Type, 4 represents Master Main ID, 5 represents Created On
+      console.log(columnContent);
+      if (columnContent) {
+        txtValue = columnContent.textContent || columnContent.innerText;
+        if (txtValue.toUpperCase().indexOf(filter) > -1) {
+          found = true;
+          break; // If found in any of the columns, break the loop
+        }
+      }
+    }
+    tr[i].style.display = found ? "" : "none";
+  }
+}
 </script>
